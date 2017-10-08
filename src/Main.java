@@ -1,6 +1,9 @@
+import java.awt.*;
 import java.io.IOException;
 import java.util.Scanner;
-import java.awt.Point;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 
 public class Main {
@@ -9,6 +12,13 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         Snake snake = new Snake();
 
+        JFrame frame = new JFrame("Test");
+        Game g = new Game();
+        frame.add(g);
+        frame.pack();
+        frame.setVisible(true);
+
+        /*
         while (true) {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); // отчистка экрана, в IDEA не рабоатает, только в консоли
             for (int i = 0; i < 20; i++) {
@@ -23,17 +33,18 @@ public class Main {
 
             String command = scan.nextLine();
             switch (command.length() > 0 ? command.charAt(0): ' '){
-                case 'w': snake.Move(0, -1);
+                case 'w': snake.MoveBy(0, -1);
                     break;
-                case 's': snake.Move(0, 1);
+                case 's': snake.MoveBy(0, 1);
                     break;
-                case 'a': snake.Move(-1, 0);
+                case 'a': snake.MoveBy(-1, 0);
                     break;
-                case 'd': snake.Move(1, 0);
+                case 'd': snake.MoveBy(1, 0);
                     break;
                 default: break;
             }
         }
+        */
     }
 }
 
