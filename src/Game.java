@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 public class Game extends JPanel implements ActionListener {
     // TODO:  разделить отрисовку и логику игры
     Snake snake;
+    Food food;
     private Timer timer;
 
     Game() {
@@ -33,8 +34,9 @@ public class Game extends JPanel implements ActionListener {
                 repaint();
             }
         });
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(GameField.width * 10, GameField.height * 10));
         snake = new Snake();
+        food = new Food();
         timer = new Timer(50, this);
         timer.start();
     }
@@ -43,10 +45,18 @@ public class Game extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
         snake.UpdatePosition();
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
+        if (food.IsEaten(snake)) {
+            food = new Food();
+            snake.Grow();
+        }
+        for (int i = 0; i < GameField.height; i++) {
+            for (int j = 0; j < GameField.width; j++) {
                 if (snake.body.contains(new Point(j,i))) {
                     g.setColor(Color.GREEN);
+                    g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
+                }
+                else if (food.location.x == j && food.location.y == i){
+                    g.setColor(Color.RED);
                     g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
                 }
                 else {
