@@ -19,15 +19,21 @@ public class Snake {
         newHead.x += dx;
         newHead.y += dy;
         if (body.contains(newHead)) return;
+        if (newHead.x <0 || newHead.x >= GameField.width)
+            newHead.x = mod(newHead.x, GameField.width);
+        if (newHead.y <0 || newHead.y >= GameField.height)
+            newHead.y = mod(newHead.y, GameField.height);
         body.removeLast();
         body.addFirst(newHead);
     }
 
+    int mod(int x, int m) {
+        return (x%m + m)%m;
+    }
 
     public void UpdatePosition(){
         MoveBy(speed.x,speed.y);
     }
-
 
     public void Grow(){
         body.addLast(new Point(body.peekLast()));
