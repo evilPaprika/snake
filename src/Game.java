@@ -6,8 +6,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Game extends JPanel implements ActionListener {
+    // TODO:  разделить отрисовку и логику игры
     Snake snake;
     private Timer timer;
+
     Game() {
         setBackground(Color.GRAY);
         setFocusable(true);
@@ -35,7 +37,6 @@ public class Game extends JPanel implements ActionListener {
         snake = new Snake();
         timer = new Timer(50, this);
         timer.start();
-
     }
 
 

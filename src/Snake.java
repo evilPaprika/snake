@@ -11,9 +11,8 @@ public class Snake {
         body.addFirst(new Point(5,3));
         body.addFirst(new Point(5,4));
         body.addFirst(new Point(5,5));
-        body.addFirst(new Point(5,6));
-        body.addFirst(new Point(5,7));
     }
+
 
     public void MoveBy(int dx, int dy){
         Point newHead = new Point(body.peekFirst());
@@ -24,9 +23,11 @@ public class Snake {
         body.addFirst(newHead);
     }
 
+
     public void UpdatePosition(){
         MoveBy(speed.x,speed.y);
     }
+
 
     public void Grow(){
         body.addLast(new Point(body.peekLast()));
