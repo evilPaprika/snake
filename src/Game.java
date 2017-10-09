@@ -19,38 +19,38 @@ public class Game extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 switch (e.getKeyChar()){
-                    case 'w': snake.speed = new Point(0, -1);
+                    case 'w': snake.direction = new Point(0, -1);
                         break;
-                    case 's': snake.speed = new Point(0, 1);
+                    case 's': snake.direction = new Point(0, 1);
                         break;
-                    case 'a': snake.speed = new Point(-1, 0);
+                    case 'a': snake.direction = new Point(-1, 0);
                         break;
-                    case 'd': snake.speed = new Point(1, 0);
+                    case 'd': snake.direction = new Point(1, 0);
                         break;
-                    case 'e': snake.Grow();
+                    case 'e': snake.grow();
                         break;
                     default: break;
                 }
                 repaint();
             }
         });
-        setPreferredSize(new Dimension(GameField.width * 10, GameField.height * 10));
+        setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
         snake = new Snake();
         food = new Food();
-        timer = new Timer(50, this);
+        timer = new Timer(65, this);
         timer.start();
     }
 
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        snake.UpdatePosition();
-        if (food.IsEaten(snake)) {
+        snake.updatePosition();
+        if (food.isEaten(snake)) {
             food = new Food();
-            snake.Grow();
+            snake.grow();
         }
-        for (int i = 0; i < GameField.height; i++) {
-            for (int j = 0; j < GameField.width; j++) {
+        for (int i = 0; i < GameConsts.HEIGHT; i++) {
+            for (int j = 0; j < GameConsts.WIDTH; j++) {
                 if (snake.body.contains(new Point(j,i))) {
                     g.setColor(Color.GREEN);
                     g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
