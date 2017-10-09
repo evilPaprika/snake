@@ -7,12 +7,12 @@ public class Food {
 
 
     Food(){
-        int x = random.nextInt(GameField.width);
-        int y = random.nextInt(GameField.height);
+        int x = random.nextInt(GameConsts.WIDTH);
+        int y = random.nextInt(GameConsts.HEIGHT);
         this.location = new Point(x, y);
     }
 
-    public boolean IsEaten(Snake snake) {
+    public boolean isEaten(Snake snake) {
         return location.x == snake.body.peekFirst().x && location.y == snake.body.peekFirst().y;
     }
 }
