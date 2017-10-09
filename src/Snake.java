@@ -18,14 +18,11 @@ public class Snake {
         Point newHead = new Point(body.peekFirst());
         newHead.x += dx;
         newHead.y += dy;
-        if (body.contains(newHead)) {
-            speed = new Point(-speed.x, -speed.y);
-            return;
-        }
-        if (newHead.x <0 || newHead.x >= Consts.width)
-            newHead.x = mod(newHead.x, Consts.width);
-        if (newHead.y <0 || newHead.y >= Consts.height)
-            newHead.y = mod(newHead.y, Consts.height);
+        if (body.contains(newHead)) return;
+        if (newHead.x <0 || newHead.x >= GameField.width)
+            newHead.x = mod(newHead.x, GameField.width);
+        if (newHead.y <0 || newHead.y >= GameField.height)
+            newHead.y = mod(newHead.y, GameField.height);
         body.removeLast();
         body.addFirst(newHead);
     }

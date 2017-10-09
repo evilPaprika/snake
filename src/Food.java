@@ -7,8 +7,8 @@ public class Food {
 
 
     Food(){
-        int x = random.nextInt(Consts.width);
-        int y = random.nextInt(Consts.height);
+        int x = random.nextInt(GameField.width);
+        int y = random.nextInt(GameField.height);
         this.location = new Point(x, y);
     }
 
