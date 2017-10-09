@@ -18,6 +18,7 @@ public class Game extends JPanel implements ActionListener {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
+                System.out.print("test");
                 switch (e.getKeyChar()){
                     case 'w': snake.speed = new Point(0, -1);
                         break;
@@ -34,10 +35,10 @@ public class Game extends JPanel implements ActionListener {
                 repaint();
             }
         });
-        setPreferredSize(new Dimension(GameField.width * 10, GameField.height * 10));
+        setPreferredSize(new Dimension(Consts.width * 10, Consts.height * 10));
         snake = new Snake();
         food = new Food();
-        timer = new Timer(50, this);
+        timer = new Timer(60, this);
         timer.start();
     }
 
@@ -49,8 +50,8 @@ public class Game extends JPanel implements ActionListener {
             food = new Food();
             snake.Grow();
         }
-        for (int i = 0; i < GameField.height; i++) {
-            for (int j = 0; j < GameField.width; j++) {
+        for (int i = 0; i < Consts.height; i++) {
+            for (int j = 0; j < Consts.width; j++) {
                 if (snake.body.contains(new Point(j,i))) {
                     g.setColor(Color.GREEN);
                     g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
