@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Snake {
     public LinkedList<Point> body = new LinkedList<Point>();;
-    public Point direction;
+    public Direction direction;
     private int toGrow;
 
     Snake(){
-        this(new Point(0, 1));
+        this(Direction.DOWN);
     }
 
-    Snake(Point initialDirection){
+    Snake(Direction initialDirection){
         this(initialDirection, new Point(5, 5), 3);
     }
 
-    Snake(Point initialDirection, Point initialPosition, int tailLength){
+    Snake(Direction initialDirection, Point initialPosition, int tailLength){
         toGrow = tailLength;
         direction = initialDirection;
         body.addFirst(initialPosition);
@@ -28,7 +28,7 @@ public class Snake {
         nextHeadPosition.x += dx;
         nextHeadPosition.y += dy;
         if (body.size() > 1 && body.get(1).equals(nextHeadPosition)) {
-            direction = new Point(-direction.x, -direction.y);
+            direction = direction.opposite();
             return;
         }
         if (nextHeadPosition.x <0 || nextHeadPosition.x >= GameConsts.WIDTH)
@@ -41,13 +41,13 @@ public class Snake {
         body.addFirst(nextHeadPosition);
     }
 
-    int mod(int a, int b) { return (a%b + b)%b; }
+    private int mod(int a, int b) { return (a%b + b)%b; }
 
-    public void updatePosition(){
+    void updatePosition(){
         moveBy(direction.x, direction.y);
     }
 
-    public void grow(){
+    void grow(){
         toGrow++;
         //body.addLast(new Point(body.peekLast()));
     }

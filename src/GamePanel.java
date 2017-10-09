@@ -5,13 +5,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class Game extends JPanel implements ActionListener {
-    // TODO:  разделить отрисовку и логику игры
-    Snake snake;
-    Food food;
+public class GamePanel extends JPanel implements ActionListener {
     private Timer timer;
+    Board game;
 
-    Game() {
+    GamePanel() {
+        game = new Board();
         setBackground(Color.GRAY);
         setFocusable(true);
         addKeyListener(new KeyAdapter() {
@@ -19,15 +18,15 @@ public class Game extends JPanel implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
                 switch (e.getKeyChar()){
-                    case 'w': snake.direction = new Point(0, -1);
+                    case 'w': game.snake.direction = Direction.UP;
                         break;
-                    case 's': snake.direction = new Point(0, 1);
+                    case 's': game.snake.direction = Direction.DOWN;
                         break;
-                    case 'a': snake.direction = new Point(-1, 0);
+                    case 'a': game.snake.direction = Direction.LEFT;
                         break;
-                    case 'd': snake.direction = new Point(1, 0);
+                    case 'd': game.snake.direction = Direction.RIGHT;
                         break;
-                    case 'e': snake.grow();
+                    case 'e': game.snake.grow();
                         break;
                     default: break;
                 }
@@ -35,27 +34,24 @@ public class Game extends JPanel implements ActionListener {
             }
         });
         setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
-        snake = new Snake();
-        food = new Food();
-        timer = new Timer(65, this);
+        timer = new Timer(GameConsts.PAINT_DELAY, this);
         timer.start();
     }
 
-
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        snake.updatePosition();
-        if (food.isEaten(snake)) {
-            food = new Food();
-            snake.grow();
+        game.snake.updatePosition();
+        if (game.food.isEaten(game.snake)) {
+            game.food = new Food();
+            game.snake.grow();
         }
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             for (int j = 0; j < GameConsts.WIDTH; j++) {
-                if (snake.body.contains(new Point(j,i))) {
+                if (game.snake.body.contains(new Point(j,i))) {
                     g.setColor(Color.GREEN);
                     g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
                 }
-                else if (food.location.x == j && food.location.y == i){
+                else if (game.food.location.x == j && game.food.location.y == i){
                     g.setColor(Color.RED);
                     g.fillRect(j*10+1, i*10-1, 10-2, 10-2);
                 }
@@ -66,7 +62,6 @@ public class Game extends JPanel implements ActionListener {
             }
         }
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {

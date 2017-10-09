@@ -7,7 +7,7 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("ZMEYAAA");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new Game());
+            frame.add(new GamePanel());
             frame.pack();
             frame.setVisible(true);
         });
