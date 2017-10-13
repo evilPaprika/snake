@@ -1,4 +1,4 @@
-import java.awt.Point;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 public class Snake {
     public LinkedList<Point> body = new LinkedList<Point>();;
     public Direction direction;
+    public int scores;
     private int toGrow;
 
     Snake(){
@@ -49,6 +50,5 @@ public class Snake {
 
     void grow(){
         toGrow++;
-        //body.addLast(new Point(body.peekLast()));
     }
 }
