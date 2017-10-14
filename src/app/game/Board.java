@@ -1,53 +1,50 @@
 package app.game;
 
 import app.util.GameConsts;
+import app.util.UtilFunctions;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
     public Snake snake;
-    Apple apple;
     public boolean gameIsOver = false;
 
     private Random random = new Random();
-    public GameObject[][] map = new GameObject[GameConsts.HEIGHT][GameConsts.WIDTH];
-
+    private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
+    public ArrayList<GameObject> gameObjects;
     public Board() {
         snake = new Snake();
-        apple = createNewFood();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
-            map[0][i] = new Wall(0, i);
+            stationaryGameObjects.add(new Wall(0, i));
+        stationaryGameObjects.add(createNewFood());
         updateBoard();
     }
 
     public void updateBoard(){
         snake.updatePosition();
-        Point snakeHead = snake.body.peekFirst().getLocation();
-
-        if (snakeHead.equals(apple.getLocation())) {
-            apple = createNewFood();
-            snake.grow();
-            snake.score += 10;
-        }
-
-        if (map[snakeHead.x][snakeHead.y] instanceof Wall || map[snakeHead.x][snakeHead.y] instanceof SnakeSegment)
-            gameIsOver = true;
-
-        for (int i = 0; i<GameConsts.HEIGHT; i++ )
-            for (int j = 0; j<GameConsts.WIDTH; j++) {
-                if (apple.getLocation().equals(new Point(j, i)))
-                    map [j][i] = apple;
-                else if (!(map[j][i] instanceof Wall))
-                    map[j][i] = null;
-            }
-        for (SnakeSegment segment: snake.body)
-            map[segment.getLocation().x][segment.getLocation().y] = segment;
+        gameObjects = new ArrayList<GameObject>(stationaryGameObjects);
+        gameObjects.addAll(snake.body);
+        CheckCollisions();
+        stationaryGameObjects.removeIf(GameObject::isDead);
+        if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) stationaryGameObjects.add(createNewFood());
+        if (snake.isDead) gameIsOver = true;
     }
 
-    public Apple createNewFood(){
+    private Apple createNewFood(){
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
         return new Apple(x, y);
+    }
+
+    private void CheckCollisions(){
+        for (GameObject e1: gameObjects) {
+            for (GameObject e2: gameObjects) {
+                if(e1 != e2 && e1.getLocation().equals(e2.getLocation())) {
+                    e1.actionWhenColidedWith(e2);
+                    e2.actionWhenColidedWith(e1);
+                }
+            }
+        }
     }
 }

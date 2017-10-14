@@ -46,7 +46,7 @@ public class Snake implements GameCompoundObject{
         body.addFirst(new SnakeSegment(nextHeadPosition, this));
     }
 
-    private int mod(int a, int b) { return (a%b + b)%b; }
+    private static int mod(int a, int b) { return (a%b + b)%b; }
 
     void updatePosition(){
         moveBy(direction.x, direction.y);
@@ -66,6 +66,12 @@ public class Snake implements GameCompoundObject{
 
     @Override
     public void actionWhenColided(GameObject g) {
-        isDead = true;
+        if (g instanceof Apple){
+            if (g.getLocation().equals(body.peekFirst().getLocation())){
+            score+=10;
+            grow();
+            }
+        }
+        else isDead = true;
     }
 }

@@ -5,5 +5,6 @@ import java.awt.*;
 public interface GameObject {
     Color getColor();
     Point getLocation();
-    void actionWhenColided(GameObject g);
+    boolean isDead();
+    void actionWhenColidedWith(GameObject g);
 }

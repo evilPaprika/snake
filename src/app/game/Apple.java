@@ -22,7 +22,12 @@ public class Apple implements GameObject {
     }
 
     @Override
-    public void actionWhenColided(GameObject g) {
+    public boolean isDead() {
+        return isDead;
+    }
+
+    @Override
+    public void actionWhenColidedWith(GameObject g) {
         isDead = true;
     }
 }

@@ -26,13 +26,11 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             for (int j = 0; j < GameConsts.WIDTH; j++) {
-                if (board.map[j][i] == null){
-                    g.setColor(Color.GRAY);
-                    g.fillRect(j*10+1, i*10-1, 8, 8);
-                }
-                else{
-                    g.setColor(board.map[j][i].getColor());
-                    g.fillRect(j*10+1, i*10-1, 8, 8);
+                for (GameObject e: board.gameObjects) {
+                    if (e.getLocation().equals(new Point(j, i))){
+                        g.setColor( e.getColor());
+                        g.fillRect(j*10+1, i*10-1, 8, 8);
+                    }
                 }
             }
         }

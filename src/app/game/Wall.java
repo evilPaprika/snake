@@ -20,7 +20,12 @@ public class Wall implements GameObject {
     }
 
     @Override
-    public void actionWhenColided(GameObject g) {
+    public boolean isDead() {
+        return false;
+    }
+
+    @Override
+    public void actionWhenColidedWith(GameObject g) {
 
     }
 }
