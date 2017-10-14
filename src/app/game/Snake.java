@@ -1,4 +1,4 @@
-package app.game_objects;
+package app.game;
 
 import app.util.Direction;
 import app.util.GameConsts;
@@ -6,7 +6,7 @@ import app.util.GameConsts;
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Snake {
+public class Snake implements GameCompoundObject{
     public LinkedList<SnakeSegment> body = new LinkedList<>();;
     Direction direction;
     public int score;
@@ -33,16 +33,16 @@ public class Snake {
 
 
     private void moveBy(int dx, int dy){
-        SnakeSegment nextHeadPosition = new SnakeSegment(new Point(body.peekFirst().location.x + dx,
-                                                                   body.peekFirst().location.y + dy));
+        SnakeSegment nextHeadPosition = new SnakeSegment(new Point(body.peekFirst().getLocation().x + dx,
+                                                                   body.peekFirst().getLocation().y + dy));
         if (body.size() > 1 && body.get(1).equals(nextHeadPosition)) {
             direction = direction.opposite();
             return;
         }
-        if (nextHeadPosition.location.x <0 || nextHeadPosition.location.x >= GameConsts.WIDTH)
-            nextHeadPosition.location.x = mod(nextHeadPosition.location.x, GameConsts.WIDTH);
-        if (nextHeadPosition.location.y <0 || nextHeadPosition.location.y >= GameConsts.HEIGHT)
-            nextHeadPosition.location.y = mod(nextHeadPosition.location.y, GameConsts.HEIGHT);
+        if (nextHeadPosition.getLocation().x <0 || nextHeadPosition.getLocation().x >= GameConsts.WIDTH)
+            nextHeadPosition.getLocation().x = mod(nextHeadPosition.getLocation().x, GameConsts.WIDTH);
+        if (nextHeadPosition.getLocation().y <0 || nextHeadPosition.getLocation().y >= GameConsts.HEIGHT)
+            nextHeadPosition.getLocation().y = mod(nextHeadPosition.getLocation().y, GameConsts.HEIGHT);
         if (toGrow > 0){
             toGrow--;
         } else body.removeLast();
@@ -61,5 +61,15 @@ public class Snake {
     }
     public void grow(int len){
         toGrow+=len;
+    }
+
+    @Override
+    public LinkedList<SnakeSegment> getChildren() {
+        return  body;
+    }
+
+    @Override
+    public void actionWhenColided(GameObject g) {
+
     }
 }

@@ -1,4 +1,4 @@
-package app.game_objects;
+package app.game;
 
 import app.util.GameConsts;
 
@@ -7,52 +7,47 @@ import java.util.Random;
 
 public class Board {
     public Snake snake;
-    Food food;
-    boolean gameIsOver = false;
+    Apple apple;
+    public boolean gameIsOver = false;
 
     private Random random = new Random();
     public GameObject[][] map = new GameObject[GameConsts.HEIGHT][GameConsts.WIDTH];
 
     public Board() {
         snake = new Snake();
-        food = new Food();
-        createNewFood();
-        map[food.location.x][food.location.y] = food;
-        for (SnakeSegment segment: snake.body)
-            map[segment.location.x][segment.location.y] = segment;
+        apple = createNewFood();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
-            map[0][i] = new Wall();
+            map[0][i] = new Wall(0, i);
+        updateBoard();
     }
 
     public void updateBoard(){
         snake.updatePosition();
-        Point snakeHead = snake.body.peekFirst().location;
+        Point snakeHead = snake.body.peekFirst().getLocation();
 
-        if (snakeHead.equals(food.location)) {
-            createNewFood();
+        if (snakeHead.equals(apple.getLocation())) {
+            apple = createNewFood();
             snake.grow();
             snake.score += 10;
         }
-
-
 
         if (map[snakeHead.x][snakeHead.y] instanceof Wall || map[snakeHead.x][snakeHead.y] instanceof SnakeSegment)
             gameIsOver = true;
 
         for (int i = 0; i<GameConsts.HEIGHT; i++ )
             for (int j = 0; j<GameConsts.WIDTH; j++) {
-                if (food.location.equals(new Point(j, i)))
-                    map [j][i] = food;
+                if (apple.getLocation().equals(new Point(j, i)))
+                    map [j][i] = apple;
                 else if (!(map[j][i] instanceof Wall))
                     map[j][i] = null;
             }
         for (SnakeSegment segment: snake.body)
-            map[segment.location.x][segment.location.y] = segment;
+            map[segment.getLocation().x][segment.getLocation().y] = segment;
     }
 
-    public void createNewFood(){
+    public Apple createNewFood(){
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
-        food.location = new Point(x, y);
+        return new Apple(x, y);
     }
 }

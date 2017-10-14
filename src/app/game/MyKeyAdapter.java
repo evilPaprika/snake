@@ -1,4 +1,4 @@
-package app.game_objects;
+package app.game;
 
 import app.util.Direction;
 
@@ -17,14 +17,14 @@ public class MyKeyAdapter extends KeyAdapter {
     private int previosKey;
 
     public MyKeyAdapter(Snake sanke){
-        headPosition = sanke.body.peekFirst().location;
+        headPosition = sanke.body.peekFirst().getLocation();
         this.snake = sanke;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (headPosition != snake.body.peekFirst().location && e.getKeyChar() != previosKey) {
-            headPosition = snake.body.peekFirst().location;
+        if (headPosition != snake.body.peekFirst().getLocation() && e.getKeyChar() != previosKey) {
+            headPosition = snake.body.peekFirst().getLocation();
             previosKey = e.getKeyChar();
             switch (e.getKeyChar()) {
                 case 'w':
