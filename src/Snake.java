@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Snake {
     public LinkedList<Point> body = new LinkedList<Point>();;
-    public Direction direction;
+    private Direction direction;
     public int scores;
     private int toGrow;
 
@@ -21,6 +21,11 @@ public class Snake {
         toGrow = tailLength;
         direction = initialDirection;
         body.addFirst(initialPosition);
+    }
+
+    public void setDirection(Direction new_direction){
+        if (new_direction.opposite() != direction)
+            direction = new_direction;
     }
 
 
@@ -45,6 +50,7 @@ public class Snake {
     private int mod(int a, int b) { return (a%b + b)%b; }
 
     void updatePosition(){
+
         moveBy(direction.x, direction.y);
     }
 

@@ -5,8 +5,7 @@ public class Board {
     Random random = new Random();
     Snake snake;
     Food food;
-    boolean isOver = false;
-    char keyPressed;
+    boolean gameIsOver = false;
     GameObject[][] map = new GameObject[GameConsts.HEIGHT][GameConsts.WIDTH];
 
     Board() {
@@ -21,7 +20,6 @@ public class Board {
     }
 
     public void updateBoard(){
-        snakeMove();
         snake.updatePosition();
         Point snakeHead = snake.body.peekFirst();
         if (snakeHead.equals(food.location)) {
@@ -46,21 +44,5 @@ public class Board {
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
         food.location = new Point(x, y);
-    }
-
-    public void snakeMove(){
-        switch (keyPressed){
-            case 'w': snake.direction = Direction.UP;
-                break;
-            case 's': snake.direction = Direction.DOWN;
-                break;
-            case 'a': snake.direction = Direction.LEFT;
-                break;
-            case 'd': snake.direction = Direction.RIGHT;
-                break;
-            case 'e': snake.grow();
-                break;
-            default: break;
-        }
     }
 }

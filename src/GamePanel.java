@@ -13,13 +13,7 @@ public class GamePanel extends JPanel implements ActionListener {
         game = new Board();
         setBackground(Color.GRAY);
         setFocusable(true);
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                game.keyPressed = e.getKeyChar();
-            }
-        }
-        );
+        addKeyListener(new MyKeyAdapter(game.snake));
         setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
         timer = new Timer(GameConsts.PAINT_DELAY, this);
         timer.start();
