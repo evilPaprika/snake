@@ -3,9 +3,13 @@ package app.game;
 import java.awt.*;
 
 public class SnakeSegment implements GameObject {
-    private Point location;
+    Point location;
+    private Snake parent;
 
-    SnakeSegment(Point location){ this.location = location; }
+    SnakeSegment(Point location, Snake parent){
+        this.location = location;
+        this.parent = parent;
+    }
 
     @Override
     public Color getColor() {
@@ -19,6 +23,6 @@ public class SnakeSegment implements GameObject {
 
     @Override
     public void actionWhenColided(GameObject g) {
-
+        parent.actionWhenColided(g);
     }
 }
