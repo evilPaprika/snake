@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Snake {
-    public LinkedList<Point> body = new LinkedList<Point>();;
+    public LinkedList<SnakeSegment> body = new LinkedList<>();;
     private Direction direction;
     public int scores;
     private int toGrow;
@@ -20,7 +20,7 @@ public class Snake {
     Snake(Direction initialDirection, Point initialPosition, int tailLength){
         toGrow = tailLength;
         direction = initialDirection;
-        body.addFirst(initialPosition);
+        body.addFirst(new SnakeSegment(initialPosition));
     }
 
     public void setDirection(Direction new_direction){
@@ -30,17 +30,16 @@ public class Snake {
 
 
     private void moveBy(int dx, int dy){
-        Point nextHeadPosition = new Point(body.peekFirst());
-        nextHeadPosition.x += dx;
-        nextHeadPosition.y += dy;
+        SnakeSegment nextHeadPosition = new SnakeSegment(new Point(body.peekFirst().location.x + dx,
+                                                                   body.peekFirst().location.y + dy));
         if (body.size() > 1 && body.get(1).equals(nextHeadPosition)) {
             direction = direction.opposite();
             return;
         }
-        if (nextHeadPosition.x <0 || nextHeadPosition.x >= GameConsts.WIDTH)
-            nextHeadPosition.x = mod(nextHeadPosition.x, GameConsts.WIDTH);
-        if (nextHeadPosition.y <0 || nextHeadPosition.y >= GameConsts.HEIGHT)
-            nextHeadPosition.y = mod(nextHeadPosition.y, GameConsts.HEIGHT);
+        if (nextHeadPosition.location.x <0 || nextHeadPosition.location.x >= GameConsts.WIDTH)
+            nextHeadPosition.location.x = mod(nextHeadPosition.location.x, GameConsts.WIDTH);
+        if (nextHeadPosition.location.y <0 || nextHeadPosition.location.y >= GameConsts.HEIGHT)
+            nextHeadPosition.location.y = mod(nextHeadPosition.location.y, GameConsts.HEIGHT);
         if (toGrow > 0){
             toGrow--;
         } else body.removeLast();
