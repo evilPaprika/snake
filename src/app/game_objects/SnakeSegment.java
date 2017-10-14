@@ -1,6 +1,8 @@
+package app.game_objects;
+
 import java.awt.*;
 
-public class SnakeSegment implements GameObject{
+public class SnakeSegment implements GameObject {
     public Point location;
 
     SnakeSegment(Point location){ this.location = location; }

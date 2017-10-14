@@ -1,3 +1,5 @@
+package app.util;
+
 import java.awt.*;
 
 public enum Direction {

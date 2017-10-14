@@ -1,3 +1,5 @@
+package app.game_objects;
+
 import java.awt.*;
 
 public class Wall implements GameObject {

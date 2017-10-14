@@ -1,14 +1,19 @@
+package app.game_objects;
+
+import app.util.GameConsts;
+
 import java.awt.*;
 import java.util.Random;
 
 public class Board {
-    Random random = new Random();
-    Snake snake;
+    public Snake snake;
     Food food;
     boolean gameIsOver = false;
-    GameObject[][] map = new GameObject[GameConsts.HEIGHT][GameConsts.WIDTH];
 
-    Board() {
+    private Random random = new Random();
+    public GameObject[][] map = new GameObject[GameConsts.HEIGHT][GameConsts.WIDTH];
+
+    public Board() {
         snake = new Snake();
         food = new Food();
         createNewFood();
@@ -22,13 +27,18 @@ public class Board {
     public void updateBoard(){
         snake.updatePosition();
         Point snakeHead = snake.body.peekFirst().location;
+
         if (snakeHead.equals(food.location)) {
             createNewFood();
             snake.grow();
-            snake.scores += 10;
+            snake.score += 10;
         }
+
+
+
         if (map[snakeHead.x][snakeHead.y] instanceof Wall || map[snakeHead.x][snakeHead.y] instanceof SnakeSegment)
             gameIsOver = true;
+
         for (int i = 0; i<GameConsts.HEIGHT; i++ )
             for (int j = 0; j<GameConsts.WIDTH; j++) {
                 if (food.location.equals(new Point(j, i)))

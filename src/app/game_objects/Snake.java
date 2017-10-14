@@ -1,23 +1,26 @@
+package app.game_objects;
+
+import app.util.Direction;
+import app.util.GameConsts;
+
 import java.awt.*;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
 
 public class Snake {
     public LinkedList<SnakeSegment> body = new LinkedList<>();;
-    private Direction direction;
-    public int scores;
+    Direction direction;
+    public int score;
     private int toGrow;
 
-    Snake(){
+    public Snake(){
         this(Direction.DOWN);
     }
 
-    Snake(Direction initialDirection){
+    public Snake(Direction initialDirection){
         this(initialDirection, new Point(5, 5), 3);
     }
 
-    Snake(Direction initialDirection, Point initialPosition, int tailLength){
+    public Snake(Direction initialDirection, Point initialPosition, int tailLength){
         toGrow = tailLength;
         direction = initialDirection;
         body.addFirst(new SnakeSegment(initialPosition));
@@ -48,12 +51,15 @@ public class Snake {
 
     private int mod(int a, int b) { return (a%b + b)%b; }
 
-    void updatePosition(){
+    public void updatePosition(){
 
         moveBy(direction.x, direction.y);
     }
 
-    void grow(){
+    public void grow(){
         toGrow++;
+    }
+    public void grow(int len){
+        toGrow+=len;
     }
 }

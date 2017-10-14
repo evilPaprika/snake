@@ -1,5 +1,9 @@
+package app;
+
+import app.gui.GamePanel;
+
+import javax.swing.*;
 import java.io.IOException;
-import javax.swing.JFrame;
 
 
 public class Main {

@@ -1,15 +1,18 @@
+package app.gui;
+
+import app.game_objects.*;
+import app.util.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Timer timer;
     Board game;
 
-    GamePanel() {
+    public GamePanel() {
         game = new Board();
         setBackground(Color.GRAY);
         setFocusable(true);
@@ -20,6 +23,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     protected void paintComponent(Graphics g){
+
         super.paintComponent(g);
         game.updateBoard();
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
