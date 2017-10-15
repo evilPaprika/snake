@@ -70,9 +70,24 @@ public class Tests {
     public void allSnakeSegmentsMove(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
-        ArrayList<SnakeSegment> snakeBody = new ArrayList<SnakeSegment>(board.snake.body);
+        LinkedList<SnakeSegment> snakeBody = new LinkedList<SnakeSegment>(board.snake.body);
         board.updateBoard();
         for (int i = 0; i < board.snake.body.size(); i++) {
+            assertEquals(snakeBody.get(i).getLocation().x, board.snake.body.get(i).getLocation().x);
+            assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.body.get(i).getLocation().y);
+        }
+    }
+
+    @Test
+    public void headTurnsTailDont(){
+        Board board = testBoard(new Snake());
+        for (int i = 0; i<4; i++) board.updateBoard();
+        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.body);
+        board.snake.setDirection(Direction.RIGHT);
+        board.updateBoard();
+        assertEquals(board.snake.body.peekFirst().getLocation().x, snakeBody.peekFirst().getLocation().x + 1);
+        assertEquals(board.snake.body.peekFirst().getLocation().y, snakeBody.peekFirst().getLocation().y);
+        for (int i = 1; i < board.snake.body.size(); i++) {
             assertEquals(snakeBody.get(i).getLocation().x, board.snake.body.get(i).getLocation().x);
             assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.body.get(i).getLocation().y);
         }
