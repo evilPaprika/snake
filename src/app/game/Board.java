@@ -38,10 +38,12 @@ public class Board {
     }
 
     private void CheckCollisions(){
-        for (GameObject e1: gameObjects) {
-            for (GameObject e2: gameObjects) {
-                if(e1 != e2 && e1.getLocation().equals(e2.getLocation())) {
-                    e1.actionWhenCollidedWith(e2);
+        for (int i = 0; i < gameObjects.size() - 1; i++) {
+            for (int j = i+1; j < gameObjects.size(); j++) {
+                if(gameObjects.get(i) != gameObjects.get(j)
+                        && gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {
+                    gameObjects.get(i).actionWhenCollidedWith(gameObjects.get(j));
+                    gameObjects.get(j).actionWhenCollidedWith(gameObjects.get(i));
                 }
             }
         }
