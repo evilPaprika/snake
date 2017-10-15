@@ -10,7 +10,7 @@ public class Snake implements GameCompoundObject{
     LinkedList<SnakeSegment> body = new LinkedList<>();;
     private Direction direction;
     public boolean isDead;
-    int score;
+    public int score;
     private int toGrow;
 
 
@@ -42,7 +42,8 @@ public class Snake implements GameCompoundObject{
             nextHeadPosition.y = mod(nextHeadPosition.y, GameConsts.HEIGHT);
         if (toGrow > 0){
             toGrow--;
-        } else body.removeLast();
+        }
+        else body.removeLast();
         body.addFirst(new SnakeSegment(nextHeadPosition, this));
     }
 
@@ -65,12 +66,10 @@ public class Snake implements GameCompoundObject{
     }
 
     @Override
-    public void actionWhenColided(GameObject g) {
+    public void actionWhenCollided(GameObject g) {
         if (g instanceof Apple){
-            if (g.getLocation().equals(body.peekFirst().getLocation())){
             score+=10;
             grow();
-            }
         }
         else isDead = true;
     }

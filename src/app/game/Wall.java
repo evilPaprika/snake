@@ -25,7 +25,7 @@ public class Wall implements GameObject {
     }
 
     @Override
-    public void actionWhenColidedWith(GameObject g) {
+    public void actionWhenCollidedWith(GameObject g) {
 
     }
 }

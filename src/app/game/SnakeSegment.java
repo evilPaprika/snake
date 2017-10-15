@@ -27,7 +27,7 @@ public class SnakeSegment implements GameObject {
     }
 
     @Override
-    public void actionWhenColidedWith(GameObject g) {
-        parent.actionWhenColided(g);
+    public void actionWhenCollidedWith(GameObject g) {
+        parent.actionWhenCollided(g);
     }
 }

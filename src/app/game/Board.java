@@ -41,8 +41,7 @@ public class Board {
         for (GameObject e1: gameObjects) {
             for (GameObject e2: gameObjects) {
                 if(e1 != e2 && e1.getLocation().equals(e2.getLocation())) {
-                    e1.actionWhenColidedWith(e2);
-                    e2.actionWhenColidedWith(e1);
+                    e1.actionWhenCollidedWith(e2);
                 }
             }
         }

@@ -14,18 +14,18 @@ public class MyKeyAdapter extends KeyAdapter {
     // нужно для того чтобы нельзя было послать несколько
     // комманд на одной позиции
     private Point headPosition;
-    private int previosKey;
+    private char previousKey;
 
-    public MyKeyAdapter(Snake sanke){
-        headPosition = sanke.body.peekFirst().getLocation();
-        this.snake = sanke;
+    public MyKeyAdapter(Snake snake){
+        headPosition = snake.body.peekFirst().getLocation();
+        this.snake = snake;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (headPosition != snake.body.peekFirst().getLocation() && e.getKeyChar() != previosKey) {
+        if (headPosition != snake.body.peekFirst().getLocation() && e.getKeyChar() != previousKey) {
             headPosition = snake.body.peekFirst().getLocation();
-            previosKey = e.getKeyChar();
+            previousKey = e.getKeyChar();
             switch (e.getKeyChar()) {
                 case 'w':
                     snake.setDirection(Direction.UP);

@@ -27,7 +27,7 @@ public class Apple implements GameObject {
     }
 
     @Override
-    public void actionWhenColidedWith(GameObject g) {
+    public void actionWhenCollidedWith(GameObject g) {
         isDead = true;
     }
 }

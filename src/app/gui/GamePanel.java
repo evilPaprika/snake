@@ -24,6 +24,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
+        g.setColor(Color.BLUE);
+        g.drawString("scores: " + board.snake.score, 15, 15);
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             for (int j = 0; j < GameConsts.WIDTH; j++) {
                 for (GameObject e: board.gameObjects) {

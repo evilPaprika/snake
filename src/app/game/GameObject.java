@@ -6,5 +6,5 @@ public interface GameObject {
     Color getColor();
     Point getLocation();
     boolean isDead();
-    void actionWhenColidedWith(GameObject g);
+    void actionWhenCollidedWith(GameObject g);
 }
