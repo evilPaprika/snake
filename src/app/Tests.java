@@ -9,8 +9,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+=======
+>>>>>>> de6ef1a41bd7c2ae33ddd1be4e910e4225c69a98
 class Tests {
     private Board testBoard(Snake snake){
         ArrayList<GameObject> objects = new ArrayList<>();
@@ -79,7 +82,11 @@ class Tests {
     }
 
     @Test
+<<<<<<< HEAD
     void headTurnsTailDont(){
+=======
+    void headTurnsRightTailDoesnt(){
+>>>>>>> de6ef1a41bd7c2ae33ddd1be4e910e4225c69a98
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
