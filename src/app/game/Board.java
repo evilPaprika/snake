@@ -45,8 +45,7 @@ public class Board {
     private void CheckCollisions(){
         for (int i = 0; i < gameObjects.size() - 1; i++) {
             for (int j = i+1; j < gameObjects.size(); j++) {
-                if(gameObjects.get(i) != gameObjects.get(j)
-                        && gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {
+                if(gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {
                     gameObjects.get(i).actionWhenCollidedWith(gameObjects.get(j));
                     gameObjects.get(j).actionWhenCollidedWith(gameObjects.get(i));
                 }
