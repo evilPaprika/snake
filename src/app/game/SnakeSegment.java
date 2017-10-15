@@ -3,7 +3,7 @@ package app.game;
 import java.awt.*;
 
 public class SnakeSegment implements GameObject {
-    Point location;
+    private Point location;
     private Snake parent;
 
     SnakeSegment(Point location, Snake parent){

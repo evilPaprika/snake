@@ -13,17 +13,22 @@ public class Board {
     private Random random = new Random();
     private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
     public ArrayList<GameObject> gameObjects;
+
     public Board() {
         snake = new Snake();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
             stationaryGameObjects.add(new Wall(0, i));
-        stationaryGameObjects.add(createNewFood());
+        updateBoard();
+    }
+    public Board(ArrayList<GameObject> listOfObjects) {
+        snake = new Snake();
+        stationaryGameObjects = listOfObjects;
         updateBoard();
     }
 
     public void updateBoard(){
         snake.updatePosition();
-        gameObjects = new ArrayList<GameObject>(stationaryGameObjects);
+        gameObjects = new ArrayList<>(stationaryGameObjects);
         gameObjects.addAll(snake.body);
         CheckCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);

@@ -5,7 +5,7 @@ import java.awt.*;
 public class Wall implements GameObject {
     Point location;
 
-    Wall(int x, int y){
+    public Wall(int x, int y){
         location = new Point(x, y);
     }
 

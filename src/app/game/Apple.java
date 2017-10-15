@@ -6,7 +6,7 @@ public class Apple implements GameObject {
     private Point location;
     public boolean isDead;
 
-    Apple(int x, int y){
+    public Apple(int x, int y){
         location = new Point(x, y);
         isDead = false;
     }
