@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake implements GameCompoundObject{
-    public LinkedList<SnakeSegment> body = new LinkedList<>();;
+    private LinkedList<SnakeSegment> body = new LinkedList<>();;
     private Direction direction;
     public boolean isDead;
     public int score;
@@ -50,7 +50,7 @@ public class Snake implements GameCompoundObject{
         moveBy(direction.x, direction.y);
     }
 
-    void grow(){
+    private void grow(){
         this.grow(1);
     }
     void grow(int len){
@@ -58,7 +58,7 @@ public class Snake implements GameCompoundObject{
     }
 
     @Override
-    public LinkedList<SnakeSegment> getChildren() {
+    public LinkedList<SnakeSegment> getParts() {
         return  body;
     }
 

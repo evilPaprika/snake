@@ -44,37 +44,37 @@ public class Tests {
     @Test
     public void snakeCreation(){
         Snake snake = new Snake(Direction.LEFT, new Point(3,3), 2);
-        assertEquals(snake.body.peekFirst().getLocation(), new Point(3,3));
-        assertEquals(snake.body.peekFirst().getColor(), Color.GREEN);
+        assertEquals(snake.getParts().peekFirst().getLocation(), new Point(3,3));
+        assertEquals(snake.getParts().peekFirst().getColor(), Color.GREEN);
     }
 
     @Test
     public void snakeMoves() {
         Board board = testBoard(new Snake());
-        Point initialLocation = board.snake.body.peekFirst().getLocation();
+        Point initialLocation = board.snake.getParts().peekFirst().getLocation();
         board.updateBoard();
-        assertEquals(board.snake.body.peekFirst().getLocation(), new Point (initialLocation.x, initialLocation.y + 1));
+        assertEquals(board.snake.getParts().peekFirst().getLocation(), new Point (initialLocation.x, initialLocation.y + 1));
     }
 
     @Test
     public void snakeMovesDownAndRight(){
         Board board = testBoard(new Snake());
-        Point initialLocation = board.snake.body.peekFirst().getLocation();
+        Point initialLocation = board.snake.getParts().peekFirst().getLocation();
         board.updateBoard();
         board.snake.setDirection(Direction.RIGHT);
         board.updateBoard();
-        assertEquals(board.snake.body.peekFirst().getLocation(), new Point (initialLocation.x + 1, initialLocation.y + 1));
+        assertEquals(board.snake.getParts().peekFirst().getLocation(), new Point (initialLocation.x + 1, initialLocation.y + 1));
     }
 
     @Test
     public void allSnakeSegmentsMove(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
-        LinkedList<SnakeSegment> snakeBody = new LinkedList<SnakeSegment>(board.snake.body);
+        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
         board.updateBoard();
-        for (int i = 0; i < board.snake.body.size(); i++) {
-            assertEquals(snakeBody.get(i).getLocation().x, board.snake.body.get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.body.get(i).getLocation().y);
+        for (int i = 0; i < board.snake.getParts().size(); i++) {
+            assertEquals(snakeBody.get(i).getLocation().x, board.snake.getParts().get(i).getLocation().x);
+            assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.getParts().get(i).getLocation().y);
         }
     }
 
@@ -82,14 +82,14 @@ public class Tests {
     public void headTurnsTailDont(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
-        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.body);
+        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
         board.snake.setDirection(Direction.RIGHT);
         board.updateBoard();
-        assertEquals(board.snake.body.peekFirst().getLocation().x, snakeBody.peekFirst().getLocation().x + 1);
-        assertEquals(board.snake.body.peekFirst().getLocation().y, snakeBody.peekFirst().getLocation().y);
-        for (int i = 1; i < board.snake.body.size(); i++) {
-            assertEquals(snakeBody.get(i).getLocation().x, board.snake.body.get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.body.get(i).getLocation().y);
+        assertEquals(board.snake.getParts().peekFirst().getLocation().x, snakeBody.peekFirst().getLocation().x + 1);
+        assertEquals(board.snake.getParts().peekFirst().getLocation().y, snakeBody.peekFirst().getLocation().y);
+        for (int i = 1; i < board.snake.getParts().size(); i++) {
+            assertEquals(snakeBody.get(i).getLocation().x, board.snake.getParts().get(i).getLocation().x);
+            assertEquals(snakeBody.get(i).getLocation().y + 1, board.snake.getParts().get(i).getLocation().y);
         }
     }
 
@@ -99,8 +99,8 @@ public class Tests {
         Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
         board.updateBoard();
         board.updateBoard();
-        assertEquals(board.snake.body.size(), 2);
-        assertEquals(apple.isDead, true);
+        assertEquals(board.snake.getParts().size(), 2);
+        assertEquals(apple.isDead(), true);
         assertEquals(board.snake.score, 10);
     }
 

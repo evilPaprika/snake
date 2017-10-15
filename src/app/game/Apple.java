@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Apple implements GameObject {
     private Point location;
-    public boolean isDead;
+    private boolean isDead;
 
     public Apple(int x, int y){
         location = new Point(x, y);

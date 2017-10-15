@@ -17,14 +17,14 @@ public class MyKeyAdapter extends KeyAdapter {
     private char previousKey;
 
     public MyKeyAdapter(Snake snake){
-        headPosition = snake.body.peekFirst().getLocation();
+        headPosition = snake.getParts().peekFirst().getLocation();
         this.snake = snake;
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (headPosition != snake.body.peekFirst().getLocation() && e.getKeyChar() != previousKey) {
-            headPosition = snake.body.peekFirst().getLocation();
+        if (headPosition != snake.getParts().peekFirst().getLocation() && e.getKeyChar() != previousKey) {
+            headPosition = snake.getParts().peekFirst().getLocation();
             previousKey = e.getKeyChar();
             switch (e.getKeyChar()) {
                 case 'w':

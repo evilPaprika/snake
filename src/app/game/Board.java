@@ -29,7 +29,7 @@ public class Board {
     public void updateBoard(){
         snake.updatePosition();
         gameObjects = new ArrayList<>(stationaryGameObjects);
-        gameObjects.addAll(snake.body);
+        gameObjects.addAll(snake.getParts());
         CheckCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) stationaryGameObjects.add(createNewFood());
