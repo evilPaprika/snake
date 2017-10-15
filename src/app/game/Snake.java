@@ -51,7 +51,7 @@ public class Snake implements GameCompoundObject{
     }
 
     void grow(){
-        toGrow++;
+        this.grow(1);
     }
     void grow(int len){
         toGrow+=len;

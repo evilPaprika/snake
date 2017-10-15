@@ -20,8 +20,8 @@ public class Board {
             stationaryGameObjects.add(new Wall(0, i));
         updateBoard();
     }
-    public Board(ArrayList<GameObject> listOfObjects) {
-        snake = new Snake();
+    public Board(ArrayList<GameObject> listOfObjects, Snake snake) {
+        this.snake = snake;
         stationaryGameObjects = listOfObjects;
         updateBoard();
     }
