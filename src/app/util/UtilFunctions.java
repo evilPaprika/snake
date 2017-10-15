@@ -9,6 +9,6 @@ public class UtilFunctions {
                 return true;
         return false;
     }
-    
+
     public static int mod(int a, int b) { return (a%b + b)%b; }
 }
