@@ -3,7 +3,7 @@ package app.game;
 import java.awt.*;
 
 public class Wall implements GameObject {
-    Point location;
+    private Point location;
 
     public Wall(int x, int y){
         location = new Point(x, y);

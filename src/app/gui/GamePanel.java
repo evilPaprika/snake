@@ -9,16 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements ActionListener {
-    private Timer timer;
-    Board board;
+    private Board board;
 
     public GamePanel() {
         board = new Board();
-        addKeyListener(new MyKeyAdapter(board.snake));
+        addKeyListener(new SnakeKeyAdapter(board.snake));
         setBackground(Color.GRAY);
         setFocusable(true);
         setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
-        timer = new Timer(GameConsts.PAINT_DELAY, this);
+        Timer timer = new Timer(GameConsts.PAINT_DELAY, this);
         timer.start();
     }
 
@@ -44,7 +43,7 @@ public class GamePanel extends JPanel implements ActionListener {
         board.updateBoard();
         if (board.gameIsOver) {
             board = new Board();
-            addKeyListener(new MyKeyAdapter(board.snake));
+            addKeyListener(new SnakeKeyAdapter(board.snake));
         }
         repaint();
     }

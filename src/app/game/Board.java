@@ -10,7 +10,7 @@ public class Board {
     public Snake snake;
     public boolean gameIsOver = false;
 
-    private Random random = new Random();
+    private final Random random = new Random();
     private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
     public ArrayList<GameObject> gameObjects;
 

@@ -1,7 +1,5 @@
 package app;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import app.game.*;
 import app.util.Direction;
 import app.util.GameConsts;
@@ -11,15 +9,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Tests {
-    Board testBoard(Snake snake){
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class Tests {
+    private Board testBoard(Snake snake){
         ArrayList<GameObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
             objects.add(new Wall(0, i));
         return new Board(objects, snake);
     }
 
-    Board testBoardWithApple(Apple apple, Snake snake){
+    private Board testBoardWithApple(Apple apple, Snake snake){
         ArrayList<GameObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
             objects.add(new Wall(0, i));
@@ -28,28 +28,28 @@ public class Tests {
     }
 
     @Test
-    public void appleCreation() {
+    void appleCreation() {
         Apple apple = new Apple(2,2);
         assertEquals(apple.getLocation(), new Point(2,2));
         assertEquals(apple.getColor(), Color.RED);
     }
 
     @Test
-    public void WallCreation(){
+    void WallCreation(){
         Wall wall = new Wall(2,2);
         assertEquals(wall.getLocation(), new Point(2,2));
         assertEquals(wall.getColor(), Color.BLACK);
     }
 
     @Test
-    public void snakeCreation(){
+    void snakeCreation(){
         Snake snake = new Snake(Direction.LEFT, new Point(3,3), 2);
         assertEquals(snake.getParts().peekFirst().getLocation(), new Point(3,3));
         assertEquals(snake.getParts().peekFirst().getColor(), Color.GREEN);
     }
 
     @Test
-    public void snakeMoves() {
+    void snakeMoves() {
         Board board = testBoard(new Snake());
         Point initialLocation = board.snake.getParts().peekFirst().getLocation();
         board.updateBoard();
@@ -57,7 +57,7 @@ public class Tests {
     }
 
     @Test
-    public void snakeMovesDownAndRight(){
+    void snakeMovesDownAndRight(){
         Board board = testBoard(new Snake());
         Point initialLocation = board.snake.getParts().peekFirst().getLocation();
         board.updateBoard();
@@ -67,7 +67,7 @@ public class Tests {
     }
 
     @Test
-    public void allSnakeSegmentsMove(){
+    void allSnakeSegmentsMove(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
@@ -79,7 +79,7 @@ public class Tests {
     }
 
     @Test
-    public void headTurnsTailDont(){
+    void headTurnsTailDont(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
@@ -94,7 +94,7 @@ public class Tests {
     }
 
     @Test
-    public void snakeEatsApple(){
+    void snakeEatsApple(){
         Apple apple = new Apple(6, 5);
         Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
         board.updateBoard();
@@ -105,7 +105,7 @@ public class Tests {
     }
 
     @Test
-    public void appleDisappearsAfterBeingEaten() {
+    void appleDisappearsAfterBeingEaten() {
         Apple apple = new Apple(6, 5);
         Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
         board.updateBoard();
@@ -114,7 +114,7 @@ public class Tests {
     }
 
     @Test
-    public void snakeCollidesWithWall(){
+    void snakeCollidesWithWall(){
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
         board.updateBoard();
         assertEquals(board.snake.isDead, true);
@@ -122,7 +122,7 @@ public class Tests {
     }
 
     @Test
-    public void snakeEatsItself(){
+    void snakeEatsItself(){
         Board board = testBoard(new Snake(Direction.DOWN, new Point(3, 3), 10));
         board.updateBoard();
         Direction[] directions = {Direction.LEFT, Direction.UP, Direction.RIGHT};

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("ZMEYAAA");

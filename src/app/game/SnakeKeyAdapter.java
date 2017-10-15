@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class MyKeyAdapter extends KeyAdapter {
+public class SnakeKeyAdapter extends KeyAdapter {
     // управление для змеи
 
     private Snake snake;
@@ -16,7 +16,7 @@ public class MyKeyAdapter extends KeyAdapter {
     private Point headPosition;
     private char previousKey;
 
-    public MyKeyAdapter(Snake snake){
+    public SnakeKeyAdapter(Snake snake){
         headPosition = snake.getParts().peekFirst().getLocation();
         this.snake = snake;
     }

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake implements GameCompoundObject{
-    private LinkedList<SnakeSegment> body = new LinkedList<>();;
+    private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
     public boolean isDead;
     public int score;
@@ -16,7 +16,7 @@ public class Snake implements GameCompoundObject{
 
 
     public Snake(){this(Direction.DOWN);}
-    public Snake(Direction initialDirection){
+    private Snake(Direction initialDirection){
         this(initialDirection, new Point(5, 5), 3);
     }
     public Snake(Direction initialDirection, Point initialPosition, int tailLength){
