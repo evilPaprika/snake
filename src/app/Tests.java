@@ -79,7 +79,7 @@ public class Tests {
     }
 
     @Test
-    public void headTurnsTailDont(){
+    public void headTurnsRightTailDoesnt(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.snake.getParts());
