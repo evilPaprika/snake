@@ -40,7 +40,7 @@ public class SnakeKeyAdapter extends KeyAdapter {
                     snake.setDirection(Direction.RIGHT);
                     break;
                 case 'e':
-                    snake.grow(5);
+                    snake.grow(6);
                     break;
                 default:
                     break;

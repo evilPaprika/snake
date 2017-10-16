@@ -16,8 +16,10 @@ public class Board {
 
     public Board() {
         snake = new Snake();
-        for (int i = 0; i < GameConsts.HEIGHT; i++)
+        for (int i = 0; i < GameConsts.HEIGHT; i++) {
             stationaryGameObjects.add(new Wall(0, i));
+            stationaryGameObjects.add(new Wall(GameConsts.WIDTH-1, i));
+        }
         updateBoard();
     }
     public Board(ArrayList<GameObject> listOfObjects, Snake snake) {
@@ -30,7 +32,7 @@ public class Board {
         snake.updatePosition();
         gameObjects = new ArrayList<>(stationaryGameObjects);
         gameObjects.addAll(snake.getParts());
-        CheckCollisions();
+        checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) stationaryGameObjects.add(createNewFood());
         if (snake.isDead) gameIsOver = true;
@@ -42,7 +44,7 @@ public class Board {
         return new Apple(x, y);
     }
 
-    private void CheckCollisions(){
+    private void checkCollisions(){
         for (int i = 0; i < gameObjects.size() - 1; i++) {
             for (int j = i+1; j < gameObjects.size(); j++) {
                 if(gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {

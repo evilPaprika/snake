@@ -33,7 +33,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
-        g.setColor(Color.BLUE);
+        g.setColor(Color.YELLOW);
         g.drawString("score: " + board.snake.score, 15, 15);
     }
 
