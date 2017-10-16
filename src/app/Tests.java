@@ -36,7 +36,7 @@ class Tests {
     }
 
     @Test
-    void WallCreation(){
+    void wallCreation(){
         Wall wall = new Wall(2,2);
         assertEquals(wall.getLocation(), new Point(2,2));
         assertEquals(wall.getColor(), Color.BLACK);
@@ -134,4 +134,6 @@ class Tests {
         assertEquals(board.snake.isDead, true);
         assertEquals(board.gameIsOver, true);
     }
+
+    //TODO: тест на выход за границы, тест на змею наступающую на хвос
 }

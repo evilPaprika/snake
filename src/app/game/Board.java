@@ -39,6 +39,7 @@ public class Board {
     }
 
     private Apple createNewFood(){
+        //TODO проверять при генерации на то что клетка пустая
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
         return new Apple(x, y);

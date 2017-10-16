@@ -8,6 +8,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake implements GameCompoundObject{
+    //TODO: сделать везде getterы и setterы (не только в Snake)
     private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
     public boolean isDead;
@@ -64,6 +65,7 @@ public class Snake implements GameCompoundObject{
 
     @Override
     public void actionWhenCollided(GameObject g) {
+        //TODO: заменить на instanceof Food
         if (g instanceof Apple){
             score+=10;
             grow();
