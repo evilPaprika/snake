@@ -3,6 +3,7 @@ package app.game;
 import app.util.GameConsts;
 import app.util.UtilFunctions;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -35,14 +36,16 @@ public class Board {
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) stationaryGameObjects.add(createNewFood());
-        if (snake.isDead) gameIsOver = true;
+        if (snake.isDead()) gameIsOver = true;
     }
 
     private Apple createNewFood(){
-        //TODO проверять при генерации на то что клетка пустая
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
-        return new Apple(x, y);
+        if (gameObjects.stream().noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
+            return new Apple(x, y);
+        else
+            return createNewFood();
     }
 
     private void checkCollisions(){

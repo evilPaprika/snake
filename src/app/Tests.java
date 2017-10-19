@@ -102,7 +102,7 @@ class Tests {
         board.updateBoard();
         assertEquals(board.snake.getParts().size(), 2);
         assertEquals(apple.isDead(), true);
-        assertEquals(board.snake.score, 10);
+        assertEquals(board.snake.getScore(), 10);
     }
 
     @Test
@@ -118,7 +118,7 @@ class Tests {
     void snakeCollidesWithWall(){
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
         board.updateBoard();
-        assertEquals(board.snake.isDead, true);
+        assertEquals(board.snake.isDead(), true);
         assertEquals(board.gameIsOver, true);
     }
 
@@ -131,7 +131,7 @@ class Tests {
             board.snake.setDirection(direction);
             board.updateBoard();
         }
-        assertEquals(board.snake.isDead, true);
+        assertEquals(board.snake.isDead(), true);
         assertEquals(board.gameIsOver, true);
     }
 

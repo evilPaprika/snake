@@ -11,8 +11,8 @@ public class Snake implements GameCompoundObject{
     //TODO: сделать везде getterы и setterы (не только в Snake)
     private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
-    public boolean isDead;
-    public int score;
+    private boolean isDead;
+    private int score;
     private int toGrow;
 
 
@@ -57,6 +57,10 @@ public class Snake implements GameCompoundObject{
     void grow(int len){
         toGrow+=len;
     }
+
+    public boolean isDead(){return isDead;}
+
+    public int getScore() {return score;}
 
     @Override
     public LinkedList<SnakeSegment> getParts() {
