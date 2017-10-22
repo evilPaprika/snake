@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
-    public Snake snake;
+    private Snake snake;
     private boolean gameIsOver = false;
 
     private final Random random = new Random();
     private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
-    public ArrayList<GameObject> gameObjects;
+    private ArrayList<GameObject> gameObjects;
 
     public Board() {
         snake = new Snake();
@@ -60,4 +60,8 @@ public class Board {
     }
 
     public boolean isGameOver() {return gameIsOver;}
+
+    public Snake getSnake() {return snake;}
+
+    public ArrayList<GameObject> getGameObjects() {return gameObjects;}
 }

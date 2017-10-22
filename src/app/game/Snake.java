@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake implements GameCompoundObject{
-    //TODO: сделать везде getterы и setterы (не только в Snake)
     private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
     private boolean isDead;

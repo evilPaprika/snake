@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public GamePanel() {
         board = new Board();
-        addKeyListener(new SnakeKeyAdapter(board.snake));
+        addKeyListener(new SnakeKeyAdapter(board.getSnake()));
         setBackground(Color.GRAY);
         setFocusable(true);
         setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             for (int j = 0; j < GameConsts.WIDTH; j++) {
-                for (GameObject e: board.gameObjects) {
+                for (GameObject e: board.getGameObjects()) {
                     if (e.getLocation().equals(new Point(j, i))){
                         g.setColor( e.getColor());
                         g.fillRect(j*10+1, i*10-1, 8, 8);
@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         g.setColor(Color.YELLOW);
-        g.drawString("score: " + board.snake.getScore(), 15, 15);
+        g.drawString("score: " + board.getSnake().getScore(), 15, 15);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements ActionListener {
         board.updateBoard();
         if (board.isGameOver()) {
             board = new Board();
-            addKeyListener(new SnakeKeyAdapter(board.snake));
+            addKeyListener(new SnakeKeyAdapter(board.getSnake()));
         }
         repaint();
     }
