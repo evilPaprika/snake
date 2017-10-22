@@ -119,7 +119,7 @@ class Tests {
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
         board.updateBoard();
         assertEquals(board.snake.isDead(), true);
-        assertEquals(board.gameIsOver, true);
+        assertEquals(board.isGameOver(), true);
     }
 
     @Test
@@ -132,8 +132,34 @@ class Tests {
             board.updateBoard();
         }
         assertEquals(board.snake.isDead(), true);
-        assertEquals(board.gameIsOver, true);
+        assertEquals(board.isGameOver(), true);
     }
 
-    //TODO: тест на выход за границы, тест на змею наступающую на хвос
+    @Test
+    void snakeMovesOutOfUpperBorder(){
+        Board board = testBoard(new Snake(Direction.UP, new Point(3, 1), 1));
+        board.updateBoard();
+        assertEquals(board.snake.getParts().peekFirst().getLocation(), new Point(3, GameConsts.HEIGHT - 1));
+        assertEquals(board.snake.getParts().get(1).getLocation(), new Point (3, 0));
+    }
+
+    @Test
+    void snakeMovesOutOfLeftBorder(){
+        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 1));
+        board.updateBoard();
+        assertEquals(board.snake.getParts().peekFirst().getLocation(), new Point(GameConsts.WIDTH - 1, 1));
+        assertEquals(board.snake.getParts().get(1).getLocation(), new Point (0, 1));
+    }
+
+    @Test
+    void snakesHeadStepsAfterTail(){
+        Board board = testBoard(new Snake(Direction.LEFT, new Point(5, 5), 3));
+        Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP};
+        for(Direction direction: directions){
+            board.snake.setDirection(direction);
+            board.updateBoard();
+        }
+        assertEquals(board.snake.isDead(), false);
+        assertEquals(board.isGameOver(), false);
+    }
 }

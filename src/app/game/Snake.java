@@ -70,8 +70,8 @@ public class Snake implements GameCompoundObject{
     @Override
     public void actionWhenCollided(GameObject g) {
         //TODO: заменить на instanceof Food
-        if (g instanceof Apple){
-            score+=10;
+        if (g instanceof Food){
+            score+=((Food) g).getScoreToAdd();
             grow();
         }
         else isDead = true;

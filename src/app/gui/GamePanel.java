@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e)
     {
         board.updateBoard();
-        if (board.gameIsOver) {
+        if (board.isGameOver()) {
             board = new Board();
             addKeyListener(new SnakeKeyAdapter(board.snake));
         }

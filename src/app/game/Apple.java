@@ -2,7 +2,7 @@ package app.game;
 
 import java.awt.*;
 
-public class Apple implements GameObject {
+public class Apple implements Food {
     private Point location;
     private boolean isDead;
 
@@ -30,4 +30,7 @@ public class Apple implements GameObject {
     public void actionWhenCollidedWith(GameObject g) {
         isDead = true;
     }
+
+    @Override
+    public int getScoreToAdd() {return 10;}
 }

@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class Board {
     public Snake snake;
-    public boolean gameIsOver = false;
+    private boolean gameIsOver = false;
 
     private final Random random = new Random();
     private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Board {
         if (gameObjects.stream().noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
             return new Apple(x, y);
         else
-            return createNewFood();
+            return null;
     }
 
     private void checkCollisions(){
@@ -58,4 +58,6 @@ public class Board {
             }
         }
     }
+
+    public boolean isGameOver() {return gameIsOver;}
 }
