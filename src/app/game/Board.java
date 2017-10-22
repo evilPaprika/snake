@@ -35,17 +35,15 @@ public class Board {
         gameObjects.addAll(snake.getParts());
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
-        if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) stationaryGameObjects.add(createNewFood());
+        if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) createNewFood();
         if (snake.isDead()) gameIsOver = true;
     }
 
-    private Apple createNewFood(){
+    private void createNewFood(){
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
         if (gameObjects.stream().noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
-            return new Apple(x, y);
-        else
-            return null;
+            stationaryGameObjects.add(new Apple(x, y));
     }
 
     private void checkCollisions(){
