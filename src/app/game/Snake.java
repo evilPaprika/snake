@@ -47,7 +47,7 @@ public class Snake implements CompoundObject {
     }
 
     void updatePosition() {
-        moveBy(direction.x, direction.y);
+        moveBy(direction.getX(), direction.getY());
     }
 
     private void grow() {

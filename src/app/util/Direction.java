@@ -8,16 +8,17 @@ public enum Direction {
     LEFT(new Point(-1, 0)),
     RIGHT(new Point(1, 0));
 
-    //private final Point toPoint;
-    public final int x;
-    public final int y;
+    private final int x;
+    private final int y;
+
+    public int getX() { return x; }
+    public int getY() { return y; }
 
     public boolean isOpposite(Direction other) {
         return this.x + other.x == 0 && this.y + other.y == 0;
     }
 
     Direction(Point direction) {
-        //this.toPoint = direction;
         x = direction.x;
         y = direction.y;
     }
