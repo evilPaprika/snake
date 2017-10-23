@@ -27,7 +27,7 @@ public class Apple implements Food {
     }
 
     @Override
-    public void actionWhenCollidedWith(GameObject g) {
+    public void collideWith(GameObject g) {
         isDead = true;
     }
 

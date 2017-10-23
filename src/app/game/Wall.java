@@ -2,7 +2,7 @@ package app.game;
 
 import java.awt.*;
 
-public class Wall implements GameObject {
+public class Wall implements SimpleObject {
     private Point location;
 
     public Wall(int x, int y){
@@ -25,7 +25,7 @@ public class Wall implements GameObject {
     }
 
     @Override
-    public void actionWhenCollidedWith(GameObject g) {
+    public void collideWith(GameObject g) {
 
     }
 }

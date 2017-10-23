@@ -3,24 +3,18 @@ package app.util;
 import java.awt.*;
 
 public enum Direction {
-    UP(new Point(0, -1)){
-        public Direction opposite() { return DOWN; }
-    },
-    DOWN(new Point(0, 1)){
-        public Direction opposite() { return UP; }
-    },
-    LEFT(new Point(-1, 0)){
-        public Direction opposite() { return RIGHT; }
-    },
-    RIGHT(new Point(1, 0)){
-        public Direction opposite() { return LEFT; }
-    };
+    UP(new Point(0, -1)),
+    DOWN(new Point(0, 1)),
+    LEFT(new Point(-1, 0)),
+    RIGHT(new Point(1, 0));
 
     //private final Point toPoint;
     public final int x;
     public final int y;
 
-    public abstract Direction opposite();
+    public boolean isOpposite(Direction other) {
+        return this.x + other.x == 0 && this.y + other.y == 0;
+    }
 
     Direction(Point direction) {
         //this.toPoint = direction;

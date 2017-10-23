@@ -7,7 +7,7 @@ import app.util.UtilFunctions;
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Snake implements GameCompoundObject{
+public class Snake implements CompoundObject {
     private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
     private boolean isDead;
@@ -15,64 +15,68 @@ public class Snake implements GameCompoundObject{
     private int toGrow;
 
 
-    public Snake(){this(Direction.DOWN);}
-    private Snake(Direction initialDirection){
+    public Snake() {
+        this(Direction.DOWN);
+    }
+
+    private Snake(Direction initialDirection) {
         this(initialDirection, new Point(5, 5), 3);
     }
-    public Snake(Direction initialDirection, Point initialPosition, int tailLength){
+
+    public Snake(Direction initialDirection, Point initialPosition, int tailLength) {
         toGrow = tailLength;
         direction = initialDirection;
         body.addFirst(new SnakeSegment(initialPosition, this));
     }
 
 
-    public void setDirection(Direction new_direction){
-        if (new_direction.opposite() != direction)
+    public void setDirection(Direction new_direction) {
+        if (!new_direction.isOpposite(direction))
             direction = new_direction;
     }
 
 
-    private void moveBy(int dx, int dy){
+    private void moveBy(int dx, int dy) {
         Point nextHeadPosition = new Point(body.peekFirst().getLocation().x + dx,
-                                           body.peekFirst().getLocation().y + dy);
-        if (nextHeadPosition.x <0 || nextHeadPosition.x >= GameConsts.WIDTH)
-            nextHeadPosition.x = UtilFunctions.mod(nextHeadPosition.x, GameConsts.WIDTH);
-        if (nextHeadPosition.y <0 || nextHeadPosition.y >= GameConsts.HEIGHT)
-            nextHeadPosition.y = UtilFunctions.mod(nextHeadPosition.y, GameConsts.HEIGHT);
-        if (toGrow > 0){
+                body.peekFirst().getLocation().y + dy);
+        nextHeadPosition = UtilFunctions.makePositionInBoundaries(nextHeadPosition);
+        if (toGrow > 0) {
             toGrow--;
-        }
-        else body.removeLast();
+        } else body.removeLast();
         body.addFirst(new SnakeSegment(nextHeadPosition, this));
     }
 
-    void updatePosition(){
+    void updatePosition() {
         moveBy(direction.x, direction.y);
     }
 
-    private void grow(){
+    private void grow() {
         this.grow(1);
     }
-    void grow(int len){
-        toGrow+=len;
+
+    public void grow(int len) {
+        toGrow += len;
     }
 
-    public boolean isDead(){return isDead;}
+    @Override
+    public boolean isDead() {
+        return isDead;
+    }
 
-    public int getScore() {return score;}
+    public int getScore() {
+        return score;
+    }
 
     @Override
     public LinkedList<SnakeSegment> getParts() {
-        return  body;
+        return body;
     }
 
     @Override
-    public void actionWhenCollided(GameObject g) {
-        //TODO: заменить на instanceof Food
-        if (g instanceof Food){
-            score+=((Food) g).getScoreToAdd();
+    public void collideWith(GameObject g) {
+        if (g instanceof Food) {
+            score += ((Food) g).getScoreToAdd();
             grow();
-        }
-        else isDead = true;
+        } else isDead = true;
     }
 }

@@ -1,7 +1,6 @@
 package app.game;
 
 import app.util.GameConsts;
-import app.util.UtilFunctions;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,8 +11,8 @@ public class Board {
     private boolean gameIsOver = false;
 
     private final Random random = new Random();
-    private ArrayList<GameObject> stationaryGameObjects = new ArrayList<>();
-    private ArrayList<GameObject> gameObjects;
+    private ArrayList<SimpleObject> stationaryGameObjects = new ArrayList<>();
+    private ArrayList<SimpleObject> gameObjects;
 
     public Board() {
         snake = new Snake();
@@ -23,7 +22,7 @@ public class Board {
         }
         updateBoard();
     }
-    public Board(ArrayList<GameObject> listOfObjects, Snake snake) {
+    public Board(ArrayList<SimpleObject> listOfObjects, Snake snake) {
         this.snake = snake;
         stationaryGameObjects = listOfObjects;
         updateBoard();
@@ -35,14 +34,15 @@ public class Board {
         gameObjects.addAll(snake.getParts());
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
-        if (!UtilFunctions.containsInstanceOf(stationaryGameObjects, Apple.class)) createNewFood();
+        if (stationaryGameObjects.stream().noneMatch(obj -> obj instanceof Apple)) createNewFood();
         if (snake.isDead()) gameIsOver = true;
     }
 
     private void createNewFood(){
         int x = random.nextInt(GameConsts.WIDTH);
         int y = random.nextInt(GameConsts.HEIGHT);
-        if (gameObjects.stream().noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
+        if (gameObjects.stream()
+                .noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
             stationaryGameObjects.add(new Apple(x, y));
     }
 
@@ -50,8 +50,8 @@ public class Board {
         for (int i = 0; i < gameObjects.size() - 1; i++) {
             for (int j = i+1; j < gameObjects.size(); j++) {
                 if(gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {
-                    gameObjects.get(i).actionWhenCollidedWith(gameObjects.get(j));
-                    gameObjects.get(j).actionWhenCollidedWith(gameObjects.get(i));
+                    gameObjects.get(i).collideWith(gameObjects.get(j));
+                    gameObjects.get(j).collideWith(gameObjects.get(i));
                 }
             }
         }
@@ -61,5 +61,5 @@ public class Board {
 
     public Snake getSnake() {return snake;}
 
-    public ArrayList<GameObject> getGameObjects() {return gameObjects;}
+    public ArrayList<SimpleObject> getGameObjects() {return gameObjects;}
 }

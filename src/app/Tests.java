@@ -10,18 +10,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 class Tests {
     private Board testBoard(Snake snake){
-        ArrayList<GameObject> objects = new ArrayList<>();
+        ArrayList<SimpleObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
             objects.add(new Wall(0, i));
         return new Board(objects, snake);
     }
 
     private Board testBoardWithApple(Apple apple, Snake snake){
-        ArrayList<GameObject> objects = new ArrayList<>();
+        ArrayList<SimpleObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
             objects.add(new Wall(0, i));
         objects.add(apple);
@@ -101,7 +103,7 @@ class Tests {
         board.updateBoard();
         board.updateBoard();
         assertEquals(board.getSnake().getParts().size(), 2);
-        assertEquals(apple.isDead(), true);
+        assertTrue(apple.isDead());
         assertEquals(board.getSnake().getScore(), 10);
     }
 
@@ -111,15 +113,15 @@ class Tests {
         Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
         board.updateBoard();
         board.updateBoard();
-        assertEquals(board.getGameObjects().contains(apple), false);
+        assertFalse(board.getGameObjects().contains(apple));
     }
 
     @Test
     void snakeCollidesWithWall(){
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
         board.updateBoard();
-        assertEquals(board.getSnake().isDead(), true);
-        assertEquals(board.isGameOver(), true);
+        assertTrue(board.getSnake().isDead());
+        assertTrue(board.isGameOver());
     }
 
     @Test
@@ -131,8 +133,8 @@ class Tests {
             board.getSnake().setDirection(direction);
             board.updateBoard();
         }
-        assertEquals(board.getSnake().isDead(), true);
-        assertEquals(board.isGameOver(), true);
+        assertTrue(board.getSnake().isDead());
+        assertTrue(board.isGameOver());
     }
 
     @Test
@@ -159,7 +161,7 @@ class Tests {
             board.getSnake().setDirection(direction);
             board.updateBoard();
         }
-        assertEquals(board.getSnake().isDead(), false);
-        assertEquals(board.isGameOver(), false);
+        assertFalse(board.getSnake().isDead());
+        assertFalse(board.isGameOver());
     }
 }

@@ -1,10 +1,9 @@
 package app.game;
 
 import java.awt.*;
+import java.util.List;
 
 public interface GameObject {
-    Color getColor();
-    Point getLocation();
     boolean isDead();
-    void actionWhenCollidedWith(GameObject g);
+    void collideWith(GameObject g);
 }

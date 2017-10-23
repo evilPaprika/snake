@@ -2,7 +2,7 @@ package app.game;
 
 import java.awt.*;
 
-public class SnakeSegment implements GameObject {
+public class SnakeSegment implements SimpleObject {
     private Point location;
     private Snake parent;
 
@@ -27,7 +27,7 @@ public class SnakeSegment implements GameObject {
     }
 
     @Override
-    public void actionWhenCollidedWith(GameObject g) {
-        parent.actionWhenCollided(g);
+    public void collideWith(GameObject g) {
+        parent.collideWith(g);
     }
 }

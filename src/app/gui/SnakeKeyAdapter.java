@@ -1,5 +1,6 @@
-package app.game;
+package app.gui;
 
+import app.game.Snake;
 import app.util.Direction;
 
 import java.awt.*;

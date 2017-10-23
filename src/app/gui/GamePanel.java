@@ -7,13 +7,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Board board;
+    private KeyListener snakeSteering;
 
     public GamePanel() {
         board = new Board();
-        addKeyListener(new SnakeKeyAdapter(board.getSnake()));
+        snakeSteering = new SnakeKeyAdapter(board.getSnake());
+        addKeyListener(snakeSteering);
         setBackground(Color.GRAY);
         setFocusable(true);
         setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
@@ -23,16 +26,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        for (int i = 0; i < GameConsts.HEIGHT; i++) {
-            for (int j = 0; j < GameConsts.WIDTH; j++) {
-                for (GameObject e: board.getGameObjects()) {
-                    if (e.getLocation().equals(new Point(j, i))){
-                        g.setColor( e.getColor());
-                        g.fillRect(j*10+1, i*10-1, 8, 8);
-                    }
-                }
-            }
+        for (SimpleObject e: board.getGameObjects()) {
+            g.setColor( e.getColor());
+            g.fillRect(e.getLocation().x*10+1, e.getLocation().y*10-1, 8, 8);
         }
+
         g.setColor(Color.YELLOW);
         g.drawString("score: " + board.getSnake().getScore(), 15, 15);
     }
@@ -43,7 +41,9 @@ public class GamePanel extends JPanel implements ActionListener {
         board.updateBoard();
         if (board.isGameOver()) {
             board = new Board();
-            addKeyListener(new SnakeKeyAdapter(board.getSnake()));
+            removeKeyListener(snakeSteering);
+            snakeSteering = new SnakeKeyAdapter(board.getSnake());
+            addKeyListener(snakeSteering);
         }
         repaint();
     }
