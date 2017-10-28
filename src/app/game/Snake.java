@@ -1,7 +1,6 @@
 package app.game;
 
 import app.util.Direction;
-import app.util.GameConsts;
 import app.util.UtilFunctions;
 
 import java.awt.*;
@@ -10,6 +9,7 @@ import java.util.LinkedList;
 public class Snake implements CompoundObject {
     private LinkedList<SnakeSegment> body = new LinkedList<>();
     private Direction direction;
+    private double speed;
     private boolean isDead;
     private int score;
     private int toGrow;
@@ -26,6 +26,7 @@ public class Snake implements CompoundObject {
     public Snake(Direction initialDirection, Point initialPosition, int tailLength) {
         toGrow = tailLength;
         direction = initialDirection;
+        speed = 0.1;
         body.addFirst(new SnakeSegment(initialPosition, this));
     }
 
@@ -37,13 +38,17 @@ public class Snake implements CompoundObject {
 
 
     private void moveBy(int dx, int dy) {
-        Point nextHeadPosition = new Point(body.peekFirst().getLocation().x + dx,
-                body.peekFirst().getLocation().y + dy);
+
+
+
+
+        Point nextHeadPosition = new Point(body.peekFirst().getLocation().x + dx,body.peekFirst().getLocation().y + dy);
         nextHeadPosition = UtilFunctions.makePositionInBoundaries(nextHeadPosition);
         if (toGrow > 0) {
             toGrow--;
         } else body.removeLast();
         body.addFirst(new SnakeSegment(nextHeadPosition, this));
+
     }
 
     void updatePosition() {

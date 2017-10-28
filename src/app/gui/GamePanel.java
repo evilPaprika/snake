@@ -1,13 +1,15 @@
 package app.gui;
 
-import app.game.*;
-import app.util.*;
+import app.game.Board;
+import app.game.SimpleObject;
+import app.util.GameConsts;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+
 
 public class GamePanel extends JPanel implements ActionListener {
     private Board board;
@@ -19,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener {
         addKeyListener(snakeSteering);
         setBackground(Color.GRAY);
         setFocusable(true);
-        setPreferredSize(new Dimension(GameConsts.WIDTH * 10, GameConsts.HEIGHT * 10));
+        setPreferredSize(new Dimension(GameConsts.WIDTH * GameConsts.CELL_SIZE, GameConsts.HEIGHT * GameConsts.CELL_SIZE));
         Timer timer = new Timer(GameConsts.PAINT_DELAY, this);
         timer.start();
     }
@@ -28,7 +30,7 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         for (SimpleObject e: board.getGameObjects()) {
             g.setColor( e.getColor());
-            g.fillRect(e.getLocation().x*10+1, e.getLocation().y*10-1, 8, 8);
+            g.fillRect(e.getLocation().x*GameConsts.CELL_SIZE+1, e.getLocation().y*GameConsts.CELL_SIZE-1, GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
         }
 
         g.setColor(Color.YELLOW);
