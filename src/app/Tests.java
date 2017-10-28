@@ -3,15 +3,14 @@ package app;
 import app.game.*;
 import app.util.Direction;
 import app.util.GameConsts;
+import app.util.Point;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class Tests {

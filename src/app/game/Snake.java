@@ -2,8 +2,7 @@ package app.game;
 
 import app.util.Direction;
 import app.util.UtilFunctions;
-
-import java.awt.*;
+import app.util.Point;
 import java.util.LinkedList;
 
 public class Snake implements CompoundObject {

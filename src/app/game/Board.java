@@ -1,8 +1,7 @@
 package app.game;
 
 import app.util.GameConsts;
-
-import java.awt.*;
+import app.util.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
