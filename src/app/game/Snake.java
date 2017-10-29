@@ -120,7 +120,7 @@ public class Snake implements CompoundObject {
             for (DirectionMarker mrk: markers) {
                 if (old_location.distance(mrk.getLocation()) + mrk.getLocation().distance(new_location) == old_location.distance(new_location)){
                     Point delta = ((seg.getDirection().toPoint().mul(old_location.distance(mrk.getLocation()))).add(mrk.getDirection().toPoint()
-                            .mul(mrk.getLocation().distance(new_location)))).mul(2); //?? почему работает если умножить на 2??
+                            .mul(mrk.getLocation().distance(new_location)))).mul(1/speed); //?? почему работает если умножить так ??
                     seg.setLocation( seg.getLocation().add(delta ));
                     seg.setDirection(mrk.getDirection());
                     flag = false;
