@@ -6,66 +6,63 @@ import app.util.Direction;
 import app.util.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class SnakeKeyAdapter extends KeyAdapter {
     // управление для змеи
 
-    private Snake firstSnake;
-    private Snake secondSnake;
+    private Snake snake;
 
     // нужно для того чтобы нельзя было послать несколько
     // комманд на одной позиции
-    private Point firstSnakePreviousHeadPosition;
-    private Point secondSnakePreviousHeadPosition;
+    private Point previosHeadPosition;
     private int previousKey;
+    private final int up;
+    private final int down;
+    private final int left;
+    private final int right;
 
-    SnakeKeyAdapter(ArrayList<Snake> snakes){
-        firstSnake = snakes.get(0);
-        firstSnakePreviousHeadPosition = firstSnake.getParts().peekFirst().getLocation();
-        if (snakes.size() > 1) {
-            secondSnake = snakes.get(1);
-            secondSnakePreviousHeadPosition = secondSnake.getParts().peekFirst().getLocation();
-        }
-        }
+
+    public SnakeKeyAdapter(Snake snake, int up, int down, int left, int right){
+        previosHeadPosition = snake.getParts().peekFirst().getLocation();
+        this.snake = snake;
+        this.up = up;
+        this.down = down;
+        this.left = left;
+        this.right = right;
+    }
+
+
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (firstSnakePreviousHeadPosition != firstSnake.getParts().peekFirst().getLocation()
-            && e.getKeyCode() != previousKey) {
-            firstSnakePreviousHeadPosition = firstSnake.getParts().peekFirst().getLocation();
+        if (previosHeadPosition != snake.getParts().peekFirst().getLocation() && e.getKeyCode() != previousKey) {
+            previosHeadPosition = snake.getParts().peekFirst().getLocation();
             previousKey = e.getKeyCode();
+            if (previousKey == up) snake.setDirection(Direction.UP);
+            else if (previousKey == down) snake.setDirection(Direction.DOWN);
+            else if (previousKey == left) snake.setDirection(Direction.LEFT);
+            else if (previousKey == right) snake.setDirection(Direction.RIGHT);
+            else if (previousKey ==  KeyEvent.VK_E) snake.grow(6);
+            /*
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    firstSnake.setDirection(Direction.UP);
+                case up:
+                    snake.setDirection(Direction.UP);
                     break;
                 case KeyEvent.VK_S:
-                    firstSnake.setDirection(Direction.DOWN);
+                    snake.setDirection(Direction.DOWN);
                     break;
                 case KeyEvent.VK_A:
-                    firstSnake.setDirection(Direction.LEFT);
+                    snake.setDirection(Direction.LEFT);
                     break;
                 case KeyEvent.VK_D:
-                    firstSnake.setDirection(Direction.RIGHT);
+                    snake.setDirection(Direction.RIGHT);
                     break;
                 case KeyEvent.VK_E:
-                    firstSnake.grow(6);
-                    break;
-                case KeyEvent.VK_UP:
-                    secondSnake.setDirection(Direction.UP);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    secondSnake.setDirection(Direction.RIGHT);
-                    break;
-                case KeyEvent.VK_LEFT:
-                    secondSnake.setDirection(Direction.LEFT);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    secondSnake.setDirection(Direction.DOWN);
+                    snake.grow(6);
                     break;
                 default:
                     break;
-            }
+            } */
         }
     }
 }
