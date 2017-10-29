@@ -5,8 +5,10 @@ import app.util.GameConsts;
 import app.util.State;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class MouseInput implements MouseListener {
     private GamePanel gamePanel;
@@ -29,7 +31,9 @@ public class MouseInput implements MouseListener {
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 150 && my <= 220){
             Board board = GameConsts.levelWithOnePlayer();
-            gamePanel.updateKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+            ArrayList<KeyListener> listeners = new ArrayList<>();
+            listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+            gamePanel.updateKeyListener(listeners);
             gamePanel.setBoard(board);
             gamePanel.setState(State.ONE_PLAYER);
         }
@@ -38,8 +42,10 @@ public class MouseInput implements MouseListener {
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 275 && my <= 345){
             Board board = GameConsts.levelWithTwoPlayers();
-            gamePanel.addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-            gamePanel.addKeyListener(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
+            ArrayList<KeyListener> listeners = new ArrayList<>();
+            listeners.add(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+            listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
+            gamePanel.updateKeyListener(listeners);
             gamePanel.setBoard(board);
             gamePanel.setState(State.TWO_PLAYERS);
         }

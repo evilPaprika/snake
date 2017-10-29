@@ -10,11 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 
 public class GamePanel extends JPanel implements ActionListener {
     private Board board = new Board();
-    private KeyListener snakeSteering;
+    private ArrayList<KeyListener>  snakeSteering = new ArrayList<>();
     private State state;
     private MenuPanel menu;
 
@@ -63,10 +64,11 @@ public class GamePanel extends JPanel implements ActionListener {
 
     void setBoard(Board board){this.board = board;}
 
-    void updateKeyListener(KeyListener newKeyListener){
-        if (snakeSteering != null)
-            removeKeyListener(snakeSteering);
+    void updateKeyListener(ArrayList<KeyListener> newKeyListener){
+        for (KeyListener kl: snakeSteering)
+            removeKeyListener(kl);
         snakeSteering = newKeyListener;
-        addKeyListener(snakeSteering);
+        for (KeyListener kl: snakeSteering)
+            addKeyListener(kl);
     }
 }
