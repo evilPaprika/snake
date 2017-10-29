@@ -1,5 +1,6 @@
 package app.gui;
 
+import app.game.Board;
 import app.util.GameConsts;
 import app.util.State;
 
@@ -7,9 +8,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseInput implements MouseListener {
-    private Game1PlayerPanel gamePanel;
+    private GamePanel gamePanel;
 
-    public MouseInput(Game1PlayerPanel gp){
+    MouseInput(GamePanel gp){
         gamePanel = gp;
     }
 
@@ -26,14 +27,19 @@ public class MouseInput implements MouseListener {
         //One Player Button
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 150 && my <= 220){
-            gamePanel.state = State.ONE_PLAYER;
+            Board board = GameConsts.levelWithOnePlayer();
+            gamePanel.updateKeyListener(new SnakeKeyAdapter(board.getSnakes()));
+            gamePanel.setBoard(board);
+            gamePanel.setState(State.ONE_PLAYER);
         }
 
         //Two players button
-
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 275 && my <= 345){
-            gamePanel.state = State.TWO_PLAYERS;
+            Board board = GameConsts.levelWithTwoPlayers();
+            gamePanel.updateKeyListener(new SnakeKeyAdapter(board.getSnakes()));
+            gamePanel.setBoard(board);
+            gamePanel.setState(State.TWO_PLAYERS);
         }
 
         //Exit button
