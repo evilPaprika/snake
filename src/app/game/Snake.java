@@ -54,11 +54,31 @@ public class Snake implements CompoundObject {
     void updatePosition() {
         Point nextHeadPosition = new Point(body.peekFirst().getLocation().x,body.peekFirst().getLocation().y);
         if (toGrow > 0){
-            body.addFirst(new SnakeSegment(new Point(body.peekFirst().getLocation().add(body.peekFirst().getDirection().toPoint())),
-                    /*НЕБЕЗОПАСНО ПРИ ПРИРОСТЕ*/ body.peekFirst().getDirection(), this));
+            System.out.print(toGrow);
+            SnakeSegment seg = body.peekFirst();
+            Point old_location = seg.getLocation();
+            Point new_location = old_location.add(seg.getDirection().toPoint().mul(speed));
+            boolean flag = true;
+            for (DirectionMarker mrk: markers) {
+                if (old_location.distance(mrk.getLocation()) + mrk.getLocation().distance(new_location) - old_location.distance(new_location) < EPSILON) {
+                    Point delta = ((seg.getDirection().toPoint().mul(old_location.distance(mrk.getLocation()))).add(mrk.getDirection().toPoint()
+                            .mul(mrk.getLocation().distance(new_location)))).mul(1 / speed); //?? почему работает если умножить так ??
+                    body.addFirst(new SnakeSegment(seg.getLocation().add(delta),
+                    /*НЕБЕЗОПАСНО ПРИ ПРИРОСТЕ*/ mrk.getDirection(), this));
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag){
+                body.addFirst(new SnakeSegment(new Point(body.peekFirst().getLocation().add(body.peekFirst().getDirection().toPoint())),
+                        body.peekFirst().getDirection(), this));
+
+            }
+            //body.addFirst(new SnakeSegment(new Point(body.peekFirst().getLocation().add(body.peekFirst().getDirection().toPoint())),
+            //        /*НЕБЕЗОПАСНО ПРИ ПРИРОСТЕ*/ body.peekFirst().getDirection(), this));
             toGrow--;
-            return;
-        }
+
+        } else
         for (SnakeSegment seg : body) {
             Point old_location = seg.getLocation();
             Point new_location = old_location.add(seg.getDirection().toPoint().mul(speed));
@@ -80,8 +100,7 @@ public class Snake implements CompoundObject {
                 else seg.setLocation(new Point(Math.round(new_location.getX()), new_location.getY()));
             }
 
-            System.out.print(seg.getLocation());
-            System.out.print("\n");
+
         }
 
         // удаление маркеров
@@ -90,7 +109,10 @@ public class Snake implements CompoundObject {
                 markers.remove(mrk);
 
 
-
+        for (SnakeSegment seg : body) {
+            System.out.print(seg.getLocation());
+            System.out.print("\n");
+        }
         System.out.print("\n");
         System.out.print(markers.size());
         System.out.print("\n");
@@ -98,7 +120,6 @@ public class Snake implements CompoundObject {
             System.out.print(mrk);
             System.out.print("\n");
         }
-        System.out.print("\n");
 
 
     }
