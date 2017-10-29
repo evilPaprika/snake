@@ -48,64 +48,7 @@ public class Snake implements CompoundObject {
         }
     }
 
-
-    private void moveBy(float dx, float dy) {
-        /*
-
-        System.out.print(body.peekFirst().getLocation().getY()% 1 == 0);
-        if (toGrow > 0 && body.peekFirst().getLocation().getX() % 1 == 0 && body.peekFirst().getLocation().getY()% 1 == 0) {
-                body.addFirst(new SnakeSegment(new Point(body.peekFirst().getLocation().x + direction.getX(), body.peekFirst().getLocation().y + direction.getY()), this));
-                toGrow--;
-
-        } else {
-            Point prevSegPosition = new Point(body.peekFirst().getLocation().x + direction.getX(), body.peekFirst().getLocation().y +  direction.getY());
-            Point prevDelta = (new Point(direction.getX(), direction.getY()));
-            for (SnakeSegment seg : body) {
-                System.out.print(seg.getLocation());
-                Point t = seg.getLocation();
-                Point delta = new Point(prevSegPosition.getX() - seg.getLocation().getX(),  prevSegPosition.getY() - seg.getLocation().getY());
-                System.out.print(delta);
-
-                if (abs(delta.getX()) == abs(delta.getY())) {
-                    System.out.print("test");
-                    if (abs(prevDelta.getX()) > 0) {
-                        System.out.print("getY");
-                        seg.setLocation(new Point(seg.getLocation().getX(), seg.getLocation().getY() + (delta.getY()/abs(delta.getY())) * speed));
-                    }
-                    else {
-                        System.out.print("getX");
-                        seg.setLocation(new Point(seg.getLocation().getX() + (delta.getX()/abs(delta.getX())) * speed, seg.getLocation().getY()));
-                    }
-                }
-                else if (abs(delta.getX()) < abs(delta.getY())) {
-                    System.out.print(" + direction.getY() * speed = ");
-                    System.out.print(direction.getY() * speed);
-                    seg.setLocation(new Point(seg.getLocation().getX(), seg.getLocation().getY() + (delta.getY()/abs(delta.getY())) * speed));
-                }
-                else {
-                    System.out.print(" + direction.getX() * speed = ");
-                    System.out.print(direction.getX() * speed);
-                    seg.setLocation(new Point(seg.getLocation().getX() + (delta.getX() / abs(delta.getX())) * speed, seg.getLocation().getY()));
-                }
-                prevSegPosition = t;
-                prevDelta = delta;
-                System.out.print("\n");
-            }
-            System.out.print("\n");
-        }
-        */
-        /*
-        Point nextHeadPosition = new Point(body.peekFirst().getLocation().x + dx,body.peekFirst().getLocation().y + dy);
-        nextHeadPosition = UtilFunctions.makePositionInBoundaries(nextHeadPosition);
-        if (toGrow > 0) {
-            toGrow--;
-        } else body.removeLast();
-        body.addFirst(new SnakeSegment(nextHeadPosition, this));
-        */
-    }
-
     void updatePosition() {
-        //moveBy(direction.getX()*speed, direction.getY()*speed);
 
         Point nextHeadPosition = new Point(body.peekFirst().getLocation().x,body.peekFirst().getLocation().y);
         if (toGrow > 0){
@@ -121,7 +64,7 @@ public class Snake implements CompoundObject {
                 if (old_location.distance(mrk.getLocation()) + mrk.getLocation().distance(new_location) == old_location.distance(new_location)){
                     Point delta = ((seg.getDirection().toPoint().mul(old_location.distance(mrk.getLocation()))).add(mrk.getDirection().toPoint()
                             .mul(mrk.getLocation().distance(new_location)))).mul(1/speed); //?? почему работает если умножить так ??
-                    seg.setLocation( seg.getLocation().add(delta ));
+                    seg.setLocation( seg.getLocation().add(delta));
                     seg.setDirection(mrk.getDirection());
                     flag = false;
                     break;

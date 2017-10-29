@@ -25,15 +25,14 @@ public class Point {
     public Point getLocation() {
         return new Point(x, y);
     }
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
-    }
+
+    public void setLocation(Point p) { setLocation(p.x, p.y); }
     public void setLocation(int x, int y) {
         move(x, y);
     }
     public void setLocation(double x, double y) {
-        this.x = (int) Math.floor(x+0.5);
-        this.y = (int) Math.floor(y+0.5);
+        this.x = (float)x;
+        this.y = (float)y;
     }
 
     public void move(int x, int y) {
