@@ -4,6 +4,8 @@ import app.util.Direction;
 import app.util.Point;
 import java.awt.*;
 
+import static app.util.UtilFunctions.makePositionInBoundaries;
+
 public class SnakeSegment implements SimpleObject {
     private Point location;
     private Snake parent;
@@ -19,7 +21,7 @@ public class SnakeSegment implements SimpleObject {
         this.parent = parent;
     }
 
-    public void setLocation( Point new_location ) { location = new_location; }
+    public void setLocation( Point new_location ) { location = makePositionInBoundaries(new_location); }
 
     @Override
     public Color getColor() {
