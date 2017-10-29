@@ -11,11 +11,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 
 
-public class GamePanel extends JPanel implements ActionListener {
+public class Game1PlayerPanel extends JPanel implements ActionListener {
     private Board board;
     private KeyListener snakeSteering;
 
-    public GamePanel() {
+    public Game1PlayerPanel() {
         board = new Board();
         snakeSteering = new SnakeKeyAdapter(board.getSnake());
         addKeyListener(snakeSteering);
