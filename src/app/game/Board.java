@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
-    private Snake snake;
+    private ArrayList<Snake> snakes = new ArrayList<>();
     private boolean gameIsOver = false;
 
     private final Random random = new Random();
@@ -14,27 +14,29 @@ public class Board {
     private ArrayList<SimpleObject> gameObjects;
 
     public Board() {
-        snake = new Snake(0.5f);
+        snakes.add(new Snake(0.5f));
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             stationaryGameObjects.add(new Wall(0, i));
             stationaryGameObjects.add(new Wall(GameConsts.WIDTH-1, i));
         }
         updateBoard();
     }
-    public Board(ArrayList<SimpleObject> listOfObjects, Snake snake) {
-        this.snake = snake;
+    public Board(ArrayList<SimpleObject> listOfObjects, ArrayList<Snake> snakes) {
+        this.snakes = snakes;
         stationaryGameObjects = listOfObjects;
         updateBoard();
     }
 
     public void updateBoard(){
-        snake.updatePosition();
         gameObjects = new ArrayList<>(stationaryGameObjects);
-        gameObjects.addAll(snake.getParts());
+        for (Snake snake: snakes){
+            snake.updatePosition();
+            gameObjects.addAll(snake.getParts());
+        }
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (stationaryGameObjects.stream().noneMatch(obj -> obj instanceof Apple)) createNewFood();
-        if (snake.isDead()) gameIsOver = true;
+        if (snakes.stream().anyMatch(snake -> snake.isDead())) gameIsOver = true;
     }
 
     private void createNewFood(){
@@ -58,7 +60,11 @@ public class Board {
 
     public boolean isGameOver() {return gameIsOver;}
 
-    public Snake getSnake() {return snake;}
+    public Snake getSnake(int i) {return snakes.get(i);}
+
+    public ArrayList<Snake> getSnakes() {
+        return snakes;
+    }
 
     public ArrayList<SimpleObject> getGameObjects() {return gameObjects;}
 }

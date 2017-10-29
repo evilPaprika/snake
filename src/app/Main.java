@@ -1,6 +1,6 @@
 package app;
 
-import app.gui.Game1PlayerPanel;
+import app.gui.GamePanel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -11,7 +11,7 @@ class Main {
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("ZMEYAAA");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(new Game1PlayerPanel());
+            frame.add(new GamePanel());
             frame.pack();
             frame.setVisible(true);
         });
