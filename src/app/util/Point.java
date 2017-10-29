@@ -13,10 +13,10 @@ public class Point {
         this.y = y;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
-    public double getY() {
+    public float getY() {
         return y;
     }
 
@@ -51,9 +51,11 @@ public class Point {
         if (o == null || getClass() != o.getClass()) return false;
 
         Point point = (Point) o;
+        //return (int)this.x == (int)point.x && (int)this.y == (int)point.y;
 
         if (Float.compare(point.x, x) != 0) return false;
         return Float.compare(point.y, y) == 0;
+
     }
 
     @Override
@@ -65,6 +67,6 @@ public class Point {
 
 
     public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + "]";
+        return getClass().getName() + " [x=" + x + ",y=" + y + "] ";
     }
 }

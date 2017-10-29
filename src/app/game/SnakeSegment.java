@@ -12,15 +12,15 @@ public class SnakeSegment implements SimpleObject {
         this.parent = parent;
     }
 
+    public void setLocation( Point new_location ) { location = new_location; }
+
     @Override
     public Color getColor() {
         return Color.GREEN;
     }
 
     @Override
-    public Point getLocation() {
-        return location;
-    }
+    public Point getLocation() { return location; }
 
     @Override
     public boolean isDead() {

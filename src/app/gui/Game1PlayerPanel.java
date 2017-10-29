@@ -30,7 +30,7 @@ public class Game1PlayerPanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         for (SimpleObject e: board.getGameObjects()) {
             g.setColor( e.getColor());
-            g.fillRect((int)e.getLocation().x*GameConsts.CELL_SIZE+1, (int)e.getLocation().y*GameConsts.CELL_SIZE-1, GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
+            g.fillRect((int)(e.getLocation().x*GameConsts.CELL_SIZE+1), (int)(e.getLocation().y*GameConsts.CELL_SIZE-1), GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
         }
 
         g.setColor(Color.YELLOW);

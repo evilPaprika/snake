@@ -1,7 +1,5 @@
 package app.util;
 
-import java.awt.*;
-
 public enum Direction {
     UP(new Point(0, -1)),
     DOWN(new Point(0, 1)),
@@ -19,7 +17,7 @@ public enum Direction {
     }
 
     Direction(Point direction) {
-        x = direction.x;
-        y = direction.y;
+        x = (int) direction.x;
+        y = (int) direction.y;
     }
 }

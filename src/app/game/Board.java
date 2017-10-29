@@ -14,7 +14,7 @@ public class Board {
     private ArrayList<SimpleObject> gameObjects;
 
     public Board() {
-        snake = new Snake();
+        snake = new Snake(0.5f);
         for (int i = 0; i < GameConsts.HEIGHT; i++) {
             stationaryGameObjects.add(new Wall(0, i));
             stationaryGameObjects.add(new Wall(GameConsts.WIDTH-1, i));
