@@ -8,6 +8,7 @@ public class Point {
         this(0, 0);
     }
     public Point(Point p) { this(p.x, p.y); }
+    public Point(double x, double y) { this((float)x, (float)y); }
     public Point(float x, float y) {
         this.x = x;
         this.y = y;
@@ -45,13 +46,26 @@ public class Point {
         this.y += dy;
     }
 
+    public Point add(Point point){
+        return (new Point(this.getX() + point.getX(), this.getY() + point.getY()));
+    }
+
+    public Point mul(float scalar){
+        return (new Point(this.x * scalar, this.y * scalar));
+    }
+
+    public float distance(Point point){
+        return (float)(Math.pow(this.x - point.getX(), 2) + Math.pow(this.y - point.getY(), 2));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Point point = (Point) o;
-        //return (int)this.x == (int)point.x && (int)this.y == (int)point.y;
+        //return (this.x-point.x)*(this.x-point.x) + (this.y-point.y)*(this.y-point.y) < 0.4;
+        //return Math.abs(this.x - point.x) <= 0.5 && Math.abs(this.y - point.y) <= 0.5;
 
         if (Float.compare(point.x, x) != 0) return false;
         return Float.compare(point.y, y) == 0;
@@ -67,6 +81,6 @@ public class Point {
 
 
     public String toString() {
-        return getClass().getName() + " [x=" + x + ",y=" + y + "] ";
+        return "Point [x=" + x + ",y=" + y + "] ";
     }
 }
