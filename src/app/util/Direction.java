@@ -17,7 +17,7 @@ public enum Direction {
     }
     public Point toPoint(){return new Point(this.x, this.y);}
 
-    Direction(Point direction) {
+     Direction(Point direction) {
         x = (int) direction.x;
         y = (int) direction.y;
     }

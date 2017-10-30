@@ -15,18 +15,14 @@ public class SnakeSegment implements SimpleObject {
     public void setDirection(Direction direction) { this.direction = direction; }
 
 
-    SnakeSegment(Point location,Direction direction, Snake parent){
+    SnakeSegment(Point location, Direction direction, Snake parent){
         this.direction = direction;
         this.location = location;
         this.parent = parent;
     }
 
-    public void setLocation( Point new_location ) { location = makePositionInBoundaries(new_location); }
-
     @Override
-    public Color getColor() {
-        return Color.GREEN;
-    }
+    public Color getColor() { return parent.getColor(); }
 
     @Override
     public Point getLocation() { return location; }
@@ -37,7 +33,5 @@ public class SnakeSegment implements SimpleObject {
     }
 
     @Override
-    public void collideWith(GameObject g) {
-        parent.collideWith(g);
-    }
+    public void collideWith(GameObject g) { parent.collideWith(g); }
 }

@@ -76,12 +76,14 @@ class Tests {
     void allSnakeSegmentsMove(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
-        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.getSnake(0).getParts());
+        LinkedList<Point> snakeBody = new LinkedList<>();
+        for (SnakeSegment segment: board.getSnake(0).getParts())
+            snakeBody.add(segment.getLocation());
         System.out.print("test");
         board.updateBoard();
         for (int i = 0; i < board.getSnake(0).getParts().size(); i++) {
-            assertEquals(snakeBody.get(i).getLocation().x, board.getSnake(0).getParts().get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).getLocation().y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
+            assertEquals(snakeBody.get(i).x, board.getSnake(0).getParts().get(i).getLocation().x);
+            assertEquals(snakeBody.get(i).y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
         }
     }
 
@@ -89,14 +91,16 @@ class Tests {
     void headTurnsRightTailDoesnt(){
         Board board = testBoard(new Snake());
         for (int i = 0; i<4; i++) board.updateBoard();
-        LinkedList<SnakeSegment> snakeBody = new LinkedList<>(board.getSnake(0).getParts());
+        LinkedList<Point> snakeBody = new LinkedList<>();
+        for (SnakeSegment segment: board.getSnake(0).getParts())
+            snakeBody.add(segment.getLocation());
         board.getSnake(0).setDirection(Direction.RIGHT);
         board.updateBoard();
-//        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation().x, snakeBody.peekFirst().getLocation().x + 1);
+        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation().x, snakeBody.peekFirst().x + 1);
         assertEquals(board.getSnake(0).getParts().peekFirst().getLocation().y, snakeBody.peekFirst().getLocation().y);
         for (int i = 1; i < board.getSnake(0).getParts().size(); i++) {
-            assertEquals(snakeBody.get(i).getLocation().x, board.getSnake(0).getParts().get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).getLocation().y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
+            assertEquals(snakeBody.get(i).x, board.getSnake(0).getParts().get(i).getLocation().x);
+            assertEquals(snakeBody.get(i).y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
         }
     }
 
