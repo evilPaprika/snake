@@ -90,8 +90,19 @@ public class Snake implements CompoundObject {
     @Override
     public void collideWith(GameObject g) {
         if (g instanceof Food) {
-            score += ((Food) g).getScoreToAdd();
+            score += ((Food) g).getScoreToAdd() * body.size();
             grow();
-        } else isDead = true;
+        } else if (body.peekFirst().isDead()) {
+            isDead = true;
+        } else {
+            boolean flag = false;
+            for (SnakeSegment segment: body){
+                if (segment.isDead())
+                    flag = true;
+                if (flag)
+                    segment.setIsDead(true);
+            }
+            body.removeIf(SnakeSegment::isDead);
+        }
     }
 }

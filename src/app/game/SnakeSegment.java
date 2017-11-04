@@ -10,6 +10,9 @@ public class SnakeSegment implements SimpleObject {
     private Point location;
     private Snake parent;
     private Direction direction;
+    private boolean isDead;
+
+    public void setIsDead(boolean dead){isDead = dead;}
 
     public Direction getDirection() { return direction; }
     public void setDirection(Direction direction) { this.direction = direction; }
@@ -19,6 +22,7 @@ public class SnakeSegment implements SimpleObject {
         this.direction = direction;
         this.location = location;
         this.parent = parent;
+        isDead= false;
     }
 
     @Override
@@ -29,9 +33,13 @@ public class SnakeSegment implements SimpleObject {
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 
     @Override
-    public void collideWith(GameObject g) { parent.collideWith(g); }
+    public void collideWith(GameObject g) {
+        if((g instanceof SnakeSegment && g.equals(((SnakeSegment) g).parent.getParts().peekFirst())) ||
+                (this.equals(parent.getParts().peekFirst()) && !(g instanceof Food) && !(g instanceof  SnakeSegment)))
+            isDead = true;
+        parent.collideWith(g); }
 }

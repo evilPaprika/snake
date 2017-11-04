@@ -40,10 +40,13 @@ public class GamePanel extends JPanel implements ActionListener {
             }
             g.setFont(new Font("arial", Font.BOLD, 30));
             g.setColor(Color.GREEN);
-            g.drawString(""+board.getSnake(0).getScore(), 250, 25);
-            if (state == State.TWO_PLAYERS)
+            g.drawString(""+board.getSnake(0).getScore(), 300, 30);
+            if (state == State.TWO_PLAYERS) {
+                g.setColor(Color.BLACK);
+                g.drawString(":", GameConsts.PANEL_WIDTH / 2, 30);
                 g.setColor(Color.BLUE);
-                g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 25);
+                g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 30);
+            }
         }
         else {
             menu.render(g);
