@@ -33,6 +33,14 @@ class Tests {
         return new Board(objects, snakes);
     }
 
+    private Board testBoardWithTwoSnakes(Snake snake1, Snake snake2){
+        ArrayList<Snake> snakes = new ArrayList<>();
+        snakes.add(snake1);
+        snakes.add(snake2);
+        ArrayList<SimpleObject> objects = new ArrayList<>();
+        return new Board(objects, snakes);
+    }
+
     @Test
     void appleCreation() {
         Apple apple = new Apple(2,2);
@@ -158,7 +166,6 @@ class Tests {
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 1));
         board.updateBoard();
         assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point(GameConsts.WIDTH - 1, 1));
-        assertEquals(board.getSnake(0).getParts().get(1).getLocation(), new Point (0, 1));
     }
 
     @Test
@@ -174,4 +181,5 @@ class Tests {
         assertFalse(board.getSnake(0).isDead());
         assertFalse(board.gameIsOver());
     }
+
 }
