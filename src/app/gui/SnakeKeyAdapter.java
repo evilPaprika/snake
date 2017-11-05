@@ -43,26 +43,6 @@ public class SnakeKeyAdapter extends KeyAdapter {
             else if (previousKey == left) snake.setDirection(Direction.LEFT);
             else if (previousKey == right) snake.setDirection(Direction.RIGHT);
             else if (previousKey ==  KeyEvent.VK_E) snake.grow(6);
-            /*
-            switch (e.getKeyCode()) {
-                case up:
-                    snake.setDirection(Direction.UP);
-                    break;
-                case KeyEvent.VK_S:
-                    snake.setDirection(Direction.DOWN);
-                    break;
-                case KeyEvent.VK_A:
-                    snake.setDirection(Direction.LEFT);
-                    break;
-                case KeyEvent.VK_D:
-                    snake.setDirection(Direction.RIGHT);
-                    break;
-                case KeyEvent.VK_E:
-                    snake.grow(6);
-                    break;
-                default:
-                    break;
-            } */
         }
     }
 }

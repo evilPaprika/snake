@@ -18,6 +18,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private ArrayList<KeyListener>  snakeSteering = new ArrayList<>();
     private State state;
     private MenuPanel menu;
+    private Timer timer;
 
     public GamePanel() {
         state = State.MENU;
@@ -27,7 +28,7 @@ public class GamePanel extends JPanel implements ActionListener {
         setBackground(Color.GRAY);
         setFocusable(true);
         setPreferredSize(new Dimension(GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT));
-        Timer timer = new Timer(GameConsts.PAINT_DELAY, this);
+        timer = new Timer(GameConsts.PAINT_DELAY, this);
         timer.start();
     }
 
@@ -45,6 +46,18 @@ public class GamePanel extends JPanel implements ActionListener {
                 g.setColor(Color.BLUE);
                 g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 30);
             }
+            if(board.gameIsOver()){
+                g.setFont(new Font("arial", Font.BOLD, 70));
+                g.setColor(Color.RED);
+                g.drawString("Game over", 200, 300);
+                g.setFont(new Font("arial", Font.BOLD, 30));
+                g.setColor(Color.white);
+                g.drawString("Press any key", 270, 350);
+                timer.stop();
+                KeyListener anyKeyListener = new PressAnyKeyAdapter(this);
+                snakeSteering.add(anyKeyListener);
+                addKeyListener(anyKeyListener);
+            }
         }
         else {
             menu.render(g);
@@ -55,15 +68,14 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e)
     {
         board.updateBoard();
-        if (board.gameIsOver()) {
-            state = State.MENU;
-        }
         repaint();
     }
 
     void setState(State state) {
         this.state = state;
     }
+
+    void restartTimer(){timer.restart();}
 
     void setBoard(Board board){this.board = board;}
 
