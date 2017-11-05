@@ -58,7 +58,7 @@ public class Board {
         }
     }
 
-    public boolean isGameOver() {return gameIsOver;}
+    public boolean gameIsOver() {return gameIsOver;}
 
     public Snake getSnake(int i) {return snakes.get(i);}
 

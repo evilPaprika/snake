@@ -42,8 +42,6 @@ public class GamePanel extends JPanel implements ActionListener {
             g.setColor(Color.GREEN);
             g.drawString(""+board.getSnake(0).getScore(), 300, 30);
             if (state == State.TWO_PLAYERS) {
-                g.setColor(Color.BLACK);
-                g.drawString(":", GameConsts.PANEL_WIDTH / 2, 30);
                 g.setColor(Color.BLUE);
                 g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 30);
             }
@@ -57,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e)
     {
         board.updateBoard();
-        if (board.isGameOver()) {
+        if (board.gameIsOver()) {
             state = State.MENU;
         }
         repaint();

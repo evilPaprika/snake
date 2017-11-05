@@ -39,7 +39,8 @@ public class SnakeSegment implements SimpleObject {
     @Override
     public void collideWith(GameObject g) {
         if((g instanceof SnakeSegment && g.equals(((SnakeSegment) g).parent.getParts().peekFirst())) ||
-                (this.equals(parent.getParts().peekFirst()) && !(g instanceof Food) && !(g instanceof  SnakeSegment)))
+                (this.equals(parent.getParts().peekFirst()) && (!(g instanceof Food) && !(g instanceof  SnakeSegment) ||
+                        (g instanceof SnakeSegment && this.parent.equals(((SnakeSegment) g).parent)))))
             isDead = true;
         parent.collideWith(g); }
 }

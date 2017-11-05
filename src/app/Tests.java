@@ -129,7 +129,7 @@ class Tests {
         Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
         board.updateBoard();
         assertTrue(board.getSnake(0).isDead());
-        assertTrue(board.isGameOver());
+        assertTrue(board.gameIsOver());
     }
 
     @Test
@@ -142,7 +142,7 @@ class Tests {
             board.updateBoard();
         }
         assertTrue(board.getSnake(0).isDead());
-        assertTrue(board.isGameOver());
+        assertTrue(board.gameIsOver());
     }
 
     @Test
@@ -172,6 +172,6 @@ class Tests {
         }
 
         assertFalse(board.getSnake(0).isDead());
-        assertFalse(board.isGameOver());
+        assertFalse(board.gameIsOver());
     }
 }
