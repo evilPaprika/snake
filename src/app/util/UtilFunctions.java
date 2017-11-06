@@ -1,7 +1,9 @@
 package app.util;
 
+import java.awt.*;
+
 public class UtilFunctions {
-    public static int mod(int a, int b) { return (a%b + b)%b; }
+    private static int mod(int a, int b) { return (a%b + b)%b; }
 
     public static Point makePositionInBoundaries(Point position){
         if (position.x < 0 || position.x >= GameConsts.WIDTH)

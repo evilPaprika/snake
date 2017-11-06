@@ -1,18 +1,14 @@
 package app.game;
 
 import app.util.Direction;
-import app.util.Point;
 import app.util.UtilFunctions;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static app.util.GameConsts.EPSILON;
 
 public class Snake implements CompoundObject {
     private LinkedList<SnakeSegment> body = new LinkedList<>();
-    public ArrayList<DirectionMarker> markers = new ArrayList<>();
     private boolean isDead;
     private Direction direction;
     private int score;
@@ -69,7 +65,7 @@ public class Snake implements CompoundObject {
         toGrow += len;
     }
 
-    public Color getColor() {
+    Color getColor() {
         return color;
     }
 
@@ -100,7 +96,7 @@ public class Snake implements CompoundObject {
                 if (segment.isDead())
                     flag = true;
                 if (flag)
-                    segment.setIsDead(true);
+                    segment.setIsDead();
             }
             body.removeIf(SnakeSegment::isDead);
         }

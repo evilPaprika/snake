@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements ActionListener {
         if (state != State.MENU) {
             for (SimpleObject e : board.getGameObjects()) {
                 g.setColor(e.getColor());
-                g.fillRect((int) (e.getLocation().x * GameConsts.CELL_SIZE + 1), (int) (e.getLocation().y * GameConsts.CELL_SIZE - 1), GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
+                g.fillRect(e.getLocation().x * GameConsts.CELL_SIZE + 1, e.getLocation().y * GameConsts.CELL_SIZE - 1, GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
             }
             g.setFont(new Font("arial", Font.BOLD, 30));
             g.setColor(Color.GREEN);

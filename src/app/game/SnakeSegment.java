@@ -1,10 +1,9 @@
 package app.game;
 
 import app.util.Direction;
-import app.util.Point;
+
 import java.awt.*;
 
-import static app.util.UtilFunctions.makePositionInBoundaries;
 
 public class SnakeSegment implements SimpleObject {
     private Point location;
@@ -12,11 +11,7 @@ public class SnakeSegment implements SimpleObject {
     private Direction direction;
     private boolean isDead;
 
-    public void setIsDead(boolean dead){isDead = dead;}
-
-    public Direction getDirection() { return direction; }
-    public void setDirection(Direction direction) { this.direction = direction; }
-
+    void setIsDead(){isDead = true;}
 
     SnakeSegment(Point location, Direction direction, Snake parent){
         this.direction = direction;

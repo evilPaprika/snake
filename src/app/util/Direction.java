@@ -1,5 +1,7 @@
 package app.util;
 
+import java.awt.*;
+
 public enum Direction {
     UP(new Point(0, -1)),
     DOWN(new Point(0, 1)),
@@ -15,11 +17,10 @@ public enum Direction {
     public boolean isOpposite(Direction other) {
         return this.x + other.x == 0 && this.y + other.y == 0;
     }
-    public Point toPoint(){return new Point(this.x, this.y);}
 
      Direction(Point direction) {
-        x = (int) direction.x;
-        y = (int) direction.y;
+        x = direction.x;
+        y = direction.y;
     }
 
     @Override

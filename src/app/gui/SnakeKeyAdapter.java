@@ -3,7 +3,7 @@ package app.gui;
 import app.game.Snake;
 import app.util.Direction;
 
-import app.util.Point;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

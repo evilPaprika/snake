@@ -1,7 +1,6 @@
 package app.game;
 
-import app.util.Point;
-import java.awt.Color;
+import java.awt.*;
 
 public interface SimpleObject extends GameObject {
     Color getColor();

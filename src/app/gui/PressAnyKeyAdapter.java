@@ -1,6 +1,5 @@
 package app.gui;
 
-import app.game.Board;
 import app.util.State;
 
 import java.awt.event.KeyAdapter;

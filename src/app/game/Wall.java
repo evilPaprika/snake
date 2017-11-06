@@ -1,6 +1,5 @@
 package app.game;
 
-import app.util.Point;
 import java.awt.*;
 
 public class Wall implements SimpleObject {

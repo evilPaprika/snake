@@ -1,7 +1,8 @@
 package app.game;
 
 import app.util.GameConsts;
-import app.util.Point;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,7 +37,7 @@ public class Board {
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (stationaryGameObjects.stream().noneMatch(obj -> obj instanceof Apple)) createNewFood();
-        if (snakes.stream().anyMatch(snake -> snake.isDead())) gameIsOver = true;
+        if (snakes.stream().anyMatch(Snake::isDead)) gameIsOver = true;
     }
 
     private void createNewFood(){
@@ -61,10 +62,6 @@ public class Board {
     public boolean gameIsOver() {return gameIsOver;}
 
     public Snake getSnake(int i) {return snakes.get(i);}
-
-    public ArrayList<Snake> getSnakes() {
-        return snakes;
-    }
 
     public ArrayList<SimpleObject> getGameObjects() {return gameObjects;}
 }

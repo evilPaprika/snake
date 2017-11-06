@@ -3,7 +3,6 @@ package app;
 import app.game.*;
 import app.util.Direction;
 import app.util.GameConsts;
-import app.util.Point;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -87,7 +86,6 @@ class Tests {
         LinkedList<Point> snakeBody = new LinkedList<>();
         for (SnakeSegment segment: board.getSnake(0).getParts())
             snakeBody.add(segment.getLocation());
-        System.out.print("test");
         board.updateBoard();
         for (int i = 0; i < board.getSnake(0).getParts().size(); i++) {
             assertEquals(snakeBody.get(i).x, board.getSnake(0).getParts().get(i).getLocation().x);
@@ -173,7 +171,6 @@ class Tests {
         Board board = testBoard(new Snake(Direction.LEFT, new Point(5, 5), 3));
         Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP};
         for(Direction direction: directions){
-            System.out.print(board.getSnake(0).isDead());
             board.getSnake(0).setDirection(direction);
             board.updateBoard();
         }
