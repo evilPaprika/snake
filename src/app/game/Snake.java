@@ -87,7 +87,9 @@ public class Snake implements CompoundObject {
                     .filter(SnakeSegment -> SnakeSegment.getLocation().equals(((SnakeSegment) g).getLocation()))
                     .findFirst().get();
             this.body.removeIf(x -> body.indexOf(x) > this.body.indexOf(collidedSegment));
-        } else if (g instanceof Wall)
+        } else if (g instanceof Wall
+                || (g instanceof SnakeSegment && ((SnakeSegment) g).isHead()
+                && this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())))
             isDead = true;
     }
 }

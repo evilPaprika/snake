@@ -116,9 +116,10 @@ class Tests {
         Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN));
         board.updateBoard();
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().size(), 2);
+        int length = board.getSnake(0).getParts().size();
+        assertEquals(length, 2);
         assertTrue(apple.isDead());
-        assertEquals(board.getSnake(0).getScore(), 10);
+        assertEquals(board.getSnake(0).getScore(), apple.getScoreToAdd() * (length * length)/90);
     }
 
     @Test
@@ -179,4 +180,14 @@ class Tests {
         assertFalse(board.gameIsOver());
     }
 
+    @Test
+    void snakesHeadsCollide(){
+        Snake snake1 = new Snake(Direction.DOWN, new Point(5,5), 3, Color.GREEN);
+        Snake snake2 = new Snake(Direction.LEFT, new Point(6, 6), 3, Color.BLUE);
+        Board board = testBoardWithTwoSnakes(snake1, snake2);
+        board.updateBoard();
+        assertTrue(snake1.isDead());
+        assertTrue(snake2.isDead());
+        assertTrue(board.gameIsOver());
+    }
 }
