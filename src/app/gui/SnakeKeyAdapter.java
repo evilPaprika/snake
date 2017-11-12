@@ -14,6 +14,7 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
     // нужно для того чтобы нельзя было послать несколько
     // комманд на одной позиции
+    private Point previosHeadPosition;
     private int previousKey;
     private final int up;
     private final int down;
@@ -22,6 +23,7 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
 
     public SnakeKeyAdapter(Snake snake, int up, int down, int left, int right){
+        previosHeadPosition = snake.getParts().peekFirst().getLocation();
         this.snake = snake;
         this.up = up;
         this.down = down;
@@ -30,10 +32,10 @@ public class SnakeKeyAdapter extends KeyAdapter {
     }
 
 
-
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() != previousKey) {
+        if (previosHeadPosition != snake.getParts().peekFirst().getLocation() && e.getKeyCode() != previousKey) {
+            previosHeadPosition = snake.getParts().peekFirst().getLocation();
             previousKey = e.getKeyCode();
             if (previousKey == up) snake.setDirection(Direction.UP);
             else if (previousKey == down) snake.setDirection(Direction.DOWN);
