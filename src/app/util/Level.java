@@ -7,7 +7,9 @@ import app.game.Wall;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
+import java.util.List;
 
 public class Level {
     private static Random rnd = new Random();
@@ -79,10 +81,7 @@ public class Level {
     }
 
     private static ArrayList<SimpleObject> generateMap(){
-        ArrayList<ArrayList<SimpleObject>> maps = new ArrayList<>();
-        maps.add(map1());
-        maps.add(map2());
-        maps.add(map3());
+        List<ArrayList<SimpleObject>> maps = Arrays.asList(map1(), map2(), map3());
         return maps.get(rnd.nextInt(maps.size()));
     }
 }

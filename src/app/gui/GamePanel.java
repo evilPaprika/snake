@@ -3,12 +3,14 @@ package app.gui;
 import app.game.Board;
 import app.game.SimpleObject;
 import app.util.GameConsts;
+import app.util.Level;
 import app.util.State;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
@@ -40,10 +42,10 @@ public class GamePanel extends JPanel implements ActionListener {
                 g.fillRect(e.getLocation().x * GameConsts.CELL_SIZE + 1, e.getLocation().y * GameConsts.CELL_SIZE - 1, GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
             }
             g.setFont(new Font("arial", Font.BOLD, 30));
-            g.setColor(Color.GREEN);
+            g.setColor(board.getSnake(0).getColor());
             g.drawString(""+board.getSnake(0).getScore(), 300, 30);
             if (state == State.TWO_PLAYERS) {
-                g.setColor(Color.BLUE);
+                g.setColor(board.getSnake(1).getColor());
                 g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 30);
             }
             if(board.gameIsOver()){
@@ -69,6 +71,25 @@ public class GamePanel extends JPanel implements ActionListener {
     {
         board.updateBoard();
         repaint();
+    }
+
+    void newOnePlayerGame(){
+        board = Level.levelWithOnePlayer();
+        ArrayList<KeyListener> listeners = new ArrayList<>();
+        listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        updateKeyListener(listeners);
+        setBoard(board);
+        state = State.ONE_PLAYER;
+    }
+
+    void newTwoPlayersGame(){
+        board = Level.levelWithTwoPlayers();
+        ArrayList<KeyListener> listeners = new ArrayList<>();
+        listeners.add(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
+        updateKeyListener(listeners);
+        setBoard(board);
+        state = State.TWO_PLAYERS;
     }
 
     void setState(State state) {

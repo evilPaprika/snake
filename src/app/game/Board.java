@@ -46,14 +46,18 @@ public class Board {
         if (gameObjects.stream()
                 .noneMatch(gameObject -> gameObject.getLocation().equals(new Point(x, y))))
             stationaryGameObjects.add(new Apple(x, y));
+        else
+            createNewFood();
     }
 
     private void checkCollisions(){
         for (int i = 0; i < gameObjects.size() - 1; i++) {
             for (int j = i+1; j < gameObjects.size(); j++) {
-                if(gameObjects.get(i).getLocation().equals(gameObjects.get(j).getLocation())) {
-                    gameObjects.get(i).collideWith(gameObjects.get(j));
-                    gameObjects.get(j).collideWith(gameObjects.get(i));
+                SimpleObject firstObject = gameObjects.get(i);
+                SimpleObject secondObject = gameObjects.get(j);
+                if(firstObject.getLocation().equals(secondObject.getLocation())) {
+                    firstObject.collideWith(secondObject);
+                    secondObject.collideWith(firstObject);
                 }
             }
         }

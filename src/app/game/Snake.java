@@ -20,15 +20,8 @@ public class Snake implements CompoundObject {
         this(Direction.DOWN);
     }
 
-    public Snake(Direction initialDirection) {
+    private Snake(Direction initialDirection) {
         this(initialDirection, new Point(5, 5), 3, Color.GREEN);
-    }
-
-    public Snake(Direction initialDirection, Point initialPosition, int tailLength) {
-        toGrow = tailLength;
-        direction = initialDirection;
-        this.color = Color.GREEN;
-        body.addFirst(new SnakeSegment(initialPosition, initialDirection, this));
     }
 
     public Snake(Direction initialDirection, Point initialPosition, int tailLength,  Color color) {
@@ -48,9 +41,9 @@ public class Snake implements CompoundObject {
         body.addFirst(new SnakeSegment(nextHeadPosition, direction,this));
     }
 
-    public void setDirection(Direction new_direction) {
-        if (!new_direction.isOpposite(direction))
-            direction = new_direction;
+    public void setDirection(Direction newDirection) {
+        if (!newDirection.isOpposite(direction))
+            direction = newDirection;
     }
 
     void updatePosition() {
@@ -65,7 +58,7 @@ public class Snake implements CompoundObject {
         toGrow += len;
     }
 
-    Color getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -88,17 +81,17 @@ public class Snake implements CompoundObject {
         if (g instanceof Food) {
             score += ((Food) g).getScoreToAdd() * body.size();
             grow();
-        } else if (body.peekFirst().isDead()) {
+        } else if (g instanceof SnakeSegment
+                && ((SnakeSegment) g).isHead()
+                && !this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())){
+            SnakeSegment collidedSegment = this.body.stream()
+                    .filter(SnakeSegment -> SnakeSegment.getLocation().equals(((SnakeSegment) g).getLocation()))
+                    .findFirst().get();
+            for (int i = this.body.indexOf(collidedSegment); i < this.body.size(); i++)
+                this.body.remove(i);
+        } else if (!(g instanceof SnakeSegment && !((SnakeSegment) g).isHead()
+                && this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())))
             isDead = true;
-        } else {
-            boolean flag = false;
-            for (SnakeSegment segment: body){
-                if (segment.isDead())
-                    flag = true;
-                if (flag)
-                    segment.setIsDead();
-            }
-            body.removeIf(SnakeSegment::isDead);
-        }
+
     }
 }

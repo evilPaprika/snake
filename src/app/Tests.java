@@ -56,7 +56,7 @@ class Tests {
 
     @Test
     void snakeCreation(){
-        Snake snake = new Snake(Direction.LEFT, new Point(3,3), 2);
+        Snake snake = new Snake(Direction.LEFT, new Point(3,3), 2, Color.GREEN);
         assertEquals(snake.getParts().peekFirst().getLocation(), new Point(3,3));
         assertEquals(snake.getParts().peekFirst().getColor(), Color.GREEN);
     }
@@ -113,7 +113,7 @@ class Tests {
     @Test
     void snakeEatsApple(){
         Apple apple = new Apple(6, 5);
-        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
+        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN));
         board.updateBoard();
         board.updateBoard();
         assertEquals(board.getSnake(0).getParts().size(), 2);
@@ -124,7 +124,7 @@ class Tests {
     @Test
     void appleDisappearsAfterBeingEaten() {
         Apple apple = new Apple(6, 5);
-        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0));
+        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN));
         board.updateBoard();
         board.updateBoard();
         assertFalse(board.getGameObjects().contains(apple));
@@ -132,7 +132,7 @@ class Tests {
 
     @Test
     void snakeCollidesWithWall(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3));
+        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3, Color.GREEN));
         board.updateBoard();
         assertTrue(board.getSnake(0).isDead());
         assertTrue(board.gameIsOver());
@@ -140,7 +140,7 @@ class Tests {
 
     @Test
     void snakeEatsItself(){
-        Board board = testBoard(new Snake(Direction.DOWN, new Point(3, 3), 10));
+        Board board = testBoard(new Snake(Direction.DOWN, new Point(3, 3), 10, Color.GREEN));
         board.updateBoard();
         Direction[] directions = {Direction.LEFT, Direction.UP, Direction.RIGHT};
         for(Direction direction: directions){
@@ -153,7 +153,7 @@ class Tests {
 
     @Test
     void snakeMovesOutOfUpperBorder(){
-        Board board = testBoard(new Snake(Direction.UP, new Point(3, 1), 1));
+        Board board = testBoard(new Snake(Direction.UP, new Point(3, 1), 1, Color.GREEN));
         board.updateBoard();
         assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point(3, GameConsts.HEIGHT - 1));
         assertEquals(board.getSnake(0).getParts().get(1).getLocation(), new Point (3, 0));
@@ -161,14 +161,14 @@ class Tests {
 
     @Test
     void snakeMovesOutOfLeftBorder(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 1));
+        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 1, Color.GREEN));
         board.updateBoard();
         assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point(GameConsts.WIDTH - 1, 1));
     }
 
     @Test
     void snakesHeadStepsAfterTail(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(5, 5), 3));
+        Board board = testBoard(new Snake(Direction.LEFT, new Point(5, 5), 3, Color.GREEN));
         Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP};
         for(Direction direction: directions){
             board.getSnake(0).setDirection(direction);
