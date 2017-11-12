@@ -190,4 +190,16 @@ class Tests {
         assertTrue(snake2.isDead());
         assertTrue(board.gameIsOver());
     }
+
+    @Test
+    void snakeEatsTailOfAnotherSnake(){
+        Snake snake1 = new Snake(Direction.DOWN, new Point(5,5), 5, Color.GREEN);
+        Snake snake2 = new Snake(Direction.LEFT, new Point(10, 9), 3, Color.BLUE);
+        Board board = testBoardWithTwoSnakes(snake1, snake2);
+        for (int i = 0; i < 5; i++) {
+            board.updateBoard();
+        }
+        assertEquals(snake1.getParts().size(), 2);
+        assertFalse(board.gameIsOver());
+    }
 }
