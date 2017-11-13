@@ -37,8 +37,6 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     protected void paintComponent(Graphics g){
-        
-        System.out.print(snakeSteering);
         super.paintComponent(g);
         for (SimpleObject e : board.getGameObjects()) {
             g.setColor(e.getColor());

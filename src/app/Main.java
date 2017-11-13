@@ -1,8 +1,6 @@
 package app;
 
-import app.gui.GamePanel;
 import app.gui.MenuPanel;
-import app.util.State;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -29,6 +27,7 @@ public class Main {
         frame.add(newPanel);
         frame.pack();
         panel = newPanel;
+        panel.requestFocus();
     }
 }
 
