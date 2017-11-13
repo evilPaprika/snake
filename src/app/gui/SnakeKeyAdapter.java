@@ -23,6 +23,7 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
 
     public SnakeKeyAdapter(Snake snake, int up, int down, int left, int right){
+        System.out.print("CREATED");
         previosHeadPosition = snake.getParts().peekFirst().getLocation();
         this.snake = snake;
         this.up = up;
@@ -34,6 +35,7 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.print(e);
         if (previosHeadPosition != snake.getParts().peekFirst().getLocation() && e.getKeyCode() != previousKey) {
             previosHeadPosition = snake.getParts().peekFirst().getLocation();
             previousKey = e.getKeyCode();

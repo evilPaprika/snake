@@ -2,14 +2,23 @@ package app.gui;
 
 import app.util.GameConsts;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class MenuPanel {
+public class MenuPanel extends JPanel {
     private Rectangle onePlayerButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 150, 360, 70);
     private Rectangle twoPlayersButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 275, 360, 70);
     private Rectangle exitButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 400, 360, 70);
 
-    public void render(Graphics g){
+    public MenuPanel() {
+        addMouseListener(new MouseInput(this));
+        setBackground(Color.GRAY);
+        setFocusable(true);
+        setPreferredSize(new Dimension(GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT));
+    }
+
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         Font fnt1 = new Font("arial", Font.BOLD, 70);

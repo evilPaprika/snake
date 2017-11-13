@@ -1,5 +1,6 @@
 package app.gui;
 
+import app.Main;
 import app.game.Board;
 import app.util.GameConsts;
 import app.util.Level;
@@ -12,10 +13,10 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class MouseInput implements MouseListener {
-    private GamePanel gamePanel;
+    private MenuPanel menuPanel;
 
-    MouseInput(GamePanel gp){
-        gamePanel = gp;
+    MouseInput(MenuPanel gp){
+        menuPanel = gp;
     }
 
     @Override
@@ -25,19 +26,20 @@ public class MouseInput implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        System.out.print(e);
         int mx = e.getX();
         int my = e.getY();
 
         //One Player Button
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 150 && my <= 220){
-            gamePanel.newOnePlayerGame();
+            Main.ChangePanel(new GamePanel(State.ONE_PLAYER));
         }
 
         //Two players button
         if (mx >= GameConsts.PANEL_WIDTH / 2 - 200 && mx <= GameConsts.PANEL_WIDTH / 2 + 160
                 && my >= 275 && my <= 345){
-            gamePanel.newTwoPlayersGame();
+            Main.ChangePanel(new GamePanel(State.TWO_PLAYERS));
         }
 
         //Exit button
