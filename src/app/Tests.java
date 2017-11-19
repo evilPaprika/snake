@@ -13,8 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class Tests {
+    private ArrayList<Snake> snakes = new ArrayList<>();
+    private Board board;
+    private Snake snake1;
+    private Snake snake2;
+    private Point expected_location;
+    private Point actual_location;
+
     private Board testBoard(Snake snake){
-        ArrayList<Snake> snakes = new ArrayList<>();
+        snakes.clear();
         snakes.add(snake);
         ArrayList<SimpleObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
@@ -23,7 +30,7 @@ class Tests {
     }
 
     private Board testBoardWithApple(Apple apple, Snake snake){
-        ArrayList<Snake> snakes = new ArrayList<>();
+        snakes.clear();
         snakes.add(snake);
         ArrayList<SimpleObject> objects = new ArrayList<>();
         for (int i = 0; i < GameConsts.HEIGHT; i++)
@@ -33,7 +40,7 @@ class Tests {
     }
 
     private Board testBoardWithTwoSnakes(Snake snake1, Snake snake2){
-        ArrayList<Snake> snakes = new ArrayList<>();
+        snakes.clear();
         snakes.add(snake1);
         snakes.add(snake2);
         ArrayList<SimpleObject> objects = new ArrayList<>();
@@ -63,69 +70,82 @@ class Tests {
 
     @Test
     void snakeMoves() {
-        Board board = testBoard(new Snake());
-        Point initialLocation = board.getSnake(0).getParts().peekFirst().getLocation();
+        snake1 = new Snake();
+        board = testBoard(snake1);
+        Point initialLocation = snake1.getParts().peekFirst().getLocation();
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point (initialLocation.x, initialLocation.y + 1));
+        expected_location = new Point (initialLocation.x, initialLocation.y + 1);
+        actual_location = snake1.getParts().peekFirst().getLocation();
+        assertEquals(expected_location, actual_location);
     }
 
     @Test
     void snakeMovesDownAndRight(){
-        Board board = testBoard(new Snake());
-        Point initialLocation = board.getSnake(0).getParts().peekFirst().getLocation();
+        snake1 = new Snake();
+        board = testBoard(snake1);
+        Point initialLocation = snake1.getParts().peekFirst().getLocation();
         board.updateBoard();
-        board.getSnake(0).setDirection(Direction.RIGHT);
+        snake1.setDirection(Direction.RIGHT);
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point (initialLocation.x + 1, initialLocation.y + 1));
+        expected_location = new Point (initialLocation.x + 1, initialLocation.y + 1);
+        actual_location = snake1.getParts().peekFirst().getLocation();
+        assertEquals(expected_location, actual_location);
     }
 
     @Test
     void allSnakeSegmentsMove(){
-        Board board = testBoard(new Snake());
+        snake1 = new Snake();
+        board = testBoard(snake1);
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<Point> snakeBody = new LinkedList<>();
-        for (SnakeSegment segment: board.getSnake(0).getParts())
+        for (SnakeSegment segment: snake1.getParts())
             snakeBody.add(segment.getLocation());
         board.updateBoard();
         for (int i = 0; i < board.getSnake(0).getParts().size(); i++) {
-            assertEquals(snakeBody.get(i).x, board.getSnake(0).getParts().get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
+            expected_location = new Point(snakeBody.get(i).x, snakeBody.get(i).y + 1);
+            actual_location = snake1.getParts().get(i).getLocation();
+            assertEquals(expected_location, actual_location);
         }
     }
 
     @Test
     void headTurnsRightTailDoesnt(){
-        Board board = testBoard(new Snake());
+        snake1 = new Snake();
+        board = testBoard(snake1);
         for (int i = 0; i<4; i++) board.updateBoard();
         LinkedList<Point> snakeBody = new LinkedList<>();
-        for (SnakeSegment segment: board.getSnake(0).getParts())
+        for (SnakeSegment segment: snake1.getParts())
             snakeBody.add(segment.getLocation());
-        board.getSnake(0).setDirection(Direction.RIGHT);
+        snake1.setDirection(Direction.RIGHT);
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation().x, snakeBody.peekFirst().x + 1);
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation().y, snakeBody.peekFirst().getLocation().y);
+        expected_location = new Point(snakeBody.peekFirst().x + 1, snakeBody.peekFirst().getLocation().y);
+        actual_location = snake1.getParts().peekFirst().getLocation();
+        assertEquals(expected_location, actual_location);
         for (int i = 1; i < board.getSnake(0).getParts().size(); i++) {
-            assertEquals(snakeBody.get(i).x, board.getSnake(0).getParts().get(i).getLocation().x);
-            assertEquals(snakeBody.get(i).y + 1, board.getSnake(0).getParts().get(i).getLocation().y);
+            expected_location = new Point(snakeBody.get(i).x, snakeBody.get(i).y + 1);
+            actual_location = snake1.getParts().get(i).getLocation();
+            assertEquals(expected_location, actual_location);
         }
     }
 
     @Test
     void snakeEatsApple(){
         Apple apple = new Apple(6, 5);
-        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN));
+        snake1 = new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN);
+        board = testBoardWithApple(apple, snake1);
         board.updateBoard();
         board.updateBoard();
-        int length = board.getSnake(0).getParts().size();
+        int length = snake1.getParts().size();
         assertEquals(length, 2);
         assertTrue(apple.isDead());
-        assertEquals(board.getSnake(0).getScore(), apple.getScoreToAdd() * (length * length)/90);
+        assertEquals(snake1.getScore(), apple.getScoreToAdd() * (length * length)/90);
     }
 
     @Test
     void appleDisappearsAfterBeingEaten() {
         Apple apple = new Apple(6, 5);
-        Board board = testBoardWithApple(apple, new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN));
+        snake1 = new Snake(Direction.RIGHT, new Point(5,5), 0, Color.GREEN);
+        board = testBoardWithApple(apple, snake1);
         board.updateBoard();
         board.updateBoard();
         assertFalse(board.getGameObjects().contains(apple));
@@ -133,58 +153,63 @@ class Tests {
 
     @Test
     void snakeCollidesWithWall(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 3, Color.GREEN));
+        snake1 = new Snake(Direction.LEFT, new Point(1, 1), 3, Color.GREEN);
+        board = testBoard(snake1);
         board.updateBoard();
-        assertTrue(board.getSnake(0).isDead());
+        assertTrue(snake1.isDead());
         assertTrue(board.gameIsOver());
     }
 
     @Test
     void snakeEatsItself(){
-        Board board = testBoard(new Snake(Direction.DOWN, new Point(3, 3), 10, Color.GREEN));
+        snake1 = new Snake(Direction.DOWN, new Point(3, 3), 10, Color.GREEN);
+        board = testBoard(snake1);
         board.updateBoard();
         Direction[] directions = {Direction.LEFT, Direction.UP, Direction.RIGHT};
         for(Direction direction: directions){
-            board.getSnake(0).setDirection(direction);
+            snake1.setDirection(direction);
             board.updateBoard();
         }
-        assertTrue(board.getSnake(0).isDead());
+        assertTrue(snake1.isDead());
         assertTrue(board.gameIsOver());
     }
 
     @Test
     void snakeMovesOutOfUpperBorder(){
-        Board board = testBoard(new Snake(Direction.UP, new Point(3, 1), 1, Color.GREEN));
+        snake1 = new Snake(Direction.UP, new Point(3, 1), 1, Color.GREEN);
+        board = testBoard(snake1);
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point(3, GameConsts.HEIGHT - 1));
-        assertEquals(board.getSnake(0).getParts().get(1).getLocation(), new Point (3, 0));
+        assertEquals(snake1.getParts().peekFirst().getLocation(), new Point(3, GameConsts.HEIGHT - 1));
+        assertEquals(snake1.getParts().get(1).getLocation(), new Point (3, 0));
     }
 
     @Test
     void snakeMovesOutOfLeftBorder(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(1, 1), 1, Color.GREEN));
+        snake1 = new Snake(Direction.LEFT, new Point(1, 1), 1, Color.GREEN);
+        board = testBoard(snake1);
         board.updateBoard();
-        assertEquals(board.getSnake(0).getParts().peekFirst().getLocation(), new Point(GameConsts.WIDTH - 1, 1));
+        assertEquals(snake1.getParts().peekFirst().getLocation(), new Point(GameConsts.WIDTH - 1, 1));
     }
 
     @Test
     void snakesHeadStepsAfterTail(){
-        Board board = testBoard(new Snake(Direction.LEFT, new Point(5, 5), 3, Color.GREEN));
+        snake1 = new Snake(Direction.LEFT, new Point(5, 5), 3, Color.GREEN);
+        board = testBoard(snake1);
         Direction[] directions = {Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP};
         for(Direction direction: directions){
-            board.getSnake(0).setDirection(direction);
+            snake1.setDirection(direction);
             board.updateBoard();
         }
 
-        assertFalse(board.getSnake(0).isDead());
+        assertFalse(snake1.isDead());
         assertFalse(board.gameIsOver());
     }
 
     @Test
     void snakesHeadsCollide(){
-        Snake snake1 = new Snake(Direction.DOWN, new Point(5,5), 3, Color.GREEN);
-        Snake snake2 = new Snake(Direction.LEFT, new Point(6, 6), 3, Color.BLUE);
-        Board board = testBoardWithTwoSnakes(snake1, snake2);
+        snake1 = new Snake(Direction.DOWN, new Point(5,5), 3, Color.GREEN);
+        snake2 = new Snake(Direction.LEFT, new Point(6, 6), 3, Color.BLUE);
+        board = testBoardWithTwoSnakes(snake1, snake2);
         board.updateBoard();
         assertTrue(snake1.isDead());
         assertTrue(snake2.isDead());
@@ -193,9 +218,9 @@ class Tests {
 
     @Test
     void snakeEatsTailOfAnotherSnake(){
-        Snake snake1 = new Snake(Direction.DOWN, new Point(5,5), 5, Color.GREEN);
-        Snake snake2 = new Snake(Direction.LEFT, new Point(10, 9), 3, Color.BLUE);
-        Board board = testBoardWithTwoSnakes(snake1, snake2);
+        snake1 = new Snake(Direction.DOWN, new Point(5,5), 5, Color.GREEN);
+        snake2 = new Snake(Direction.LEFT, new Point(10, 9), 3, Color.BLUE);
+        board = testBoardWithTwoSnakes(snake1, snake2);
         for (int i = 0; i < 5; i++) {
             board.updateBoard();
         }
