@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private State state;
     private Timer timer;
 
-    public GamePanel(State state) {
+    GamePanel(State state) {
         this.state = state;
         if (state == State.ONE_PLAYER){
             newOnePlayerGame();
@@ -70,14 +70,14 @@ public class GamePanel extends JPanel implements ActionListener {
         repaint();
     }
 
-    void newOnePlayerGame(){
+    private void newOnePlayerGame(){
         board = Level.levelWithOnePlayer();
         ArrayList<KeyListener> listeners = new ArrayList<>();
-        //listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-        addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        updateKeyListener(listeners);
     }
 
-    void newTwoPlayersGame(){
+    private void newTwoPlayersGame(){
         board = Level.levelWithTwoPlayers();
         ArrayList<KeyListener> listeners = new ArrayList<>();
         listeners.add(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
@@ -85,9 +85,7 @@ public class GamePanel extends JPanel implements ActionListener {
         updateKeyListener(listeners);
     }
 
-    void restartTimer(){timer.restart();}
-
-    void updateKeyListener(ArrayList<KeyListener> newKeyListeners){
+    private void updateKeyListener(ArrayList<KeyListener> newKeyListeners){
         for (KeyListener kl: snakeSteering)
             removeKeyListener(kl);
         snakeSteering = newKeyListeners;

@@ -38,7 +38,7 @@ public class MenuPanel extends JPanel {
         label.setFont(font);
         label.setForeground(color);
         if (active)
-            label.addMouseListener(new MouseInput( label));
+            label.addMouseListener(new MouseInput(label));
         return label;
     }
 }
