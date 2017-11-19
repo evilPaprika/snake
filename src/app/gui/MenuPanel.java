@@ -6,39 +6,39 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
-    private Rectangle onePlayerButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 150, 360, 70);
-    private Rectangle twoPlayersButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 275, 360, 70);
-    private Rectangle exitButton = new Rectangle(GameConsts.PANEL_WIDTH / 2 - 200, 400, 360, 70);
-
     public MenuPanel() {
-        addMouseListener(new MouseInput(this));
         setBackground(Color.GRAY);
         setFocusable(true);
         setPreferredSize(new Dimension(GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        initializeMenu();
     }
 
-    protected void paintComponent(Graphics g){
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-
+    private void initializeMenu(){
         Font fnt1 = new Font("arial", Font.BOLD, 70);
-        g.setFont(fnt1);
-        g.setColor(Color.GREEN);
-        g.drawString("Sssssnake", GameConsts.PANEL_WIDTH / 2 - 200, 100);
-
-        g.setColor(Color.DARK_GRAY);
-        g2d.fillRect(onePlayerButton.x, onePlayerButton.y, onePlayerButton.width,onePlayerButton.height);
-        g2d.fillRect(twoPlayersButton.x, twoPlayersButton.y, twoPlayersButton.width,twoPlayersButton.height);
-        g2d.fillRect(exitButton.x, exitButton.y, exitButton.width,exitButton.height);
+        JLabel snake = createLabel("Sssssnake", fnt1, Color.GREEN, false);
 
         Font fnt2 = new Font("arial", Font.BOLD, 50);
-        g.setFont(fnt2);
-        g.setColor(Color.white);
-        g.drawString("One player", onePlayerButton.x + 50, onePlayerButton.y + 50);
-        g2d.draw(onePlayerButton);
-        g.drawString("Two players", twoPlayersButton.x + 40, twoPlayersButton.y + 50);
-        g2d.draw(twoPlayersButton);
-        g.drawString("Exit", exitButton.x + 125, exitButton.y + 50);
-        g2d.draw(exitButton);
+        JLabel one_player = createLabel("One player", fnt2, Color.WHITE, true);
+        JLabel two_players = createLabel("Two players", fnt2, Color.WHITE, true);
+        JLabel exit = createLabel("Exit", fnt2, Color.WHITE, true);
+
+        add(snake);
+        add(Box.createRigidArea(new Dimension(0,45)));
+        add(one_player);
+        add(Box.createRigidArea(new Dimension(0,30)));
+        add(two_players);
+        add(Box.createRigidArea(new Dimension(0,30)));
+        add(exit);
+    }
+
+    private JLabel createLabel(String text, Font font, Color color, boolean active){
+        JLabel label = new JLabel(text);
+        label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        label.setFont(font);
+        label.setForeground(color);
+        if (active)
+            label.addMouseListener(new MouseInput(this, label));
+        return label;
     }
 }
