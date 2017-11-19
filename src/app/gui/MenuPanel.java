@@ -16,15 +16,16 @@ public class MenuPanel extends JPanel {
 
     private void initializeMenu(){
         Font fnt1 = new Font("arial", Font.BOLD, 70);
-        JLabel snake = createLabel("Sssssnake", fnt1, Color.GREEN, false);
+        JLabel snake = createLabel("SNAKE", fnt1, Color.GREEN, false);
 
         Font fnt2 = new Font("arial", Font.BOLD, 50);
         JLabel one_player = createLabel("One player", fnt2, Color.WHITE, true);
         JLabel two_players = createLabel("Two players", fnt2, Color.WHITE, true);
         JLabel exit = createLabel("Exit", fnt2, Color.WHITE, true);
 
+        add(Box.createRigidArea(new Dimension(0,70)));
         add(snake);
-        add(Box.createRigidArea(new Dimension(0,45)));
+        add(Box.createRigidArea(new Dimension(0,80)));
         add(one_player);
         add(Box.createRigidArea(new Dimension(0,30)));
         add(two_players);

@@ -32,9 +32,7 @@ public class MouseInput extends MouseAdapter {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        label.setForeground(Color.BLACK);
-    }
+    public void mouseEntered(MouseEvent e) { label.setForeground(Color.decode("#CFFF93")); }
 
     @Override
     public void mouseExited(MouseEvent e) {
