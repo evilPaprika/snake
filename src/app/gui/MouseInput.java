@@ -10,7 +10,7 @@ import java.awt.event.*;
 public class MouseInput extends MouseAdapter {
     private JLabel label;
 
-    MouseInput(MenuPanel gp, JLabel label){
+    MouseInput(JLabel label){
         this.label = label;
     }
 
