@@ -1,5 +1,6 @@
 package app.gui;
 
+import app.Main;
 import app.util.GameConsts;
 
 import javax.swing.*;
@@ -16,12 +17,12 @@ public class MenuPanel extends JPanel {
 
     private void initializeMenu(){
         Font fnt1 = new Font("arial", Font.BOLD, 70);
-        JLabel snake = createLabel("SNAKE", fnt1, Color.GREEN, false);
+        JLabel snake = createLabel("SNAKE", () -> {},fnt1, Color.GREEN, false);
 
         Font fnt2 = new Font("arial", Font.BOLD, 50);
-        JLabel one_player = createLabel("One player", fnt2, Color.WHITE, true);
-        JLabel two_players = createLabel("Two players", fnt2, Color.WHITE, true);
-        JLabel exit = createLabel("Exit", fnt2, Color.WHITE, true);
+        JLabel one_player = createLabel("One player", Main::startOnePlayerGame, fnt2, Color.WHITE, true);
+        JLabel two_players = createLabel("Two players", Main::startTwoPlayersGame,  fnt2, Color.WHITE, true);
+        JLabel exit = createLabel("Exit", () -> System.exit(0), fnt2, Color.WHITE, true);
 
         add(Box.createRigidArea(new Dimension(0,70)));
         add(snake);
@@ -33,13 +34,13 @@ public class MenuPanel extends JPanel {
         add(exit);
     }
 
-    private JLabel createLabel(String text, Font font, Color color, boolean active){
+    private JLabel createLabel(String text, Runnable action, Font font, Color color, boolean active){
         JLabel label = new JLabel(text);
         label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         label.setFont(font);
         label.setForeground(color);
         if (active)
-            label.addMouseListener(new MouseInput(label));
+            label.addMouseListener(new MouseInput(label, action));
         return label;
     }
 }

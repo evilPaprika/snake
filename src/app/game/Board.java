@@ -1,15 +1,18 @@
 package app.game;
 
 import app.util.GameConsts;
-
-import java.awt.*;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+
 
 public class Board {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private boolean gameIsOver = false;
-
+    private Queue<KeyEvent> keyEvents = new Queue<>();
     private final Random random = new Random();
     private ArrayList<SimpleObject> stationaryGameObjects = new ArrayList<>();
     private ArrayList<SimpleObject> gameObjects;
@@ -22,13 +25,14 @@ public class Board {
         }
         updateBoard();
     }
-    public Board(ArrayList<SimpleObject> listOfObjects, ArrayList<Snake> snakes) {
-        this.snakes = snakes;
-        stationaryGameObjects = listOfObjects;
+    public Board(List<SimpleObject> listOfObjects, List<Snake> snakes) {
+        this.snakes = new ArrayList<>(snakes);
+        stationaryGameObjects = new ArrayList<>(listOfObjects);
         updateBoard();
     }
 
     public void updateBoard(){
+        // setKeyEvent и обработка тут
         gameObjects = new ArrayList<>(stationaryGameObjects);
         for (Snake snake: snakes){
             snake.updatePosition();

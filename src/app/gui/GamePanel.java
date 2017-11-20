@@ -17,11 +17,10 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Board board = new Board();
-    private ArrayList<KeyListener>  snakeSteering = new ArrayList<>();
     private State state;
     private Timer timer;
 
-    GamePanel(State state) {
+    public GamePanel(State state) {
         this.state = state;
         if (state == State.ONE_PLAYER){
             newOnePlayerGame();
@@ -57,9 +56,7 @@ public class GamePanel extends JPanel implements ActionListener {
             g.setColor(Color.white);
             g.drawString("Press any key", 270, 350);
             timer.stop();
-            ArrayList<KeyListener> listener = new ArrayList<>();
-            listener.add(new PressAnyKeyAdapter());
-            updateKeyListener(listener);
+            addKeyListener(new PressAnyKeyAdapter());
         }
     }
 
@@ -72,24 +69,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private void newOnePlayerGame(){
         board = Level.levelWithOnePlayer();
-        ArrayList<KeyListener> listeners = new ArrayList<>();
-        listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-        updateKeyListener(listeners);
+        addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
     }
 
     private void newTwoPlayersGame(){
         board = Level.levelWithTwoPlayers();
-        ArrayList<KeyListener> listeners = new ArrayList<>();
-        listeners.add(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-        listeners.add(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
-        updateKeyListener(listeners);
+        addKeyListener(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
+        addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
     }
 
-    private void updateKeyListener(ArrayList<KeyListener> newKeyListeners){
-        for (KeyListener kl: snakeSteering)
-            removeKeyListener(kl);
-        snakeSteering = newKeyListeners;
-        for (KeyListener kl: snakeSteering)
-            addKeyListener(kl);
-    }
 }

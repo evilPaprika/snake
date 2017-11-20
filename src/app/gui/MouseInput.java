@@ -9,26 +9,16 @@ import java.awt.event.*;
 
 public class MouseInput extends MouseAdapter {
     private JLabel label;
+    private Runnable action;
 
-    MouseInput(JLabel label){
+    MouseInput(JLabel label, Runnable action){
+        this.action = action;
         this.label = label;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        String command = label.getText();
-        switch (command) {
-            case "One player":
-                Main.ChangePanel(new GamePanel(State.ONE_PLAYER));
-                break;
-            case "Two players":
-                Main.ChangePanel(new GamePanel(State.TWO_PLAYERS));
-                break;
-            case "Exit":
-                System.exit(1);
-            default:
-                break;
-        }
+        action.run();
     }
 
     @Override

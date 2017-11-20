@@ -1,11 +1,11 @@
 package app.game;
 
 import app.util.Direction;
-
 import java.awt.*;
+import java.util.LinkedList;
 
 
-public class SnakeSegment implements SimpleObject {
+public class SnakeSegment implements SnakeInteraction {
     private Point location;
     private Snake parent;
     private Direction direction;
@@ -34,4 +34,11 @@ public class SnakeSegment implements SimpleObject {
     @Override
     public void collideWith(GameObject g) {
         parent.collideWith(g); }
+
+    @Override
+    public void collideWithSnake(Snake snake) {
+        LinkedList<SnakeSegment> body = parent.getParts();
+        if (!this.isHead())
+            body.removeIf(x -> body.indexOf(x) > body.indexOf(this));
+    }
 }

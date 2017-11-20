@@ -15,10 +15,7 @@ public class Level {
     private static Random rnd = new Random();
 
     public static Board levelWithOnePlayer(){
-        ArrayList<Snake> snakes = new ArrayList<>();
-        ArrayList<SimpleObject> objects = generateMap();
-        snakes.add(new Snake());
-        return new Board(objects, snakes);
+        return new Board(generateMap(), Arrays.asList(new Snake()));
     }
 
     public static Board levelWithTwoPlayers(){

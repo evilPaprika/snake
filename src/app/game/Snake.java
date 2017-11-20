@@ -78,15 +78,13 @@ public class Snake implements CompoundObject {
 
     @Override
     public void collideWith(GameObject g) {
+        if (g instanceof SnakeInteraction)
+        {
+            ((SnakeInteraction) g).collideWithSnake(this);
+        }
         if (g instanceof Food) {
             score += ((Food) g).getScoreToAdd() * (body.size()* body.size())/90;
             grow();
-        } else if (g instanceof SnakeSegment
-                && !this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())){
-            SnakeSegment collidedSegment = this.body.stream()
-                    .filter(SnakeSegment -> SnakeSegment.getLocation().equals(((SnakeSegment) g).getLocation()))
-                    .findFirst().get();
-            this.body.removeIf(x -> body.indexOf(x) > this.body.indexOf(collidedSegment));
         } else if (g instanceof Wall
                 || (g instanceof SnakeSegment && ((SnakeSegment) g).isHead()
                 && this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())))

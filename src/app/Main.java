@@ -1,6 +1,8 @@
 package app;
 
+import app.gui.GamePanel;
 import app.gui.MenuPanel;
+import app.util.State;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -28,6 +30,18 @@ public class Main {
         frame.pack();
         panel = newPanel;
         panel.requestFocus();
+    }
+
+    public static void startOnePlayerGame() {
+        ChangePanel(new GamePanel(State.ONE_PLAYER));
+    }
+
+    public static void startTwoPlayersGame() {
+        ChangePanel(new GamePanel(State.TWO_PLAYERS));
+    }
+
+    public static void startMainMenu() {
+        ChangePanel(new MenuPanel());
     }
 }
 
