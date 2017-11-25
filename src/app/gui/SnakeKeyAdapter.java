@@ -2,20 +2,11 @@ package app.gui;
 
 import app.game.Snake;
 import app.util.Direction;
-
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class SnakeKeyAdapter extends KeyAdapter {
-    // управление для змеи
-
     private Snake snake;
-
-    // нужно для того чтобы нельзя было послать несколько
-    // комманд на одной позиции
-    private Point previosHeadPosition;
-    private int previousKey;
     private final int up;
     private final int down;
     private final int left;
@@ -23,7 +14,6 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
 
     SnakeKeyAdapter(Snake snake, int up, int down, int left, int right){
-        previosHeadPosition = snake.getParts().peekFirst().getLocation();
         this.snake = snake;
         this.up = up;
         this.down = down;
@@ -34,14 +24,11 @@ public class SnakeKeyAdapter extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (previosHeadPosition != snake.getParts().peekFirst().getLocation() && e.getKeyCode() != previousKey) {
-            previosHeadPosition = snake.getParts().peekFirst().getLocation();
-            previousKey = e.getKeyCode();
-            if (previousKey == up) snake.setDirection(Direction.UP);
-            else if (previousKey == down) snake.setDirection(Direction.DOWN);
-            else if (previousKey == left) snake.setDirection(Direction.LEFT);
-            else if (previousKey == right) snake.setDirection(Direction.RIGHT);
-            else if (previousKey ==  KeyEvent.VK_E) snake.grow(6);
-        }
+            int pressedKey = e.getKeyCode();
+            if (pressedKey == up) snake.addAction(() -> snake.setDirection(Direction.UP));
+                else if (pressedKey == down) snake.addAction(() -> snake.setDirection(Direction.DOWN));
+                else if (pressedKey == left) snake.addAction(() -> snake.setDirection(Direction.LEFT));
+                else if (pressedKey == right) snake.addAction(() -> snake.setDirection(Direction.RIGHT));
+                else if (pressedKey ==  KeyEvent.VK_E) snake.addAction(() -> snake.grow(6));
     }
 }

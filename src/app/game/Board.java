@@ -1,18 +1,18 @@
 package app.game;
 
 import app.util.GameConsts;
-import java.awt.Point;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 
 
 public class Board {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private boolean gameIsOver = false;
-    private Queue<KeyEvent> keyEvents = new Queue<>();
+
     private final Random random = new Random();
     private ArrayList<SimpleObject> stationaryGameObjects = new ArrayList<>();
     private ArrayList<SimpleObject> gameObjects;
