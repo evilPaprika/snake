@@ -5,12 +5,11 @@ import app.util.UtilFunctions;
 
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.Queue;
 
 
 public class Snake implements CompoundObject {
     private LinkedList<SnakeSegment> body = new LinkedList<>();
-    private Queue<Runnable> actions = new LinkedList<Runnable>();
+    private LinkedList<Runnable> actions = new LinkedList<Runnable>();
     private boolean isDead;
     private Direction direction;
     private int score;
@@ -49,12 +48,13 @@ public class Snake implements CompoundObject {
     }
 
     void updatePosition() {
-        if (!actions.isEmpty()) actions.remove().run();
+        if (!actions.isEmpty()) actions.removeLast().run();
         moveBy(direction.getX(), direction.getY());
     }
 
     public void addAction(Runnable foo){
-        actions.add(foo);
+        if (actions.isEmpty() || actions.peekFirst().equals(foo))
+            actions.addFirst(foo);
     }
 
     private void grow() {
