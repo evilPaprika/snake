@@ -138,7 +138,7 @@ class Tests {
         int length = snake1.getLength();
         assertEquals(length, 2);
         assertTrue(apple.isDead());
-        assertEquals(snake1.getScore(), apple.getNutritionValue() * (length * length)/90);
+        assertEquals(snake1.getScore(), apple.getNutritionalValue() * (length * length)/90);
     }
 
     @Test
@@ -224,7 +224,7 @@ class Tests {
         for (int i = 0; i < 5; i++) {
             board.updateBoard();
         }
-        assertEquals(snake1.getLength(), 2);
+        assertEquals(snake1.getLength(), 1);
         assertFalse(board.gameIsOver());
     }
 }

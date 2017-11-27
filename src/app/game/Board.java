@@ -12,7 +12,6 @@ import java.util.Queue;
 public class Board {
     private ArrayList<Snake> snakes = new ArrayList<>();
     private boolean gameIsOver = false;
-
     private final Random random = new Random();
     private ArrayList<SimpleObject> stationaryGameObjects = new ArrayList<>();
     private ArrayList<SimpleObject> gameObjects;
@@ -32,7 +31,6 @@ public class Board {
     }
 
     public void updateBoard(){
-        // setKeyEvent и обработка тут
         gameObjects = new ArrayList<>(stationaryGameObjects);
         for (Snake snake: snakes){
             snake.updatePosition();

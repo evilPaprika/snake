@@ -25,10 +25,10 @@ public class SnakeKeyAdapter extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
             int pressedKey = e.getKeyCode();
-            if (pressedKey == up) snake.addAction(() -> snake.setDirection(Direction.UP));
-                else if (pressedKey == down) snake.addAction(() -> snake.setDirection(Direction.DOWN));
-                else if (pressedKey == left) snake.addAction(() -> snake.setDirection(Direction.LEFT));
-                else if (pressedKey == right) snake.addAction(() -> snake.setDirection(Direction.RIGHT));
-                else if (pressedKey ==  KeyEvent.VK_E) snake.addAction(() -> snake.grow(6));
+            if (pressedKey == up) snake.setAction(() -> snake.setDirection(Direction.UP));
+                else if (pressedKey == down) snake.setAction(() -> snake.setDirection(Direction.DOWN));
+                else if (pressedKey == left) snake.setAction(() -> snake.setDirection(Direction.LEFT));
+                else if (pressedKey == right) snake.setAction(() -> snake.setDirection(Direction.RIGHT));
+                else if (pressedKey ==  KeyEvent.VK_E) snake.setAction(() -> snake.grow(6));
     }
 }

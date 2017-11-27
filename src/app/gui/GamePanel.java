@@ -39,7 +39,8 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         for (SimpleObject e : board.getGameObjects()) {
             g.setColor(e.getColor());
-            g.fillRect(e.getLocation().x * GameConsts.CELL_SIZE + 1, e.getLocation().y * GameConsts.CELL_SIZE - 1, GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
+            g.fillRect(e.getLocation().x * GameConsts.CELL_SIZE + 1, e.getLocation().y * GameConsts.CELL_SIZE - 1,
+                    GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
         }
         g.setFont(new Font("arial", Font.BOLD, 30));
         g.setColor(board.getSnake(0).getColor());
@@ -61,8 +62,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
         board.updateBoard();
         repaint();
     }
