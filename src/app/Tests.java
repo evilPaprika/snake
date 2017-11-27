@@ -101,7 +101,7 @@ class Tests {
         for (SnakeSegment segment: snake1.getParts())
             snakeBody.add(segment.getLocation());
         board.updateBoard();
-        for (int i = 0; i < board.getSnake(0).getParts().size(); i++) {
+        for (int i = 0; i < board.getSnake(0).getLength(); i++) {
             expected_location = new Point(snakeBody.get(i).x, snakeBody.get(i).y + 1);
             actual_location = snake1.getParts().get(i).getLocation();
             assertEquals(expected_location, actual_location);
@@ -121,7 +121,7 @@ class Tests {
         expected_location = new Point(snakeBody.peekFirst().x + 1, snakeBody.peekFirst().getLocation().y);
         actual_location = snake1.getParts().peekFirst().getLocation();
         assertEquals(expected_location, actual_location);
-        for (int i = 1; i < board.getSnake(0).getParts().size(); i++) {
+        for (int i = 1; i < board.getSnake(0).getLength(); i++) {
             expected_location = new Point(snakeBody.get(i).x, snakeBody.get(i).y + 1);
             actual_location = snake1.getParts().get(i).getLocation();
             assertEquals(expected_location, actual_location);
@@ -135,10 +135,10 @@ class Tests {
         board = testBoardWithApple(apple, snake1);
         board.updateBoard();
         board.updateBoard();
-        int length = snake1.getParts().size();
+        int length = snake1.getLength();
         assertEquals(length, 2);
         assertTrue(apple.isDead());
-        assertEquals(snake1.getScore(), apple.getScoreToAdd() * (length * length)/90);
+        assertEquals(snake1.getScore(), apple.getNutritionValue() * (length * length)/90);
     }
 
     @Test
@@ -224,7 +224,7 @@ class Tests {
         for (int i = 0; i < 5; i++) {
             board.updateBoard();
         }
-        assertEquals(snake1.getParts().size(), 2);
+        assertEquals(snake1.getLength(), 2);
         assertFalse(board.gameIsOver());
     }
 }

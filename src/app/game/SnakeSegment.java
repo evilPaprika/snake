@@ -20,6 +20,10 @@ public class SnakeSegment implements SnakeInteraction {
         return this.equals(this.parent.getParts().peekFirst());
     }
 
+    public Snake getParent() {
+        return parent;
+    }
+
     @Override
     public Color getColor() { return parent.getColor(); }
 
@@ -39,6 +43,8 @@ public class SnakeSegment implements SnakeInteraction {
     public void collideWithSnake(Snake snake) {
         LinkedList<SnakeSegment> body = parent.getParts();
         if (!this.isHead())
-            body.removeIf(x -> body.indexOf(x) > body.indexOf(this));
+            body.removeIf(x -> body.indexOf(x) >= body.indexOf(this));
+        else if (snake.getParts().peekFirst().getLocation().equals(this.location) || parent.equals(snake))
+            parent.kill();
     }
 }

@@ -28,9 +28,16 @@ public class Apple implements Food {
 
     @Override
     public void collideWith(GameObject g) {
+        if (g instanceof SnakeSegment) {
+            int length = ((SnakeSegment) g).getParent().getLength();
+            ((SnakeSegment) g).getParent().addScore(getNutritionValue() * (length * length)/90);
+            ((SnakeSegment) g).getParent().grow(1);
+        }
         isDead = true;
     }
 
     @Override
-    public int getScoreToAdd() {return 10;}
+    public int getNutritionValue() {
+        return 10;
+    }
 }

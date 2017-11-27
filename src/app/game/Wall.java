@@ -26,6 +26,7 @@ public class Wall implements SimpleObject {
 
     @Override
     public void collideWith(GameObject g) {
-
+        if (g instanceof SnakeSegment)
+            ((SnakeSegment) g).getParent().kill();
     }
 }

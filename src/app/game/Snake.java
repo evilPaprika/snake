@@ -57,9 +57,9 @@ public class Snake implements CompoundObject {
             actions.addFirst(foo);
     }
 
-    private void grow() {
-        this.grow(1);
-    }
+    void kill() { this.isDead = true;}
+
+    public int getLength() { return body.size(); }
 
     public void grow(int len) {
         toGrow += len;
@@ -78,6 +78,8 @@ public class Snake implements CompoundObject {
         return score;
     }
 
+    void addScore(int toAdd) {score += toAdd;}
+
     @Override
     public LinkedList<SnakeSegment> getParts() {
         return body;
@@ -86,15 +88,6 @@ public class Snake implements CompoundObject {
     @Override
     public void collideWith(GameObject g) {
         if (g instanceof SnakeInteraction)
-        {
             ((SnakeInteraction) g).collideWithSnake(this);
-        }
-        if (g instanceof Food) {
-            score += ((Food) g).getScoreToAdd() * (body.size()* body.size())/90;
-            grow();
-        } else if (g instanceof Wall
-                || (g instanceof SnakeSegment && ((SnakeSegment) g).isHead()
-                && this.body.peekFirst().getLocation().equals(((SnakeSegment) g).getLocation())))
-            isDead = true;
     }
 }
