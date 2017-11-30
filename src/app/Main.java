@@ -14,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         javax.swing.SwingUtilities.invokeLater(() -> {
-            frame = new JFrame("ZMEYAAA");
+            frame = new JFrame("snake 3.0 alpha");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            panel = new MenuPanel();
+            panel = new MenuPanel(); // немнго криво, хочется юзать startMainMenu
             frame.add(panel);
             frame.pack();
             frame.setVisible(true);
@@ -40,8 +40,6 @@ public class Main {
         ChangePanel(new GamePanel(State.TWO_PLAYERS));
     }
 
-    public static void startMainMenu() {
-        ChangePanel(new MenuPanel());
-    }
+    public static void startMainMenu() { ChangePanel(new MenuPanel()); }
 }
 
