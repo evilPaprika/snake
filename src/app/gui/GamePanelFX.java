@@ -6,14 +6,11 @@ import app.game.SimpleObject;
 import app.game.Snake;
 import app.util.*;
 import javafx.animation.AnimationTimer;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-
-import java.util.Optional;
 
 public class GamePanelFX {
 
@@ -43,7 +40,7 @@ public class GamePanelFX {
         timer = new Timer(GameConsts.PAINT_DELAY) {
             @Override
             public void handle() {
-                drawComponent();
+                render();
                 board.updateBoard();
 
             }
@@ -52,13 +49,19 @@ public class GamePanelFX {
 
     }
 
-    private void drawComponent(){
+    private void render(){
         mainPane.getChildren().clear();
         for (SimpleObject e : board.getGameObjects()) {
             Rectangle rect = new Rectangle(GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2, e.getColor());
             rect.setTranslateX(e.getLocation().x * GameConsts.CELL_SIZE + 1);
             rect.setTranslateY(e.getLocation().y * GameConsts.CELL_SIZE - 1);
             mainPane.getChildren().add(rect);
+        }
+        if(board.gameIsOver()){
+
+            timer.stop();
+            scene.setRoot(MenuPanelFX.asRoot());
+
         }
 
     }
@@ -87,7 +90,6 @@ public class GamePanelFX {
 
     private void newTwoPlayersGame(){
         board = Level.levelWithTwoPlayers();
-
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             Snake snake = board.getSnake(1);
@@ -123,8 +125,6 @@ public class GamePanelFX {
             }
         });
 
-        //addKeyListener(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-        //addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
     }
 
     public BorderPane asRoot(){

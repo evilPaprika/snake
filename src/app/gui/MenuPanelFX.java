@@ -22,7 +22,7 @@ import javafx.util.Duration;
 
 
 public class MenuPanelFX {
-    private BorderPane root;
+    private static BorderPane root;
     private Pane mainPane;
     private MenuBox menuBox;
     private  Scene scene;
@@ -59,7 +59,7 @@ public class MenuPanelFX {
         mainPane.getChildren().addAll(img,menuBox);
     }
 
-    public BorderPane asRoot(){
+    public static BorderPane asRoot(){
         return root;
     }
 
