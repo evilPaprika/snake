@@ -21,13 +21,13 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
-public class MenuPanelFX {
+public class MenuPanel {
     private static BorderPane root;
     private Pane mainPane;
     private MenuBox menuBox;
     private  Scene scene;
 
-    public MenuPanelFX() {
+    public MenuPanel() {
 
         root = new BorderPane();
         scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
@@ -47,13 +47,13 @@ public class MenuPanelFX {
 
 
         singleGame.setOnMouseClicked(event -> {
-            GamePanelFX panel = new GamePanelFX(scene, State.ONE_PLAYER);
+            GamePanel panel = new GamePanel(scene, State.ONE_PLAYER);
             scene.setRoot(panel.asRoot());
 
         });
 
         twoPlayerGame.setOnMouseClicked(event -> {
-            GamePanelFX panel = new GamePanelFX(scene, State.TWO_PLAYERS);
+            GamePanel panel = new GamePanel(scene, State.TWO_PLAYERS);
             scene.setRoot(panel.asRoot());
         });
 

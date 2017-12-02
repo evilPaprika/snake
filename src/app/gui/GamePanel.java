@@ -9,14 +9,13 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class GamePanelFX {
+public class GamePanel {
 
     private BorderPane root;
     private Pane mainPane, topPane;
@@ -25,7 +24,7 @@ public class GamePanelFX {
     private State state;
     private AnimationTimer timer;
 
-    public GamePanelFX(Scene scene, State state) {
+    public GamePanel(Scene scene, State state) {
         this.state = state;
         root = new BorderPane();
         this.scene = scene;
@@ -44,8 +43,24 @@ public class GamePanelFX {
         timer = new Timer(GameConsts.PAINT_DELAY) {
             @Override
             public void handle() {
-                render();
+
                 board.updateBoard();
+
+                if(board.gameIsOver()){
+                    timer.stop();
+                    gameOverRender();
+                    scene.setOnKeyPressed(event -> {
+                        switch (event.getCode()){
+                            case SPACE:
+                                scene.setRoot(MenuPanel.asRoot());
+                                break;
+                            case R:
+                                setGameState(state);
+                                timer.start();
+                        }
+                    });
+                }
+                else render();
             }
         };
         timer.start();
@@ -71,21 +86,6 @@ public class GamePanelFX {
             Label gameScoreTwo = new Label(String.valueOf(board.getSnake(1).getScore()));
             setLabel(gameScoreTwo,2,GameConsts.PANEL_WIDTH/2 + 100, 10);
             topPane.getChildren().add(gameScoreTwo);
-        }
-
-        if(board.gameIsOver()){
-            timer.stop();
-            gameOverRender();
-            scene.setOnKeyPressed(event -> {
-                switch (event.getCode()){
-                    case SPACE:
-                        scene.setRoot(MenuPanelFX.asRoot());
-                        break;
-                    case R:
-                        setGameState(state);
-                        timer.start();
-                }
-            });
         }
 
     }

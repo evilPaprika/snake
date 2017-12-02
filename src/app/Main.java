@@ -1,18 +1,18 @@
 package app;
 
 
-import app.gui.MenuPanelFX;
+import app.gui.MenuPanel;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class MainFX extends Application {
+public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        MenuPanelFX menuPanelFX = new MenuPanelFX();
+        MenuPanel menuPanel = new MenuPanel();
         primaryStage.setTitle("Snake");
 
-        primaryStage.setScene(menuPanelFX.asScene());
+        primaryStage.setScene(menuPanel.asScene());
 
         primaryStage.show();
     }
