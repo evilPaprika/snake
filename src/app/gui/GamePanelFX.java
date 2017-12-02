@@ -19,7 +19,7 @@ import javafx.scene.shape.Rectangle;
 public class GamePanelFX {
 
     private BorderPane root;
-    private Pane mainPane;
+    private Pane mainPane, topPane;
     private Scene scene;
     private Board board = new Board();
     private State state;
@@ -30,7 +30,11 @@ public class GamePanelFX {
         root = new BorderPane();
         this.scene = scene;
         mainPane = new Pane();
+        topPane = new Pane();
+        root.setTop(topPane);
         root.setCenter(mainPane);
+
+        topPane.setMinSize(GameConsts.PANEL_WIDTH, GameConsts.HEIGHT);
 
         mainPane.setStyle("-fx-background-color: #808080;");
 
@@ -57,6 +61,24 @@ public class GamePanelFX {
             rect.setTranslateY(e.getLocation().y * GameConsts.CELL_SIZE - 1);
             mainPane.getChildren().add(rect);
         }
+
+        topPane.getChildren().clear();
+        Label gameScoreOne = new Label(String.valueOf(board.getSnake(0).getScore()));
+        gameScoreOne.setScaleX(2);
+        gameScoreOne.setScaleY(2);
+        gameScoreOne.setTranslateX(GameConsts.PANEL_WIDTH/2);
+        gameScoreOne.setTranslateY(10);
+        topPane.getChildren().add(gameScoreOne);
+        if (state == State.TWO_PLAYERS){
+            gameScoreOne.setTranslateX(GameConsts.PANEL_WIDTH/2 - 100);
+            Label gameScoreTwo = new Label(String.valueOf(board.getSnake(1).getScore()));
+            gameScoreTwo.setScaleX(2);
+            gameScoreTwo.setScaleY(2);
+            gameScoreTwo.setTranslateX(GameConsts.PANEL_WIDTH/2 + 100);
+            gameScoreTwo.setTranslateY(10);
+            topPane.getChildren().add(gameScoreTwo);
+        }
+
 
         if(board.gameIsOver()){
 

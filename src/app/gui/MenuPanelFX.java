@@ -30,9 +30,9 @@ public class MenuPanelFX {
     public MenuPanelFX() {
 
         root = new BorderPane();
-        scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT);
+        scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         ImageView img = new ImageView(new Image("img/menu.jpg"));
-        img.setFitHeight(GameConsts.PANEL_HEIGHT);
+        img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         img.setFitWidth(GameConsts.PANEL_WIDTH);
 
         mainPane = new Pane();
@@ -106,7 +106,7 @@ public class MenuPanelFX {
         static SubMenu subMenu;
         public MenuBox(SubMenu subMenu){
             MenuBox.subMenu = subMenu;
-            Rectangle bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT,Color.LIGHTBLUE);
+            Rectangle bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
             bg.setOpacity(0.4);
             getChildren().addAll(bg, subMenu);
         }
