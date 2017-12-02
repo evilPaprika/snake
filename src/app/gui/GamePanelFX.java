@@ -35,12 +35,7 @@ public class GamePanelFX {
         mainPane.setStyle("-fx-background-color: #808080;");
 
         this.state = state;
-        if (state == State.ONE_PLAYER){
-            newOnePlayerGame();
-        }
-        if (state == State.TWO_PLAYERS){
-            newTwoPlayersGame();
-        }
+        setGameState(state);
 
         timer = new Timer(GameConsts.PAINT_DELAY) {
             @Override
@@ -97,10 +92,7 @@ public class GamePanelFX {
                         scene.setRoot(MenuPanelFX.asRoot());
                         break;
                     case R:
-                        if(state == State.ONE_PLAYER){
-                            newOnePlayerGame();
-                        }
-                        else newTwoPlayersGame();
+                        setGameState(state);
                         timer.start();
 
                 }
@@ -110,6 +102,17 @@ public class GamePanelFX {
 
         }
 
+    }
+
+    private void setGameState(State state){
+        switch (state){
+            case ONE_PLAYER:
+                newOnePlayerGame();
+                break;
+            case TWO_PLAYERS:
+                newTwoPlayersGame();
+                break;
+        }
     }
 
     private void newOnePlayerGame(){
