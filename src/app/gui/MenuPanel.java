@@ -40,10 +40,26 @@ public class MenuPanel {
 
         MenuItem singleGame = new MenuItem("ОДИН ИГРОК");
         MenuItem twoPlayerGame = new MenuItem("ДВА ИГРОКА");
+        MenuItem settings = new MenuItem("НАСТРОЙКИ");
         MenuItem exitGame = new MenuItem("ВЫХОД");
         SubMenu mainMenu = new SubMenu(200,
-                singleGame,twoPlayerGame, exitGame
+                singleGame,twoPlayerGame,settings, exitGame
         );
+
+        MenuItem snakeSpeed = new MenuItem("Изменить скорость змейки");
+        MenuItem fon = new MenuItem("Изменить фон");
+        MenuItem backToMenu = new MenuItem("Назад");
+        SubMenu settingsMenu = new SubMenu(200,
+                snakeSpeed,fon,backToMenu);
+
+
+        settings.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(settingsMenu);
+        });
+
+        backToMenu.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(mainMenu);
+        });
 
 
         singleGame.setOnMouseClicked(event -> {

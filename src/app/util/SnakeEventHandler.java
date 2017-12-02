@@ -9,9 +9,6 @@ import javafx.scene.input.KeyEvent;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
-/**
- * Created by User on 03.12.2017.
- */
 public class SnakeEventHandler {
 
     public static EventHandler<KeyEvent> getSnakeEventHandler(Snake snake, KeyCode up, KeyCode down, KeyCode left, KeyCode right) {
