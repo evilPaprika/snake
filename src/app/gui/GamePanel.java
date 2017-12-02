@@ -9,6 +9,7 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -125,64 +126,21 @@ public class GamePanel {
         }
     }
 
-    private void newOnePlayerGame(){
+    private void newOnePlayerGame() {
         board = Level.levelWithOnePlayer();
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            Snake snake = board.getSnake(0);
-            switch (event.getCode()) {
-                case UP:
-                    snake.setAction(() -> snake.setDirection(Direction.UP));
-                    break;
-                case DOWN:
-                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
-                    break;
-                case LEFT:
-                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
-                    break;
-                case RIGHT:
-                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
-            }
-        });
-
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,
+                SnakeEventHandler.getSnakeEventHandler(board.getSnake(0), KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
     }
 
     private void newTwoPlayersGame(){
         board = Level.levelWithTwoPlayers();
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            Snake snake = board.getSnake(1);
-            switch (event.getCode()) {
-                case UP:
-                    snake.setAction(() -> snake.setDirection(Direction.UP));
-                    break;
-                case DOWN:
-                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
-                    break;
-                case LEFT:
-                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
-                    break;
-                case RIGHT:
-                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
-            }
-        });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,
+                SnakeEventHandler.getSnakeEventHandler(board.getSnake(1), KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT));
 
-        scene.addEventHandler(KeyEvent.KEY_PRESSED,event -> {
-            Snake snake = board.getSnake(0);
-            switch (event.getCode()) {
-                case W:
-                    snake.setAction(() -> snake.setDirection(Direction.UP));
-                    break;
-                case S:
-                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
-                    break;
-                case A:
-                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
-                    break;
-                case D:
-                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
-            }
-        });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,
+                SnakeEventHandler.getSnakeEventHandler(board.getSnake(0), KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D));
 
     }
 
