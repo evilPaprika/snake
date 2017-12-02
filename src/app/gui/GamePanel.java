@@ -1,82 +1,192 @@
-//package app.gui;
-//
-//import app.game.Board;
-//import app.game.SimpleObject;
-//import app.util.GameConsts;
-//import app.util.Level;
-//import app.util.State;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
-//import java.awt.event.KeyListener;
-//import java.util.ArrayList;
-//
-//
-//public class GamePanel extends JPanel implements ActionListener {
-//    private Board board = new Board();
-//    private State state;
-//    private Timer timer;
-//
-//    public GamePanel(State state) {
-//        this.state = state;
-//        if (state == State.ONE_PLAYER){
-//            newOnePlayerGame();
-//        }
-//        if (state == State.TWO_PLAYERS){
-//            newTwoPlayersGame();
-//        }
-//        setBackground(Color.GRAY);
-//        setFocusable(true);
-//        setPreferredSize(new Dimension(GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT));
-//        timer = new Timer(GameConsts.PAINT_DELAY, this);
-//        timer.start();
-//    }
-//
-//    protected void paintComponent(Graphics g){
-//        super.paintComponent(g);
-//        for (SimpleObject e : board.getGameObjects()) {
-//            g.setColor(e.getColor());
-//            g.fillRect(e.getLocation().x * GameConsts.CELL_SIZE + 1, e.getLocation().y * GameConsts.CELL_SIZE - 1,
-//                    GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2);
-//        }
-//        g.setFont(new Font("arial", Font.BOLD, 30));
-//        g.setColor(board.getSnake(0).getColor());
-//        g.drawString(""+board.getSnake(0).getScore(), 300, 30);
-//        if (state == State.TWO_PLAYERS) {
-//            g.setColor(board.getSnake(1).getColor());
-//            g.drawString("" + board.getSnake(1).getScore(), GameConsts.PANEL_WIDTH - 300, 30);
-//        }
-//        if(board.gameIsOver()){
-//            g.setFont(new Font("arial", Font.BOLD, 70));
-//            g.setColor(Color.RED);
-//            g.drawString("Game over", 200, 300);
-//            g.setFont(new Font("arial", Font.BOLD, 30));
-//            g.setColor(Color.white);
-//            g.drawString("Press any key", 270, 350);
-//            timer.stop();
-//            addKeyListener(new PressAnyKeyAdapter());
-//
-//        }
-//    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent e) {
-//        board.updateBoard();
-//        repaint();
-//    }
-//
-//    private void newOnePlayerGame(){
-//        board = Level.levelWithOnePlayer();
-//        addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-//    }
-//
-//    private void newTwoPlayersGame(){
-//        board = Level.levelWithTwoPlayers();
-//        addKeyListener(new SnakeKeyAdapter(board.getSnake(1), KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT));
-//        addKeyListener(new SnakeKeyAdapter(board.getSnake(0), KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D));
-//    }
-//
-//}
+package app.gui;
+
+
+import app.game.Board;
+import app.game.SimpleObject;
+import app.game.Snake;
+import app.util.*;
+import javafx.animation.AnimationTimer;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
+public class GamePanelFX {
+
+    private BorderPane root;
+    private Pane mainPane, topPane;
+    private Scene scene;
+    private Board board = new Board();
+    private State state;
+    private AnimationTimer timer;
+
+    public GamePanelFX(Scene scene, State state) {
+        this.state = state;
+        root = new BorderPane();
+        this.scene = scene;
+        mainPane = new Pane();
+        topPane = new Pane();
+        root.setTop(topPane);
+        root.setCenter(mainPane);
+
+        topPane.setMinSize(GameConsts.PANEL_WIDTH, GameConsts.HEIGHT);
+
+        mainPane.setStyle("-fx-background-color: #808080;");
+
+        this.state = state;
+        setGameState(state);
+
+        timer = new Timer(GameConsts.PAINT_DELAY) {
+            @Override
+            public void handle() {
+                render();
+                board.updateBoard();
+            }
+        };
+        timer.start();
+
+    }
+
+    private void render(){
+
+        mainPane.getChildren().clear();
+        for (SimpleObject e : board.getGameObjects()) {
+            Rectangle rect = new Rectangle(GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2, e.getColor());
+            rect.setTranslateX(e.getLocation().x * GameConsts.CELL_SIZE + 1);
+            rect.setTranslateY(e.getLocation().y * GameConsts.CELL_SIZE - 1);
+            mainPane.getChildren().add(rect);
+        }
+
+        topPane.getChildren().clear();
+        Label gameScoreOne = new Label(String.valueOf(board.getSnake(0).getScore()));
+        setLabel(gameScoreOne,2,GameConsts.PANEL_WIDTH/2,10);
+        topPane.getChildren().add(gameScoreOne);
+        if (state == State.TWO_PLAYERS){
+            gameScoreOne.setTranslateX(GameConsts.PANEL_WIDTH/2 - 100);
+            Label gameScoreTwo = new Label(String.valueOf(board.getSnake(1).getScore()));
+            setLabel(gameScoreTwo,2,GameConsts.PANEL_WIDTH/2 + 100, 10);
+            topPane.getChildren().add(gameScoreTwo);
+        }
+
+        if(board.gameIsOver()){
+            timer.stop();
+            gameOverRender();
+            scene.setOnKeyPressed(event -> {
+                switch (event.getCode()){
+                    case SPACE:
+                        scene.setRoot(MenuPanelFX.asRoot());
+                        break;
+                    case R:
+                        setGameState(state);
+                        timer.start();
+                }
+            });
+        }
+
+    }
+
+    private void gameOverRender(){
+        Label gameOver = new Label("Game Over");
+        gameOver.setTextFill(Color.RED);
+        setLabel(gameOver,8,GameConsts.PANEL_WIDTH/2,GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
+
+        Label exitToMenu = new Label("Press SPACE to exit in menu");
+        exitToMenu.setTextFill(Color.AQUA);
+        exitToMenu.setAlignment(Pos.CENTER);
+        setLabel(exitToMenu,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2);
+
+        Label restartGame = new Label("Press R to restart game");
+        restartGame.setTextFill(Color.AQUA);
+        restartGame.setAlignment(Pos.CENTER);
+        setLabel(restartGame,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 + 50);
+        mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
+    }
+
+    private void setLabel(Label label,Integer scale, Integer posX, Integer posY){
+        label.setScaleX(scale);
+        label.setScaleY(scale);
+        label.setTranslateX(posX);
+        label.setTranslateY(posY);
+    }
+
+    private void setGameState(State state){
+        switch (state){
+            case ONE_PLAYER:
+                newOnePlayerGame();
+                break;
+            case TWO_PLAYERS:
+                newTwoPlayersGame();
+                break;
+        }
+    }
+
+    private void newOnePlayerGame(){
+        board = Level.levelWithOnePlayer();
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            Snake snake = board.getSnake(0);
+            switch (event.getCode()) {
+                case UP:
+                    snake.setAction(() -> snake.setDirection(Direction.UP));
+                    break;
+                case DOWN:
+                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
+                    break;
+                case LEFT:
+                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
+                    break;
+                case RIGHT:
+                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
+            }
+        });
+
+    }
+
+    private void newTwoPlayersGame(){
+        board = Level.levelWithTwoPlayers();
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            Snake snake = board.getSnake(1);
+            switch (event.getCode()) {
+                case UP:
+                    snake.setAction(() -> snake.setDirection(Direction.UP));
+                    break;
+                case DOWN:
+                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
+                    break;
+                case LEFT:
+                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
+                    break;
+                case RIGHT:
+                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
+            }
+        });
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED,event -> {
+            Snake snake = board.getSnake(0);
+            switch (event.getCode()) {
+                case W:
+                    snake.setAction(() -> snake.setDirection(Direction.UP));
+                    break;
+                case S:
+                    snake.setAction(() -> snake.setDirection(Direction.DOWN));
+                    break;
+                case A:
+                    snake.setAction(() -> snake.setDirection(Direction.LEFT));
+                    break;
+                case D:
+                    snake.setAction(() -> snake.setDirection(Direction.RIGHT));
+            }
+        });
+
+    }
+
+    public BorderPane asRoot(){
+        return root;
+    }
+}
