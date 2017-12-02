@@ -64,24 +64,16 @@ public class GamePanelFX {
 
         topPane.getChildren().clear();
         Label gameScoreOne = new Label(String.valueOf(board.getSnake(0).getScore()));
-        gameScoreOne.setScaleX(2);
-        gameScoreOne.setScaleY(2);
-        gameScoreOne.setTranslateX(GameConsts.PANEL_WIDTH/2);
-        gameScoreOne.setTranslateY(10);
+        setLabel(gameScoreOne,2,GameConsts.PANEL_WIDTH/2,10);
         topPane.getChildren().add(gameScoreOne);
         if (state == State.TWO_PLAYERS){
             gameScoreOne.setTranslateX(GameConsts.PANEL_WIDTH/2 - 100);
             Label gameScoreTwo = new Label(String.valueOf(board.getSnake(1).getScore()));
-            gameScoreTwo.setScaleX(2);
-            gameScoreTwo.setScaleY(2);
-            gameScoreTwo.setTranslateX(GameConsts.PANEL_WIDTH/2 + 100);
-            gameScoreTwo.setTranslateY(10);
+            setLabel(gameScoreTwo,2,GameConsts.PANEL_WIDTH/2 + 100, 10);
             topPane.getChildren().add(gameScoreTwo);
         }
 
-
         if(board.gameIsOver()){
-
             timer.stop();
             gameOverRender();
             scene.setOnKeyPressed(event -> {
@@ -101,29 +93,25 @@ public class GamePanelFX {
     private void gameOverRender(){
         Label gameOver = new Label("Game Over");
         gameOver.setTextFill(Color.RED);
-        gameOver.setScaleX(8);
-        gameOver.setScaleY(8);
-        gameOver.setTranslateX(GameConsts.PANEL_WIDTH/2);
-        gameOver.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
+        setLabel(gameOver,8,GameConsts.PANEL_WIDTH/2,GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
 
         Label exitToMenu = new Label("Press SPACE to exit in menu");
         exitToMenu.setTextFill(Color.AQUA);
-        exitToMenu.setScaleX(3);
-        exitToMenu.setScaleY(3);
         exitToMenu.setAlignment(Pos.CENTER);
-        exitToMenu.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
-        exitToMenu.setTranslateY(GameConsts.PANEL_HEIGHT/2);
+        setLabel(exitToMenu,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2);
 
         Label restartGame = new Label("Press R to restart game");
         restartGame.setTextFill(Color.AQUA);
-        restartGame.setScaleX(3);
-        restartGame.setScaleY(3);
         restartGame.setAlignment(Pos.CENTER);
-        restartGame.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
-        restartGame.setTranslateY(GameConsts.PANEL_HEIGHT/2 + 50);
-
-
+        setLabel(restartGame,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 + 50);
         mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
+    }
+
+    private void setLabel(Label label,Integer scale, Integer posX, Integer posY){
+        label.setScaleX(scale);
+        label.setScaleY(scale);
+        label.setTranslateX(posX);
+        label.setTranslateY(posY);
     }
 
     private void setGameState(State state){
