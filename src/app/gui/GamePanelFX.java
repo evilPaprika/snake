@@ -6,10 +6,14 @@ import app.game.SimpleObject;
 import app.game.Snake;
 import app.util.*;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class GamePanelFX {
@@ -60,7 +64,29 @@ public class GamePanelFX {
         if(board.gameIsOver()){
 
             timer.stop();
-            scene.setRoot(MenuPanelFX.asRoot());
+            Label gameOver = new Label("Game Over");
+            gameOver.setTextFill(Color.RED);
+            gameOver.setScaleX(8);
+            gameOver.setScaleY(8);
+            gameOver.setTranslateX(GameConsts.PANEL_WIDTH/2);
+            gameOver.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
+
+            Label pressKey = new Label("Press any key to exit in menu");
+            pressKey.setTextFill(Color.AQUA);
+            pressKey.setScaleX(3);
+            pressKey.setScaleY(3);
+            pressKey.setAlignment(Pos.CENTER);
+            pressKey.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
+            pressKey.setTranslateY(GameConsts.PANEL_HEIGHT/2);
+
+
+            mainPane.getChildren().addAll(gameOver,pressKey);
+
+            scene.setOnKeyPressed(event -> {
+                if ( event.getCode() == KeyCode.SPACE)
+                    scene.setRoot(MenuPanelFX.asRoot());
+            });
+
 
         }
 
