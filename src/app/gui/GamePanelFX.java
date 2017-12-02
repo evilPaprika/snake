@@ -59,34 +59,8 @@ public class GamePanelFX {
         if(board.gameIsOver()){
 
             timer.stop();
-            Label gameOver = new Label("Game Over");
-            gameOver.setTextFill(Color.RED);
-            gameOver.setScaleX(8);
-            gameOver.setScaleY(8);
-            gameOver.setTranslateX(GameConsts.PANEL_WIDTH/2);
-            gameOver.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
-
-            Label exitToMenu = new Label("Press SPACE to exit in menu");
-            exitToMenu.setTextFill(Color.AQUA);
-            exitToMenu.setScaleX(3);
-            exitToMenu.setScaleY(3);
-            exitToMenu.setAlignment(Pos.CENTER);
-            exitToMenu.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
-            exitToMenu.setTranslateY(GameConsts.PANEL_HEIGHT/2);
-
-            Label restartGame = new Label("Press R to restart game");
-            restartGame.setTextFill(Color.AQUA);
-            restartGame.setScaleX(3);
-            restartGame.setScaleY(3);
-            restartGame.setAlignment(Pos.CENTER);
-            restartGame.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
-            restartGame.setTranslateY(GameConsts.PANEL_HEIGHT/2 + 50);
-
-
-            mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
-
+            gameOverRender();
             scene.setOnKeyPressed(event -> {
-
                 switch (event.getCode()){
                     case SPACE:
                         scene.setRoot(MenuPanelFX.asRoot());
@@ -94,14 +68,38 @@ public class GamePanelFX {
                     case R:
                         setGameState(state);
                         timer.start();
-
                 }
-
             });
-
-
         }
 
+    }
+
+    private void gameOverRender(){
+        Label gameOver = new Label("Game Over");
+        gameOver.setTextFill(Color.RED);
+        gameOver.setScaleX(8);
+        gameOver.setScaleY(8);
+        gameOver.setTranslateX(GameConsts.PANEL_WIDTH/2);
+        gameOver.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
+
+        Label exitToMenu = new Label("Press SPACE to exit in menu");
+        exitToMenu.setTextFill(Color.AQUA);
+        exitToMenu.setScaleX(3);
+        exitToMenu.setScaleY(3);
+        exitToMenu.setAlignment(Pos.CENTER);
+        exitToMenu.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
+        exitToMenu.setTranslateY(GameConsts.PANEL_HEIGHT/2);
+
+        Label restartGame = new Label("Press R to restart game");
+        restartGame.setTextFill(Color.AQUA);
+        restartGame.setScaleX(3);
+        restartGame.setScaleY(3);
+        restartGame.setAlignment(Pos.CENTER);
+        restartGame.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
+        restartGame.setTranslateY(GameConsts.PANEL_HEIGHT/2 + 50);
+
+
+        mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
     }
 
     private void setGameState(State state){
