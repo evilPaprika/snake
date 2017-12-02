@@ -32,6 +32,8 @@ public class MenuPanelFX {
         root = new BorderPane();
         scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT);
         ImageView img = new ImageView(new Image("img/menu.jpg"));
+        img.setFitHeight(GameConsts.PANEL_HEIGHT);
+        img.setFitWidth(GameConsts.PANEL_WIDTH);
 
         mainPane = new Pane();
         root.setCenter(mainPane);
@@ -42,6 +44,7 @@ public class MenuPanelFX {
         SubMenu mainMenu = new SubMenu(200,
                 singleGame,twoPlayerGame, exitGame
         );
+
 
         singleGame.setOnMouseClicked(event -> {
             GamePanelFX panel = new GamePanelFX(scene, State.ONE_PLAYER);
@@ -57,6 +60,7 @@ public class MenuPanelFX {
         exitGame.setOnMouseClicked(event-> System.exit(0));
         menuBox = new MenuBox(mainMenu);
         mainPane.getChildren().addAll(img,menuBox);
+        run();
     }
 
     public static BorderPane asRoot(){
@@ -102,7 +106,7 @@ public class MenuPanelFX {
         static SubMenu subMenu;
         public MenuBox(SubMenu subMenu){
             MenuBox.subMenu = subMenu;
-            Rectangle bg = new Rectangle(900,600,Color.LIGHTBLUE);
+            Rectangle bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT,Color.LIGHTBLUE);
             bg.setOpacity(0.4);
             getChildren().addAll(bg, subMenu);
         }

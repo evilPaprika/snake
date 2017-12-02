@@ -49,6 +49,7 @@ public class GamePanelFX {
     }
 
     private void render(){
+
         mainPane.getChildren().clear();
         for (SimpleObject e : board.getGameObjects()) {
             Rectangle rect = new Rectangle(GameConsts.CELL_SIZE - 2, GameConsts.CELL_SIZE - 2, e.getColor());
@@ -56,6 +57,7 @@ public class GamePanelFX {
             rect.setTranslateY(e.getLocation().y * GameConsts.CELL_SIZE - 1);
             mainPane.getChildren().add(rect);
         }
+
         if(board.gameIsOver()){
 
             timer.stop();
