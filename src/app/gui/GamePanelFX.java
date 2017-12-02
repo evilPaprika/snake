@@ -26,6 +26,7 @@ public class GamePanelFX {
     private AnimationTimer timer;
 
     public GamePanelFX(Scene scene, State state) {
+        this.state = state;
         root = new BorderPane();
         this.scene = scene;
         mainPane = new Pane();
@@ -46,7 +47,6 @@ public class GamePanelFX {
             public void handle() {
                 render();
                 board.updateBoard();
-
             }
         };
         timer.start();
@@ -71,20 +71,40 @@ public class GamePanelFX {
             gameOver.setTranslateX(GameConsts.PANEL_WIDTH/2);
             gameOver.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
 
-            Label pressKey = new Label("Press any key to exit in menu");
-            pressKey.setTextFill(Color.AQUA);
-            pressKey.setScaleX(3);
-            pressKey.setScaleY(3);
-            pressKey.setAlignment(Pos.CENTER);
-            pressKey.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
-            pressKey.setTranslateY(GameConsts.PANEL_HEIGHT/2);
+            Label exitToMenu = new Label("Press SPACE to exit in menu");
+            exitToMenu.setTextFill(Color.AQUA);
+            exitToMenu.setScaleX(3);
+            exitToMenu.setScaleY(3);
+            exitToMenu.setAlignment(Pos.CENTER);
+            exitToMenu.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
+            exitToMenu.setTranslateY(GameConsts.PANEL_HEIGHT/2);
+
+            Label restartGame = new Label("Press R to restart game");
+            restartGame.setTextFill(Color.AQUA);
+            restartGame.setScaleX(3);
+            restartGame.setScaleY(3);
+            restartGame.setAlignment(Pos.CENTER);
+            restartGame.setTranslateX(GameConsts.PANEL_WIDTH/2 - 50);
+            restartGame.setTranslateY(GameConsts.PANEL_HEIGHT/2 + 50);
 
 
-            mainPane.getChildren().addAll(gameOver,pressKey);
+            mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
 
             scene.setOnKeyPressed(event -> {
-                if ( event.getCode() == KeyCode.SPACE)
-                    scene.setRoot(MenuPanelFX.asRoot());
+
+                switch (event.getCode()){
+                    case SPACE:
+                        scene.setRoot(MenuPanelFX.asRoot());
+                        break;
+                    case R:
+                        if(state == State.ONE_PLAYER){
+                            newOnePlayerGame();
+                        }
+                        else newTwoPlayersGame();
+                        timer.start();
+
+                }
+
             });
 
 

@@ -117,7 +117,7 @@ public class MenuPanelFX {
         public SubMenu(int width, MenuItem...items){
             setSpacing(15);
             setTranslateY(150);
-            setTranslateX(width/2-100);
+            setTranslateX(GameConsts.PANEL_WIDTH/2 - 2*GameConsts.WIDTH);
             for(MenuItem item : items){
                 getChildren().addAll(item);
             }
