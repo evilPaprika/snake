@@ -41,7 +41,7 @@ public class GamePanel {
         this.state = state;
         setGameState(state);
 
-        timer = new Timer(GameConsts.PAINT_DELAY) {
+        timer = new Timer(Long.valueOf(PropertiesHandler.getInstance().getProperty("speed"))) {
             @Override
             public void handle() {
 

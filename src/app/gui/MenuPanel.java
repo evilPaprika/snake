@@ -1,6 +1,7 @@
 package app.gui;
 
 import app.util.GameConsts;
+import app.util.PropertiesHandler;
 import app.util.State;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -53,6 +54,29 @@ public class MenuPanel {
         SubMenu settingsMenu = new SubMenu(200,
                 snakeSpeed,fon,fonOpacity,backToMenu);
 
+        MenuItem oneX = new MenuItem("1x");
+        MenuItem twoX = new MenuItem("2x");
+        MenuItem backToSettings = new MenuItem("Назад");
+        SubMenu speedSettings = new SubMenu(200,
+                oneX, twoX, backToSettings);
+
+        oneX.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY));
+            menuBox.setSubMenu(settingsMenu);
+        });
+
+        twoX.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY/2));
+            menuBox.setSubMenu(settingsMenu);
+        });
+
+        backToSettings.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(settingsMenu);
+        });
+
+        snakeSpeed.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(speedSettings);
+        });
 
         settings.setOnMouseClicked(event -> {
             menuBox.setSubMenu(settingsMenu);
@@ -74,8 +98,6 @@ public class MenuPanel {
         });
 
         exitGame.setOnMouseClicked(event-> System.exit(0));
-
-
 
         menuBox = new MenuBox(mainMenu);
         mainPane.getChildren().addAll(img,menuBox);
@@ -121,6 +143,7 @@ public class MenuPanel {
             });
         }
     }
+
     private static class MenuBox extends Pane{
         static SubMenu subMenu;
         public MenuBox(SubMenu subMenu){

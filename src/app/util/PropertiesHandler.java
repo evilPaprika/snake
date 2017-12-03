@@ -13,9 +13,13 @@ public class PropertiesHandler {
 
     private static PropertiesHandler ourInstance = null;
 
-    public static PropertiesHandler getInstance() throws IOException {
+    public static PropertiesHandler getInstance(){
         if (ourInstance == null)
-            ourInstance = new PropertiesHandler();
+            try {
+                ourInstance = new PropertiesHandler();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         return ourInstance;
     }
 
@@ -29,9 +33,13 @@ public class PropertiesHandler {
         return properties.getProperty(var);
     }
 
-    public void setProperty(String key, String var) throws IOException {
+    public void setProperty(String key, String var) {
         properties.setProperty(key, var);
         //Сохраняем свойства в файл.
-        properties.store(new FileOutputStream(file), null);
+        try {
+            properties.store(new FileOutputStream(file), null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
