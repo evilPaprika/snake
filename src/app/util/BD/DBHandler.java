@@ -10,6 +10,7 @@ public class DBHandler {
     private static final String CON_STR = "jdbc:sqlite:D:/myrecord.db";
 
     private static DBHandler instance = null;
+    private Connection connection;
 
     public static synchronized DBHandler getInstance() {
         if (instance == null)
@@ -20,8 +21,6 @@ public class DBHandler {
             }
         return instance;
     }
-
-    private Connection connection;
 
     private DBHandler() throws SQLException {
 
@@ -35,12 +34,27 @@ public class DBHandler {
         }
     }
 
-    public void createDB() throws ClassNotFoundException, SQLException
+    public boolean createDB() throws ClassNotFoundException, SQLException
     {
         Statement statement = connection.createStatement();
         statement.execute("CREATE TABLE if not exists 'Statistics' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'name' text, 'score' INT);");
 
         System.out.println("Таблица создана или уже существует.");
+        return !statement.isClosed();
+    }
+
+    public Statistic getElementByName(String name){
+        try {
+            Statement statement = this.connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT id, name, score FROM Statistics WHERE name='"+name+"'");
+            if(!resultSet.next()) return null;
+            return new Statistic(resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("score"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Statistic> getAllStatistics() {
@@ -97,13 +111,17 @@ public class DBHandler {
         }
     }
 
-    public void deleteStatistic(int id) {
+    public void deleteStatistic(String name) {
         try (PreparedStatement statement = this.connection.prepareStatement(
-                "DELETE FROM Statistic WHERE id = ?")) {
-            statement.setObject(1, id);
+                "DELETE FROM Statistics WHERE name = ?")) {
+            statement.setObject(1, name);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeDB() throws SQLException {
+        connection.close();
     }
 }
