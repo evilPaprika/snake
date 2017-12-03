@@ -2,6 +2,8 @@ package app;
 
 
 import app.gui.MenuPanel;
+import app.util.BD.DBHandler;
+import app.util.BD.Statistic;
 import app.util.PropertiesHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -18,6 +20,7 @@ public class Main extends Application {
         MenuPanel menuPanel = new MenuPanel();
         primaryStage.setTitle("Snake");
         primaryStage.setScene(menuPanel.asScene());
+        DBHandler.getInstance().getAllStatistics().forEach(System.out::println);
         primaryStage.show();
     }
 
