@@ -49,7 +49,7 @@ public class MenuPanel {
 
         MenuItem snakeSpeed = new MenuItem("Изменить скорость змейки");
         MenuItem fon = new MenuItem("Изменить фон");
-        MenuItem fonOpacity = new MenuItem("Затемнения");
+        MenuItem fonOpacity = new MenuItem("Затемнение фона");
         MenuItem backToMenu = new MenuItem("Назад");
         SubMenu settingsMenu = new SubMenu(200,
                 snakeSpeed,fon,fonOpacity,backToMenu);
@@ -59,6 +59,48 @@ public class MenuPanel {
         MenuItem backToSettings = new MenuItem("Назад");
         SubMenu speedSettings = new SubMenu(200,
                 oneX, twoX, backToSettings);
+
+        MenuItem opZero = new MenuItem("0");
+        MenuItem opOne = new MenuItem("0.2");
+        MenuItem opTwo = new MenuItem("0.4");
+        MenuItem opThree = new MenuItem("0.6");
+        MenuItem opAll = new MenuItem("1");
+        MenuItem backToSettingsFromOp = new MenuItem("Назад");
+        SubMenu opacitySettings = new SubMenu(200,
+                opZero, opOne, opTwo, opThree, opAll, backToSettingsFromOp);
+
+        opZero.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("opacity","0");
+            menuBox.setBg(0);
+        });
+
+        opOne.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("opacity","0.2");
+            menuBox.setBg(0.2);
+        });
+
+        opTwo.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("opacity","0.4");
+            menuBox.setBg(0.4);
+        });
+
+        opThree.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("opacity","0.6");
+            menuBox.setBg(0.6);
+        });
+
+        opAll.setOnMouseClicked(event -> {
+            PropertiesHandler.getInstance().setProperty("opacity","1");
+            menuBox.setBg(1);
+        });
+
+        fonOpacity.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(opacitySettings);
+        });
+
+        backToSettingsFromOp.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(settingsMenu);
+        });
 
         oneX.setOnMouseClicked(event -> {
             PropertiesHandler.getInstance().setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY));
@@ -145,17 +187,25 @@ public class MenuPanel {
     }
 
     private static class MenuBox extends Pane{
+        Rectangle bg;
         static SubMenu subMenu;
         public MenuBox(SubMenu subMenu){
             MenuBox.subMenu = subMenu;
-            Rectangle bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
-            bg.setOpacity(0.4);
+            bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
+
+            if (PropertiesHandler.getInstance().getProperty("opacity") == null)
+                bg.setOpacity(0.4);
+            else
+                bg.setOpacity(Double.valueOf(PropertiesHandler.getInstance().getProperty("opacity")));
             getChildren().addAll(bg, subMenu);
         }
         public void setSubMenu(SubMenu subMenu){
             getChildren().remove(MenuBox.subMenu);
             MenuBox.subMenu = subMenu;
             getChildren().add(MenuBox.subMenu);
+        }
+        public void setBg(double var){
+            bg.setOpacity(var);
         }
     }
 
