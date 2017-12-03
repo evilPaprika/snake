@@ -48,9 +48,10 @@ public class MenuPanel {
 
         MenuItem snakeSpeed = new MenuItem("Изменить скорость змейки");
         MenuItem fon = new MenuItem("Изменить фон");
+        MenuItem fonOpacity = new MenuItem("Затемнения");
         MenuItem backToMenu = new MenuItem("Назад");
         SubMenu settingsMenu = new SubMenu(200,
-                snakeSpeed,fon,backToMenu);
+                snakeSpeed,fon,fonOpacity,backToMenu);
 
 
         settings.setOnMouseClicked(event -> {
@@ -60,7 +61,6 @@ public class MenuPanel {
         backToMenu.setOnMouseClicked(event -> {
             menuBox.setSubMenu(mainMenu);
         });
-
 
         singleGame.setOnMouseClicked(event -> {
             GamePanel panel = new GamePanel(scene, State.ONE_PLAYER);
@@ -74,6 +74,9 @@ public class MenuPanel {
         });
 
         exitGame.setOnMouseClicked(event-> System.exit(0));
+
+
+
         menuBox = new MenuBox(mainMenu);
         mainPane.getChildren().addAll(img,menuBox);
         run();
