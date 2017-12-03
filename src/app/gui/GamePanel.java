@@ -5,10 +5,14 @@ import app.game.Board;
 import app.game.SimpleObject;
 import app.game.Snake;
 import app.util.*;
+import app.util.BD.DBHandler;
+import app.util.BD.Statistic;
+import com.sun.nio.sctp.Notification;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -38,6 +42,8 @@ public class GamePanel {
 
         mainPane.setStyle("-fx-background-color: #808080;");
 
+        Notification
+
         this.state = state;
         setGameState(state);
 
@@ -55,16 +61,6 @@ public class GamePanel {
                 if(board.gameIsOver()){
                     timer.stop();
                     gameOverRender();
-                    scene.setOnKeyPressed(event -> {
-                        switch (event.getCode()){
-                            case SPACE:
-                                scene.setRoot(MenuPanel.asRoot());
-                                break;
-                            case R:
-                                setGameState(state);
-                                timer.start();
-                        }
-                    });
                 }
                 else render();
             }
@@ -101,16 +97,52 @@ public class GamePanel {
         gameOver.setTextFill(Color.RED);
         setLabel(gameOver,8,GameConsts.PANEL_WIDTH/2,GameConsts.PANEL_HEIGHT/2 - 4*GameConsts.WIDTH);
 
-        Label exitToMenu = new Label("Press SPACE to exit in menu");
+        TextField textField = new TextField();
+        textField.setTranslateX(GameConsts.PANEL_WIDTH/2 - 70);
+        textField.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 100);
+        textField.setAlignment(Pos.CENTER);
+        textField.setVisible(false);
+
+        mainPane.getChildren().add(textField);
+
+        Label save = new Label("Press CTRL + S to save result");
+        save.setTextFill(Color.AQUA);
+        save.setAlignment(Pos.CENTER);
+        setLabel(save,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 - 50);
+
+        Label exitToMenu = new Label("Press CTRL + SPACE to exit in menu");
         exitToMenu.setTextFill(Color.AQUA);
         exitToMenu.setAlignment(Pos.CENTER);
         setLabel(exitToMenu,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2);
 
-        Label restartGame = new Label("Press R to restart game");
+        Label restartGame = new Label("Press CTRL + R to restart game");
         restartGame.setTextFill(Color.AQUA);
         restartGame.setAlignment(Pos.CENTER);
         setLabel(restartGame,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 + 50);
-        mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame);
+        mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame, save);
+
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()){
+                case SPACE:
+                    scene.setRoot(MenuPanel.asRoot());
+                    break;
+                case R:
+                    setGameState(state);
+                    timer.start();
+
+                case S:
+                    String score = textField.getCharacters().toString();
+                    if(textField.isVisible()) {
+                        if (!score.isEmpty() && DBHandler.getInstance().isAdd(score))
+                            DBHandler.getInstance().addScore(new Statistic(textField.getCharacters().toString(),
+                                    board.getSnake(0).getScore()));
+                        textField.setVisible(false);
+                        break;
+                    }
+                    textField.setVisible(true);
+                    break;
+            }
+        });
     }
 
     private void setLabel(Label label,Integer scale, Integer posX, Integer posY){

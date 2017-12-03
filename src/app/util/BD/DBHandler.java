@@ -11,9 +11,13 @@ public class DBHandler {
 
     private static DBHandler instance = null;
 
-    public static synchronized DBHandler getInstance() throws SQLException {
+    public static synchronized DBHandler getInstance() {
         if (instance == null)
-            instance = new DBHandler();
+            try {
+                instance = new DBHandler();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         return instance;
     }
 
@@ -58,7 +62,21 @@ public class DBHandler {
         }
     }
 
+    public boolean isAdd(String name){
+        try (Statement statement = this.connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery("SELECT id, name, score FROM Statistics WHERE name='" + name+"'");
+            if (resultSet.next()){
+                return false;
+            }
+        } catch (SQLException e) {
+            return true;
+        }
+        return true;
+    }
+
     public void addScore(Statistic statistic) {
+
         try (PreparedStatement statement = this.connection.prepareStatement(
                 "INSERT INTO Statistics(`name`, `score`) " +
                         "VALUES(?, ?)")) {
@@ -70,6 +88,14 @@ public class DBHandler {
         }
     }
 
+    public void dropDB(){
+        try (PreparedStatement statement = this.connection.prepareStatement(
+                "DROP TABLE Statistics")) {
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void deleteStatistic(int id) {
         try (PreparedStatement statement = this.connection.prepareStatement(
