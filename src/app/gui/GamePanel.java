@@ -19,6 +19,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class GamePanel {
 
@@ -41,8 +43,6 @@ public class GamePanel {
         topPane.setMinSize(GameConsts.PANEL_WIDTH, GameConsts.HEIGHT);
 
         mainPane.setStyle("-fx-background-color: #808080;");
-
-        Notification
 
         this.state = state;
         setGameState(state);
@@ -131,12 +131,27 @@ public class GamePanel {
                     timer.start();
 
                 case S:
+                    Notifications notifications = Notifications.create()
+                            .title("DB")
+                            .text("complite save")
+                            .hideAfter(Duration.seconds(5))
+                            .position(Pos.BOTTOM_RIGHT);
+
                     String score = textField.getCharacters().toString();
+
                     if(textField.isVisible()) {
-                        if (!score.isEmpty() && DBHandler.getInstance().isAdd(score))
+                        if (!score.isEmpty()) {
+                            if (!DBHandler.getInstance().isAdd(score)){
+                                notifications.text("Такой ник уже существует");
+                                notifications.showConfirm();
+                                break;
+                            }
                             DBHandler.getInstance().addScore(new Statistic(textField.getCharacters().toString(),
                                     board.getSnake(0).getScore()));
+                            notifications.showConfirm();
+                        }
                         textField.setVisible(false);
+
                         break;
                     }
                     textField.setVisible(true);

@@ -1,5 +1,7 @@
 package app.gui;
 
+import app.util.BD.DBHandler;
+import app.util.BD.Statistic;
 import app.util.GameConsts;
 import app.util.PropertiesHandler;
 import app.util.State;
@@ -21,12 +23,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MenuPanel {
     private static BorderPane root;
-    private Pane mainPane;
+    private Pane mainPane, scorePane;
     private MenuBox menuBox;
-    private  Scene scene;
+    private Scene scene;
+    private static Rectangle bg;
 
     public MenuPanel() {
 
@@ -36,16 +42,23 @@ public class MenuPanel {
         img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         img.setFitWidth(GameConsts.PANEL_WIDTH);
 
+        bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
+
+        if (PropertiesHandler.getInstance().getProperty("opacity") == null)
+            bg.setOpacity(0.4);
+        else
+            bg.setOpacity(Double.valueOf(PropertiesHandler.getInstance().getProperty("opacity")));
+
         mainPane = new Pane();
         root.setCenter(mainPane);
 
         MenuItem singleGame = new MenuItem("ОДИН ИГРОК");
         MenuItem twoPlayerGame = new MenuItem("ДВА ИГРОКА");
         MenuItem settings = new MenuItem("НАСТРОЙКИ");
+        MenuItem score = new MenuItem("ТОП-10");
         MenuItem exitGame = new MenuItem("ВЫХОД");
         SubMenu mainMenu = new SubMenu(200,
-                singleGame,twoPlayerGame,settings, exitGame
-        );
+                singleGame,twoPlayerGame,settings,score, exitGame);
 
         MenuItem snakeSpeed = new MenuItem("Изменить скорость змейки");
         MenuItem fon = new MenuItem("Изменить фон");
@@ -68,6 +81,14 @@ public class MenuPanel {
         MenuItem backToSettingsFromOp = new MenuItem("Назад");
         SubMenu opacitySettings = new SubMenu(200,
                 opZero, opOne, opTwo, opThree, opAll, backToSettingsFromOp);
+
+        SubMenu scoreBoard = new SubMenu(makeScore());
+
+
+        score.setOnMouseClicked(event -> {
+            menuBox.setSubMenu(scoreBoard);
+        });
+
 
         opZero.setOnMouseClicked(event -> {
             PropertiesHandler.getInstance().setProperty("opacity","0");
@@ -162,7 +183,7 @@ public class MenuPanel {
 
     private static class MenuItem extends StackPane {
         public  MenuItem(String name){
-            Rectangle bg = new Rectangle(200,20,Color.WHITE);
+            Rectangle bg = new Rectangle(400,20,Color.WHITE);
             bg.setOpacity(0.5);
 
             Text text = new Text(name);
@@ -186,17 +207,23 @@ public class MenuPanel {
         }
     }
 
+    private List<MenuItem> makeScore(){
+        int i=1;
+        List<MenuItem> list=new ArrayList<>();
+        for(Statistic e : DBHandler.getInstance().getAllStatistics()){
+            if(i>10) break;
+            list.add(new MenuItem(i+". "+ e.name +" : " + e.score));
+            i++;
+        }
+        return list;
+
+    }
+
     private static class MenuBox extends Pane{
-        Rectangle bg;
+
         static SubMenu subMenu;
         public MenuBox(SubMenu subMenu){
             MenuBox.subMenu = subMenu;
-            bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
-
-            if (PropertiesHandler.getInstance().getProperty("opacity") == null)
-                bg.setOpacity(0.4);
-            else
-                bg.setOpacity(Double.valueOf(PropertiesHandler.getInstance().getProperty("opacity")));
             getChildren().addAll(bg, subMenu);
         }
         public void setSubMenu(SubMenu subMenu){
@@ -210,10 +237,20 @@ public class MenuPanel {
     }
 
     private static class SubMenu extends VBox {
+
+        public SubMenu(List<MenuItem> list){
+            setSpacing(15);
+            setTranslateY(150);
+            setTranslateX(GameConsts.PANEL_WIDTH/2 - 4*GameConsts.WIDTH);
+            for(MenuItem item : list){
+                getChildren().addAll(item);
+            }
+        }
+
         public SubMenu(int width, MenuItem...items){
             setSpacing(15);
             setTranslateY(150);
-            setTranslateX(GameConsts.PANEL_WIDTH/2 - 2*GameConsts.WIDTH);
+            setTranslateX(GameConsts.PANEL_WIDTH/2 - 4*GameConsts.WIDTH);
             for(MenuItem item : items){
                 getChildren().addAll(item);
             }
