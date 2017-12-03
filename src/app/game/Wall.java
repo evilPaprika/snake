@@ -1,5 +1,8 @@
 package app.game;
 
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+
 import java.awt.*;
 
 public class Wall implements SimpleObject {

@@ -1,6 +1,9 @@
 package app.game;
 
 import app.util.Direction;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+
 import java.awt.*;
 import java.util.LinkedList;
 

@@ -1,5 +1,6 @@
 .idea
 *.class
+*.properties
 
 # Windows image file caches
 Thumbs.db

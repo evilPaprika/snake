@@ -4,6 +4,8 @@ import app.game.Board;
 import app.game.SimpleObject;
 import app.game.Snake;
 import app.game.Wall;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 
 import java.awt.*;
 import java.util.ArrayList;
