@@ -8,6 +8,11 @@ public class Statistic {
 
     public int score;
 
+    public Statistic(String name, int score){
+        this.name = name;
+        this.score = score;
+    }
+
     public Statistic(int id, String name, int score) {
         this.id = id;
         this.name = name;

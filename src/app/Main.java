@@ -20,7 +20,7 @@ public class Main extends Application {
         MenuPanel menuPanel = new MenuPanel();
         primaryStage.setTitle("Snake");
         primaryStage.setScene(menuPanel.asScene());
-        DBHandler.getInstance().addScore(new Statistic(1,"Andrey",5));
+        DBHandler.getInstance().addScore(new Statistic("Andrey",0));
         DBHandler.getInstance().getAllStatistics().forEach(System.out::println);
         primaryStage.show();
     }
