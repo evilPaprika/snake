@@ -17,9 +17,7 @@ public class Main extends Application {
 
         MenuPanel menuPanel = new MenuPanel();
         primaryStage.setTitle("Snake");
-
         primaryStage.setScene(menuPanel.asScene());
-
         primaryStage.show();
     }
 
