@@ -96,6 +96,7 @@ public class Snake implements CompoundObject {
         body.clear();
         isDead = false;
         body.addFirst(new SnakeSegment(spawnPosinton, initialDirection, this));
+        direction = initialDirection;
     }
 
     @Override

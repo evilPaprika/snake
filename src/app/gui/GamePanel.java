@@ -1,6 +1,5 @@
 package app.gui;
 
-
 import app.game.Board;
 import app.game.SimpleObject;
 import app.game.Snake;
