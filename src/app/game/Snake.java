@@ -17,6 +17,8 @@ public class Snake implements CompoundObject {
     private Direction direction;
     private int score;
     private int toGrow;
+    private Point spawnPosinton;
+    private Direction initialDirection;
     private Color color;
 
 
@@ -33,6 +35,8 @@ public class Snake implements CompoundObject {
         direction = initialDirection;
         body.addFirst(new SnakeSegment(initialPosition, initialDirection, this));
         this.color = color;
+        this.initialDirection = initialDirection;
+        spawnPosinton = initialPosition;
     }
 
     private void moveBy(int dx, int dy) {
@@ -51,6 +55,7 @@ public class Snake implements CompoundObject {
     }
 
     void updatePosition() {
+        System.out.print(initialDirection);
         action.ifPresent(runnable -> {
             runnable.run();
             action = Optional.empty();
@@ -85,6 +90,13 @@ public class Snake implements CompoundObject {
     }
 
     void addScore(int toAdd) {score += toAdd;}
+
+    void respawn(){
+        toGrow = 2*body.size()/3;
+        body.clear();
+        isDead = false;
+        body.addFirst(new SnakeSegment(spawnPosinton, initialDirection, this));
+    }
 
     @Override
     public LinkedList<SnakeSegment> getParts() {
