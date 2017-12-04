@@ -91,27 +91,27 @@ public class MenuPanel {
 
 
         opZero.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("opacity","0");
+            setProperty("opacity", "0");
             menuBox.setBg(0);
         });
 
         opOne.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("opacity","0.2");
+            setProperty("opacity", "0.2");
             menuBox.setBg(0.2);
         });
 
         opTwo.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("opacity","0.4");
+            setProperty("opacity", "0.4");
             menuBox.setBg(0.4);
         });
 
         opThree.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("opacity","0.6");
+            setProperty("opacity", "0.6");
             menuBox.setBg(0.6);
         });
 
         opAll.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("opacity","1");
+            setProperty("opacity", "1");
             menuBox.setBg(1);
         });
 
@@ -124,12 +124,12 @@ public class MenuPanel {
         });
 
         oneX.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY));
+            setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY));
             menuBox.setSubMenu(settingsMenu);
         });
 
         twoX.setOnMouseClicked(event -> {
-            PropertiesHandler.getInstance().setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY/2));
+            setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY/2));
             menuBox.setSubMenu(settingsMenu);
         });
 
@@ -165,6 +165,11 @@ public class MenuPanel {
         menuBox = new MenuBox(mainMenu);
         mainPane.getChildren().addAll(img,menuBox);
         run();
+    }
+
+    private void setProperty(String opacity, String var) {
+        //Сделать обработку и месседж бокс
+        PropertiesHandler.getInstance().setProperty(opacity, var);
     }
 
     public static BorderPane asRoot(){
