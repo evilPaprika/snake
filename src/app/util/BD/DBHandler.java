@@ -7,6 +7,7 @@ import java.util.*;
 
 public class DBHandler {
 
+    //вынести в настройки
     private static final String CON_STR = "jdbc:sqlite:D:/myrecord.db";
 
     private static DBHandler instance = null;
@@ -17,6 +18,7 @@ public class DBHandler {
             try {
                 instance = new DBHandler();
             } catch (SQLException e) {
+            //
                 e.printStackTrace();
             }
         return instance;
@@ -27,14 +29,10 @@ public class DBHandler {
         DriverManager.registerDriver(new JDBC());
 
         this.connection = DriverManager.getConnection(CON_STR);
-        try {
-            createDB();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        createDB();
     }
 
-    public boolean createDB() throws ClassNotFoundException, SQLException
+    public boolean createDB() throws SQLException
     {
         Statement statement = connection.createStatement();
         statement.execute("CREATE TABLE if not exists 'Statistics' ('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'name' text, 'score' INT);");
