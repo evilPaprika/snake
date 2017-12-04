@@ -101,21 +101,25 @@ public class GamePanel {
         textField.setTranslateX(GameConsts.PANEL_WIDTH/2 - 70);
         textField.setTranslateY(GameConsts.PANEL_HEIGHT/2 - 100);
         textField.setAlignment(Pos.CENTER);
-        textField.setVisible(false);
+
+        if(state == State.TWO_PLAYERS) textField.setVisible(false);
 
         mainPane.getChildren().add(textField);
 
         Label save = new Label("Press CTRL + S to save result");
+        if(state == State.TWO_PLAYERS) save.setText("");
         save.setTextFill(Color.AQUA);
         save.setAlignment(Pos.CENTER);
         setLabel(save,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 - 50);
 
         Label exitToMenu = new Label("Press CTRL + SPACE to exit in menu");
+        if(state == State.TWO_PLAYERS) exitToMenu.setText("Press SPACE to exit in menu");
         exitToMenu.setTextFill(Color.AQUA);
         exitToMenu.setAlignment(Pos.CENTER);
         setLabel(exitToMenu,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2);
 
         Label restartGame = new Label("Press CTRL + R to restart game");
+        if(state == State.TWO_PLAYERS) restartGame.setText("Press R to restart game");
         restartGame.setTextFill(Color.AQUA);
         restartGame.setAlignment(Pos.CENTER);
         setLabel(restartGame,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 + 50);
@@ -131,6 +135,7 @@ public class GamePanel {
                     timer.start();
 
                 case S:
+
                     Notifications notifications = Notifications.create()
                             .title("DB")
                             .text("complite save")
@@ -139,23 +144,18 @@ public class GamePanel {
 
                     String score = textField.getCharacters().toString();
 
-                    if(textField.isVisible()) {
-                        if (!score.isEmpty()) {
-                            if (!DBHandler.getInstance().isAdd(score)){
-                                notifications.text("Такой ник уже существует");
-                                notifications.showConfirm();
-                                break;
-                            }
-                            DBHandler.getInstance().addScore(new Statistic(textField.getCharacters().toString(),
-                                    board.getSnake(0).getScore()));
-                            notifications.showConfirm();
-                        }
-                        textField.setVisible(false);
 
-                        break;
+                    if (!score.isEmpty()) {
+                        DBHandler.getInstance().addScore(new Statistic(textField.getCharacters().toString(),
+                                board.getSnake(0).getScore()));
+                        notifications.showConfirm();
+                        scene.setRoot(MenuPanel.asRoot());
+
                     }
-                    textField.setVisible(true);
                     break;
+
+
+
             }
         });
     }
