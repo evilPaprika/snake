@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,10 +216,15 @@ public class MenuPanel {
     private List<MenuItem> makeScore(){
         int i=1;
         List<MenuItem> list=new ArrayList<>();
-        for(Statistic e : DBHandler.getInstance().getAllStatistics()){
-            if(i>10) break;
-            list.add(new MenuItem(i+". "+ e.name +" : " + e.score));
-            i++;
+        try {
+            for(Statistic e : DBHandler.getInstance().getAllStatisticWithOrder()){
+                if(i>10) break;
+                list.add(new MenuItem(i+". "+ e.name +" : " + e.score));
+                i++;
+            }
+        } catch (SQLException e) {
+            ////////jsjgkfdlgjsdkfljgklsdfk;ljgkl;sdfj;
+            e.printStackTrace();
         }
         return list;
 

@@ -2,6 +2,8 @@ package com.bigz.app;
 
 
 import com.bigz.app.gui.MenuPanel;
+import com.bigz.app.util.BD.DBHandler;
+import com.bigz.app.util.BD.Statistic;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

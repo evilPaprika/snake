@@ -19,6 +19,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
+import java.sql.SQLException;
+
 public class GamePanel {
 
     private BorderPane root;
@@ -130,6 +132,7 @@ public class GamePanel {
                 case R:
                     setGameState(state);
                     timer.start();
+                    break;
 
                 case S:
 
@@ -143,16 +146,18 @@ public class GamePanel {
 
 
                     if (!score.isEmpty()) {
-                        DBHandler.getInstance().addScore(new Statistic(textField.getCharacters().toString(),
-                                board.getSnake(0).getScore()));
+                        try {
+                            DBHandler.getInstance().create(new Statistic(textField.getCharacters().toString(),
+                                    board.getSnake(0).getScore()));
+                        } catch (SQLException e) {
+                            ///LDFDSL:FSDFSDFK
+                            e.printStackTrace();
+                        }
                         notifications.showConfirm();
                         scene.setRoot(MenuPanel.asRoot());
 
                     }
                     break;
-
-
-
             }
         });
     }
