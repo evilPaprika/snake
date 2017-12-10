@@ -8,7 +8,10 @@ import java.io.Serializable;
 @DatabaseTable(tableName = "Statistics")
 public class Statistic implements Serializable {
 
-    @DatabaseField(id = true, columnName = "NAME", canBeNull = false)
+    @DatabaseField(generatedId = true)
+    public int id;
+
+    @DatabaseField(columnName = "NAME", canBeNull = false)
     public String name;
 
     @DatabaseField(columnName = "SCORE", canBeNull = false)

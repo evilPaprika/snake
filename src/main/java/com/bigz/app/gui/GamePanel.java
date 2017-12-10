@@ -124,7 +124,7 @@ public class GamePanel {
         setLabel(restartGame,3,GameConsts.PANEL_WIDTH/2 - 50,GameConsts.PANEL_HEIGHT/2 + 50);
         mainPane.getChildren().addAll(gameOver,exitToMenu, restartGame, save);
 
-        scene.setOnKeyPressed(event -> {
+        mainPane.setOnKeyPressed(event -> {
             switch (event.getCode()){
                 case SPACE:
                     scene.setRoot(MenuPanel.asRoot());
@@ -146,21 +146,25 @@ public class GamePanel {
 
 
                     if (!score.isEmpty()) {
+
                         try {
-                            DBHandler.getInstance().create(new Statistic(textField.getCharacters().toString(),
+                            DBHandler.getInstance().add(new Statistic(textField.getCharacters().toString(),
                                     board.getSnake(0).getScore()));
                         } catch (SQLException e) {
-                            ///LDFDSL:FSDFSDFK
+                            /////////sdfsadfsdfsadfasdfsdfsd
                             e.printStackTrace();
                         }
+
                         notifications.showConfirm();
-                        scene.setRoot(MenuPanel.asRoot());
 
                     }
                     break;
             }
         });
-    }
+        }
+    
+
+
 
     private void setLabel(Label label,Integer scale, Integer posX, Integer posY){
         label.setScaleX(scale);

@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,8 +169,7 @@ public class MenuPanel {
         run();
     }
 
-    private void setProperty(String opacity, String var) {
-        //Сделать обработку и месседж бокс
+    private void setProperty(String opacity, String var){
         PropertiesHandler.getInstance().setProperty(opacity, var);
     }
 

@@ -1,5 +1,6 @@
 package com.bigz.app.util.BD;
 
+import com.bigz.app.util.PropertiesHandler;
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -11,9 +12,6 @@ import java.util.*;
 
 public class DBHandler extends BaseDaoImpl<Statistic, String>{
 
-    //вынести в настройки
-    private static final String CON_STR = "jdbc:sqlite:D:/myrecord.db";
-
     private static DBHandler instance = null;
 
     private static JdbcConnectionSource connectionSource = null;
@@ -21,7 +19,7 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
     public static synchronized DBHandler getInstance() {
         if (instance == null)
             try {
-                connectionSource = new JdbcConnectionSource(CON_STR);
+                connectionSource = new JdbcConnectionSource(PropertiesHandler.getInstance().getProperty("db"));
                 instance = new DBHandler();
                 TableUtils.createTableIfNotExists(connectionSource,Statistic.class);
 
@@ -39,7 +37,12 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
     }
 
     public void add(Statistic statistic) throws SQLException {
-        System.out.print(this.countOf());
+        List<Statistic> statistics = getAllStatisticWithOrder();
+        create(statistic);
+        if (statistics.size() > 10){
+            this.delete(statistics.get(10));
+        }
+
     }
 
     public List<Statistic> getAllStatisticWithOrder() throws SQLException {

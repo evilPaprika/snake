@@ -3,9 +3,7 @@ package com.bigz.app.util;
 import java.io.*;
 import java.util.Properties;
 
-/**
- * Created by User on 03.12.2017.
- */
+
 public class PropertiesHandler {
 
     private static Properties properties = null;
@@ -14,19 +12,20 @@ public class PropertiesHandler {
     private static PropertiesHandler ourInstance = null;
 
     public static PropertiesHandler getInstance(){
-        if (ourInstance == null)
-            try {
-                ourInstance = new PropertiesHandler();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (ourInstance == null) {
+            ourInstance = new PropertiesHandler();
+        }
         return ourInstance;
     }
 
-    private PropertiesHandler() throws IOException {
+    private PropertiesHandler() {
         properties = new Properties();
         file = new File("src/application.properties");
-        properties.load(new FileInputStream(file));
+        try {
+            properties.load(new FileInputStream(file));
+        } catch (IOException e) {
+            new NotificationMessage("Error", String.valueOf(e)).run();
+        }
     }
 
     public String getProperty(String var){
@@ -35,11 +34,11 @@ public class PropertiesHandler {
 
     public void setProperty(String key, String var) {
         properties.setProperty(key, var);
-        //Сохраняем свойства в файл.
         try {
             properties.store(new FileOutputStream(file), null);
         } catch (IOException e) {
-            e.printStackTrace();
+            new NotificationMessage("Error", String.valueOf(e)).run();
         }
+
     }
 }
