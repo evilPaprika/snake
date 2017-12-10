@@ -37,12 +37,12 @@ public class Board {
         checkCollisions();
         stationaryGameObjects.removeIf(GameObject::isDead);
         if (stationaryGameObjects.stream().noneMatch(obj -> obj instanceof Apple)) createNewFood();
-        if (snakes.stream().anyMatch(snake -> snake.getScore() > 50)) gameIsOver = true;
-
         if (snakes.size() < 2) {
             if (snakes.get(0).isDead()) gameIsOver = true;
-        } else
+        } else {
+            if (snakes.stream().anyMatch(snake -> snake.getScore() > 50)) gameIsOver = true;
             snakes.stream().filter(Snake::isDead).forEach(Snake::respawn);
+        }
     }
 
     private void createNewFood(){

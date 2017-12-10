@@ -54,7 +54,6 @@ public class Snake implements CompoundObject {
     }
 
     void updatePosition() {
-        System.out.print(initialDirection);
         action.ifPresent(runnable -> {
             runnable.run();
             action = Optional.empty();
