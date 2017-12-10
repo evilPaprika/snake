@@ -85,11 +85,9 @@ public class MenuPanel {
         SubMenu opacitySettings = new SubMenu(200,
                 opZero, opOne, opTwo, opThree, opAll, backToSettingsFromOp);
 
-        SubMenu scoreBoard = new SubMenu(makeScore());
-
 
         score.setOnMouseClicked(event -> {
-            menuBox.setSubMenu(scoreBoard);
+            menuBox.setSubMenu(new SubMenu(makeScore()));
         });
 
 
@@ -251,7 +249,7 @@ public class MenuPanel {
         }
     }
 
-    private static class SubMenu extends VBox {
+    private class SubMenu extends VBox {
 
         public SubMenu(List<MenuItem> list){
             setSpacing(15);
