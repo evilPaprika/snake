@@ -23,12 +23,8 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
             try {
                 connectionSource = new JdbcConnectionSource(CON_STR);
                 instance = new DBHandler();
-                try {
-                    TableUtils.createTable(connectionSource,Statistic.class);
-                }
-                catch (SQLException e){
-                    System.out.println("Database exist");
-                }
+                TableUtils.createTableIfNotExists(connectionSource,Statistic.class);
+
             }
 
             catch (SQLException e) {
@@ -40,6 +36,10 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
     private DBHandler() throws SQLException {
         super(connectionSource, Statistic.class);
 
+    }
+
+    public void add(Statistic statistic) throws SQLException {
+        System.out.print(this.countOf());
     }
 
     public List<Statistic> getAllStatisticWithOrder() throws SQLException {
