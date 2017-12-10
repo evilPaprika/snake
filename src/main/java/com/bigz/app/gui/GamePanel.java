@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class GamePanel {
@@ -46,10 +47,14 @@ public class GamePanel {
         this.state = state;
         setGameState(state);
 
-        long paintDelay;
-        if (PropertiesHandler.getInstance().getProperty("speed") == null){
-            paintDelay = GameConsts.PAINT_DELAY;
-        } else paintDelay = Long.valueOf(PropertiesHandler.getInstance().getProperty("speed"));
+        long paintDelay=500;
+        try {
+            if (PropertiesHandler.getInstance().getProperty("speed") == null){
+                paintDelay = GameConsts.PAINT_DELAY;
+            } else paintDelay = Long.valueOf(PropertiesHandler.getInstance().getProperty("speed"));
+        } catch (IOException e) {
+            new NotificationMessage("Error", String.valueOf(e)).run();
+        }
 
         timer = new Timer(paintDelay) {
             @Override
@@ -143,8 +148,12 @@ public class GamePanel {
 
 
                         try {
-                            DBHandler.getInstance().add(new Statistic(textField.getCharacters().toString(),
-                                    board.getSnake(0).getScore()));
+                            try {
+                                DBHandler.getInstance().add(new Statistic(textField.getCharacters().toString(),
+                                        board.getSnake(0).getScore()));
+                            } catch (IOException e) {
+                                new NotificationMessage("Error", String.valueOf(e)).run();
+                            }
                         } catch (SQLException e) {
                             new NotificationMessage("Error", String.valueOf(e)).run();
                         }

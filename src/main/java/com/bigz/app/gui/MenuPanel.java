@@ -47,10 +47,14 @@ public class MenuPanel {
 
         bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
 
-        if (PropertiesHandler.getInstance().getProperty("opacity") == null)
-            bg.setOpacity(0.4);
-        else
-            bg.setOpacity(Double.valueOf(PropertiesHandler.getInstance().getProperty("opacity")));
+        try {
+            if (PropertiesHandler.getInstance().getProperty("opacity") == null)
+                bg.setOpacity(0.4);
+            else
+                bg.setOpacity(Double.valueOf(PropertiesHandler.getInstance().getProperty("opacity")));
+        } catch (IOException e) {
+            new NotificationMessage("Error", String.valueOf(e)).run();
+        }
 
         mainPane = new Pane();
         root.setCenter(mainPane);
@@ -86,9 +90,7 @@ public class MenuPanel {
                 opZero, opOne, opTwo, opThree, opAll, backToSettingsFromOp);
 
 
-        score.setOnMouseClicked(event -> {
-            menuBox.setSubMenu(new SubMenu(makeScore()));
-        });
+        score.setOnMouseClicked(event -> menuBox.setSubMenu(new SubMenu(makeScore())));
 
 
         opZero.setOnMouseClicked(event -> {
@@ -220,10 +222,14 @@ public class MenuPanel {
         int i=1;
         List<MenuItem> list=new ArrayList<>();
         try {
-            for(Statistic e : DBHandler.getInstance().getAllStatisticWithOrder()){
-                if(i>10) break;
-                list.add(new MenuItem(i+". "+ e.name +" : " + e.score));
-                i++;
+            try {
+                for(Statistic e : DBHandler.getInstance().getAllStatisticWithOrder()){
+                    if(i>10) break;
+                    list.add(new MenuItem(i+". "+ e.name +" : " + e.score));
+                    i++;
+                }
+            } catch (IOException e) {
+                new NotificationMessage("Error", String.valueOf(e)).run();
             }
         } catch (SQLException e) {
             new NotificationMessage("Error", String.valueOf(e)).run();

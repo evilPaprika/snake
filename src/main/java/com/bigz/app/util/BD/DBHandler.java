@@ -7,6 +7,7 @@ import com.j256.ormlite.table.TableUtils;
 import org.sqlite.JDBC;
 import org.sqlite.SQLiteException;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -16,18 +17,15 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
 
     private static JdbcConnectionSource connectionSource = null;
 
-    public static synchronized DBHandler getInstance() {
+    public static synchronized DBHandler getInstance() throws IOException, SQLException {
         if (instance == null)
-            try {
+
                 connectionSource = new JdbcConnectionSource(PropertiesHandler.getInstance().getProperty("db"));
                 instance = new DBHandler();
                 TableUtils.createTableIfNotExists(connectionSource,Statistic.class);
 
-            }
 
-            catch (SQLException e) {
-                e.printStackTrace();
-            }
+
         return instance;
     }
 
