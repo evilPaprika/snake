@@ -212,9 +212,12 @@ public class Tests {
         snake2 = new Snake(Direction.LEFT, new Point(6, 6), 3, Color.BLUE);
         board = testBoardWithTwoSnakes(snake1, snake2);
         board.updateBoard();
-        assertTrue(snake1.isDead());
-        assertTrue(snake2.isDead());
-        assertTrue(board.gameIsOver());
+        assertEquals(new Point(5,5), snake1.getParts().getFirst().getLocation());
+        assertEquals(new Point(6,6), snake2.getParts().getFirst().getLocation());
+        assertTrue(!board.gameIsOver());
+//        assertTrue(snake1.isDead());
+//        assertTrue(snake2.isDead());
+//        assertTrue(board.gameIsOver());
     }
 
     @Test

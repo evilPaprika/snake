@@ -46,7 +46,10 @@ public class SnakeSegment implements SnakeInteraction {
         LinkedList<SnakeSegment> body = parent.getParts();
         if (!this.isHead())
             body.removeIf(x -> body.indexOf(x) >= body.indexOf(this));
-        else if (snake.getParts().peekFirst().getLocation().equals(this.location) || parent.equals(snake))
+        else if (snake.getParts().peekFirst().getLocation().equals(this.location) ||
+                new Point (this.location.x + this.direction.getX(), this.location.y + this.direction.getY()) == snake.getParts().peekFirst().getLocation() ||
+                parent.equals(snake)) {
             parent.kill();
+        }
     }
 }
