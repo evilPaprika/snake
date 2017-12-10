@@ -52,8 +52,5 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
         return queryForAll();
     }
 
-    public Statistic getElementByName(String name) throws SQLException {
-        return queryForId(name);
-    }
 
 }
