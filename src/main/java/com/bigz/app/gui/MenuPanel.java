@@ -3,6 +3,7 @@ package com.bigz.app.gui;
 import com.bigz.app.util.BD.DBHandler;
 import com.bigz.app.util.BD.Statistic;
 import com.bigz.app.util.GameConsts;
+import com.bigz.app.util.NotificationMessage;
 import com.bigz.app.util.PropertiesHandler;
 import com.bigz.app.util.State;
 import javafx.animation.Animation;
@@ -169,8 +170,12 @@ public class MenuPanel {
         run();
     }
 
-    private void setProperty(String opacity, String var){
-        PropertiesHandler.getInstance().setProperty(opacity, var);
+    private void setProperty(String opacity, String var) {
+        try {
+            PropertiesHandler.getInstance().setProperty(opacity, var);
+        } catch (IOException e) {
+            new NotificationMessage("Error", String.valueOf(e)).run();
+        }
     }
 
     public static BorderPane asRoot(){
@@ -223,8 +228,7 @@ public class MenuPanel {
                 i++;
             }
         } catch (SQLException e) {
-            ////////jsjgkfdlgjsdkfljgklsdfk;ljgkl;sdfj;
-            e.printStackTrace();
+            new NotificationMessage("Error", String.valueOf(e)).run();
         }
         return list;
 

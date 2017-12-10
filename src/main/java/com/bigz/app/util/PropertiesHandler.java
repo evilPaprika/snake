@@ -12,33 +12,28 @@ public class PropertiesHandler {
     private static PropertiesHandler ourInstance = null;
 
     public static PropertiesHandler getInstance(){
-        if (ourInstance == null) {
-            ourInstance = new PropertiesHandler();
-        }
+        if (ourInstance == null)
+            try {
+                ourInstance = new PropertiesHandler();
+            } catch (IOException e) {
+                new NotificationMessage("Error", String.valueOf(e)).run();
+            }
         return ourInstance;
     }
 
-    private PropertiesHandler() {
+    private PropertiesHandler() throws IOException {
         properties = new Properties();
         file = new File("src/application.properties");
-        try {
-            properties.load(new FileInputStream(file));
-        } catch (IOException e) {
-            new NotificationMessage("Error", String.valueOf(e)).run();
-        }
+        properties.load(new FileInputStream(file));
     }
 
     public String getProperty(String var){
         return properties.getProperty(var);
     }
 
-    public void setProperty(String key, String var) {
+    public void setProperty(String key, String var) throws IOException {
         properties.setProperty(key, var);
-        try {
-            properties.store(new FileOutputStream(file), null);
-        } catch (IOException e) {
-            new NotificationMessage("Error", String.valueOf(e)).run();
-        }
+        properties.store(new FileOutputStream(file), null);
 
     }
 }

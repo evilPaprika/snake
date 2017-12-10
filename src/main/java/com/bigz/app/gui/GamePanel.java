@@ -136,34 +136,28 @@ public class GamePanel {
 
                 case S:
 
-                    Notifications notifications = Notifications.create()
-                            .title("DB")
-                            .text("complite save")
-                            .hideAfter(Duration.seconds(5))
-                            .position(Pos.BOTTOM_RIGHT);
-
                     String score = textField.getCharacters().toString();
 
 
                     if (!score.isEmpty()) {
 
+
                         try {
                             DBHandler.getInstance().add(new Statistic(textField.getCharacters().toString(),
                                     board.getSnake(0).getScore()));
                         } catch (SQLException e) {
-                            /////////sdfsadfsdfsadfasdfsdfsd
-                            e.printStackTrace();
+                            new NotificationMessage("Error", String.valueOf(e)).run();
                         }
 
-                        notifications.showConfirm();
+                        new NotificationMessage("DB", "Success save").run();
+                        scene.setRoot(MenuPanel.asRoot());
+
 
                     }
                     break;
             }
         });
         }
-    
-
 
 
     private void setLabel(Label label,Integer scale, Integer posX, Integer posY){
