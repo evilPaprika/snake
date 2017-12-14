@@ -1,11 +1,8 @@
 package com.bigz.app.gui;
 
+import com.bigz.app.util.*;
 import com.bigz.app.util.BD.DBHandler;
 import com.bigz.app.util.BD.Statistic;
-import com.bigz.app.util.GameConsts;
-import com.bigz.app.util.NotificationMessage;
-import com.bigz.app.util.PropertiesHandler;
-import com.bigz.app.util.State;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.FillTransition;
@@ -41,7 +38,12 @@ public class MenuPanel {
 
         root = new BorderPane();
         scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
-        ImageView img = new ImageView(new Image("img/menu.jpg"));
+        ImageView img = null;
+        try {
+            img = new ImageView(new Image(new Requester().sendPost("space").get(0).getOrigin()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         img.setFitWidth(GameConsts.PANEL_WIDTH);
 
@@ -76,9 +78,10 @@ public class MenuPanel {
 
         MenuItem oneX = new MenuItem("1x");
         MenuItem twoX = new MenuItem("2x");
+        MenuItem threeX = new MenuItem("3x");
         MenuItem backToSettings = new MenuItem("Назад");
         SubMenu speedSettings = new SubMenu(200,
-                oneX, twoX, backToSettings);
+                oneX, twoX, threeX, backToSettings);
 
         MenuItem opZero = new MenuItem("0");
         MenuItem opOne = new MenuItem("0.2");
@@ -90,8 +93,16 @@ public class MenuPanel {
                 opZero, opOne, opTwo, opThree, opAll, backToSettingsFromOp);
 
 
-        score.setOnMouseClicked(event -> menuBox.setSubMenu(new SubMenu(makeScore())));
 
+        MenuItem backToSettingsFromBoard = new MenuItem("Назад");
+        score.setOnMouseClicked(event -> menuBox.setSubMenu(new SubMenu(makeScore(),backToSettingsFromBoard)));
+
+        backToSettingsFromBoard.setOnMouseClicked(event -> menuBox.setSubMenu(mainMenu));
+
+
+        fon.setOnMouseClicked(event -> {
+            scene.setRoot(new BackgroundPanel(scene).asRoot());
+        });
 
         opZero.setOnMouseClicked(event -> {
             setProperty("opacity", "0");
@@ -133,6 +144,11 @@ public class MenuPanel {
 
         twoX.setOnMouseClicked(event -> {
             setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY/2));
+            menuBox.setSubMenu(settingsMenu);
+        });
+
+        threeX.setOnMouseClicked(event -> {
+            setProperty("speed", String.valueOf(GameConsts.PAINT_DELAY/3));
             menuBox.setSubMenu(settingsMenu);
         });
 
@@ -257,13 +273,14 @@ public class MenuPanel {
 
     private class SubMenu extends VBox {
 
-        public SubMenu(List<MenuItem> list){
+        public SubMenu(List<MenuItem> list, MenuItem back){
             setSpacing(15);
             setTranslateY(150);
             setTranslateX(GameConsts.PANEL_WIDTH/2 - 4*GameConsts.WIDTH);
             for(MenuItem item : list){
                 getChildren().addAll(item);
             }
+            getChildren().add(back);
         }
 
         public SubMenu(int width, MenuItem...items){

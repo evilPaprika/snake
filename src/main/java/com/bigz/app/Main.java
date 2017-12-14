@@ -4,6 +4,7 @@ package com.bigz.app;
 import com.bigz.app.gui.MenuPanel;
 import com.bigz.app.util.BD.DBHandler;
 import com.bigz.app.util.BD.Statistic;
+import com.bigz.app.util.Requester;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,7 +15,6 @@ public class Main extends Application {
         MenuPanel menuPanel = new MenuPanel();
         primaryStage.setTitle("Snake");
         primaryStage.setScene(menuPanel.asScene());
-        DBHandler.getInstance().add(null);
         primaryStage.show();
     }
 

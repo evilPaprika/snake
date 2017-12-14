@@ -2,9 +2,9 @@ package com.bigz.app.gui;
 
 import com.bigz.app.game.Board;
 import com.bigz.app.game.SimpleObject;
-import com.bigz.app.util.*;
 import com.bigz.app.util.BD.DBHandler;
 import com.bigz.app.util.BD.Statistic;
+import com.bigz.app.util.*;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,8 +16,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -132,6 +130,7 @@ public class GamePanel {
         mainPane.setOnKeyPressed(event -> {
             switch (event.getCode()){
                 case SPACE:
+                    System.out.print("Tutu");
                     scene.setRoot(MenuPanel.asRoot());
                     break;
                 case R:
@@ -140,13 +139,9 @@ public class GamePanel {
                     break;
 
                 case S:
-
                     String score = textField.getCharacters().toString();
 
-
                     if (!score.isEmpty()) {
-
-
                         try {
                             try {
                                 DBHandler.getInstance().add(new Statistic(textField.getCharacters().toString(),
@@ -160,12 +155,12 @@ public class GamePanel {
 
                         new NotificationMessage("DB", "Success save").run();
                         scene.setRoot(MenuPanel.asRoot());
-
-
                     }
                     break;
             }
         });
+        if (state == State.TWO_PLAYERS)
+            mainPane.requestFocus();
         }
 
 

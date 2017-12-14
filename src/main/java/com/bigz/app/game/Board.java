@@ -1,8 +1,11 @@
 package com.bigz.app.game;
 
 import com.bigz.app.util.GameConsts;
+import com.bigz.app.util.NotificationMessage;
+import com.bigz.app.util.PropertiesHandler;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -41,7 +44,14 @@ public class Board {
         if (snakes.size() < 2) {
             if (snakes.get(0).isDead()) gameIsOver = true;
         } else {
-            if (snakes.stream().anyMatch(snake -> snake.getScore() > 50)) gameIsOver = true;
+            if (snakes.stream().anyMatch(snake -> {
+                try {
+                    return snake.getScore() > Integer.valueOf(PropertiesHandler.getInstance().getProperty("maxscore"));
+                } catch (IOException e) {
+                    new NotificationMessage("Error", "Error");
+                }
+                return snake.getScore() > 50;
+            })) gameIsOver = true;
             snakes.stream().filter(Snake::isDead).forEach(Snake::respawn);
         }
     }

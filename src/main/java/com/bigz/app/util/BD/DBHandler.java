@@ -19,13 +19,9 @@ public class DBHandler extends BaseDaoImpl<Statistic, String>{
 
     public static synchronized DBHandler getInstance() throws IOException, SQLException {
         if (instance == null)
-
                 connectionSource = new JdbcConnectionSource(PropertiesHandler.getInstance().getProperty("db"));
                 instance = new DBHandler();
                 TableUtils.createTableIfNotExists(connectionSource,Statistic.class);
-
-
-
         return instance;
     }
 
