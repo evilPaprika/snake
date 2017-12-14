@@ -29,20 +29,22 @@ import java.util.List;
 
 public class MenuPanel {
     private static BorderPane root;
-    private Pane mainPane, scorePane;
+    private static Pane mainPane, scorePane;
     private MenuBox menuBox;
     private Scene scene;
+    private static ImageView img;
     private static Rectangle bg;
 
     public MenuPanel() {
 
         root = new BorderPane();
         scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
-        ImageView img = null;
+
         try {
-            img = new ImageView(new Image(new Requester().sendPost("space").get(0).getOrigin()));
-        } catch (Exception e) {
-            e.printStackTrace();
+            img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
+        } catch (IOException e) {
+            img = new ImageView(new Image("img/menu.jpg"));
+            new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
         }
         img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         img.setFitWidth(GameConsts.PANEL_WIDTH);
@@ -196,6 +198,19 @@ public class MenuPanel {
 
     public static BorderPane asRoot(){
         return root;
+    }
+
+    public static void updateImg(){
+        try {
+            img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
+        } catch (IOException e) {
+            img = new ImageView(new Image("img/menu.jpg"));
+            new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
+        }
+
+        mainPane.getChildren().remove(img);
+
+
     }
 
     public Scene asScene(){ return scene;}

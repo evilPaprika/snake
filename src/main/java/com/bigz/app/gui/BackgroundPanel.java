@@ -4,8 +4,11 @@ package com.bigz.app.gui;
 import com.bigz.app.util.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -16,31 +19,37 @@ import org.controlsfx.dialog.ProgressDialog;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class BackgroundPanel {
     private static BorderPane root;
     private Pane mainPane;
     private Scene scene;
     private ImageView img;
+    private String imgUrl;
     private List<ImageFromWeb> imageFromWebList;
     private GridPane gridPane;
 
 
-    public BackgroundPanel(Scene scene) {
 
+    public BackgroundPanel(Scene scene) {
         root = new BorderPane();
         this.scene = scene;
-        img = new ImageView(new Image("img/menu.jpg"));
+        try {
+            img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
+        } catch (IOException e) {
+            img = new ImageView(new Image("img/menu.jpg"));
+            new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
+        }
         img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
         img.setFitWidth(GameConsts.PANEL_WIDTH);
 
         Requester requester = new Requester();
         try {
-            imageFromWebList = requester.sendPost("xmas");
+            imageFromWebList = requester.sendPost("Космос");
         } catch (Exception e) {
             new NotificationMessage("Error", "Ошибка доступа к сервису").run();
         }
-
 
         mainPane = new Pane();
         mainPane.getChildren().add(img);
@@ -51,7 +60,57 @@ public class BackgroundPanel {
 
     private void render(){
 
-        gridPane.setHgap(100);
+        Button back = new Button("Назад");
+        back.setTranslateY(GameConsts.PANEL_HEIGHT-25);
+        back.setTranslateX(GameConsts.PANEL_WIDTH /2 -25);
+
+        back.setOnMouseClicked(event -> {
+            try {
+                PropertiesHandler.getInstance().setProperty("img",imgUrl);
+            } catch (IOException e) {
+                new NotificationMessage("Error", "Не удалось записать в файл").run();
+            }
+            scene.setRoot(MenuPanel.asRoot());
+        });
+
+
+        TextField textField = new TextField();
+        Button button = new Button("Найти");
+
+        button.setTranslateX(GameConsts.PANEL_HEIGHT/2 + 250);
+        button.setTranslateY(20);
+
+        textField.setTranslateX(GameConsts.PANEL_HEIGHT/2-75);
+        textField.setTranslateY(20);
+        textField.setMinWidth(300);
+        mainPane.getChildren().addAll(textField, button,back);
+
+        button.setOnMouseClicked(event -> {
+            if (!textField.getCharacters().toString().isEmpty()){
+                try {
+                    imageFromWebList = new Requester().sendPost(textField.getCharacters().toString());
+                    setComponent();
+                } catch (Exception e) {
+                    new NotificationMessage("Error", "Невозможно сделать запрос");
+                }
+            }
+            else new NotificationMessage("","Введите текст").run();
+        });
+
+        mainPane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                if (!textField.getCharacters().toString().isEmpty()) {
+                    try {
+                        imageFromWebList = new Requester().sendPost(textField.getCharacters().toString());
+                        setComponent();
+                    } catch (Exception e) {
+                        new NotificationMessage("Error", "Невозможно сделать запрос");
+                    }
+                } else new NotificationMessage("", "Введите текст").run();
+            }
+        });
+
+        gridPane.setHgap(50);
         gridPane.setVgap(25);
 
         gridPane.setLayoutX(50);
@@ -63,6 +122,9 @@ public class BackgroundPanel {
     }
 
     private void setComponent(){
+
+        gridPane.getChildren().clear();
+
         int size;
         if (imageFromWebList.size() > 20) size = 20;
         else size = imageFromWebList.size();
@@ -83,7 +145,8 @@ public class BackgroundPanel {
             int finalSize = size;
             img1.setOnMouseClicked(event -> {
                 mainPane.getChildren().remove(img);
-                img = new ImageView(new Image(imageFromWebList.get(finalSize).getOrigin()));
+                imgUrl = imageFromWebList.get(finalSize).getOrigin();
+                img = new ImageView(new Image(imgUrl));
                 img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
                 img.setFitWidth(GameConsts.PANEL_WIDTH);
                 mainPane.getChildren().add(0,img);
