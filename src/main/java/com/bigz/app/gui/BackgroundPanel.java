@@ -65,10 +65,12 @@ public class BackgroundPanel {
         back.setTranslateX(GameConsts.PANEL_WIDTH /2 -25);
 
         back.setOnMouseClicked(event -> {
-            try {
-                PropertiesHandler.getInstance().setProperty("img",imgUrl);
-            } catch (IOException e) {
-                new NotificationMessage("Error", "Не удалось записать в файл").run();
+            if (imgUrl!=null) {
+                try {
+                    PropertiesHandler.getInstance().setProperty("img", imgUrl);
+                } catch (IOException e) {
+                    new NotificationMessage("Error", "Не удалось записать в файл").run();
+                }
             }
             scene.setRoot(MenuPanel.asRoot());
         });

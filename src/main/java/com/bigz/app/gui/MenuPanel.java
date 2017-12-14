@@ -29,7 +29,7 @@ import java.util.List;
 
 public class MenuPanel {
     private static BorderPane root;
-    private static Pane mainPane, scorePane;
+    private static Pane mainPane;
     private MenuBox menuBox;
     private Scene scene;
     private static ImageView img;
@@ -40,14 +40,7 @@ public class MenuPanel {
         root = new BorderPane();
         scene = new Scene(root, GameConsts.PANEL_WIDTH, GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
 
-        try {
-            img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
-        } catch (IOException e) {
-            img = new ImageView(new Image("img/menu.jpg"));
-            new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
-        }
-        img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
-        img.setFitWidth(GameConsts.PANEL_WIDTH);
+        setBackgroundImg();
 
         bg = new Rectangle(GameConsts.PANEL_WIDTH,GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT,Color.LIGHTBLUE);
 
@@ -196,19 +189,26 @@ public class MenuPanel {
         }
     }
 
-    public static BorderPane asRoot(){
-        return root;
-    }
-
-    public static void updateImg(){
+    private static void setBackgroundImg(){
         try {
             img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
         } catch (IOException e) {
             img = new ImageView(new Image("img/menu.jpg"));
             new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
         }
+        img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
+        img.setFitWidth(GameConsts.PANEL_WIDTH);
+    }
 
+    public static BorderPane asRoot(){
+        updateImg();
+        return root;
+    }
+
+    public static void updateImg(){
         mainPane.getChildren().remove(img);
+        setBackgroundImg();
+        mainPane.getChildren().add(0,img);
 
 
     }
