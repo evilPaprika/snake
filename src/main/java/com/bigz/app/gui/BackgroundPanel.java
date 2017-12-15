@@ -1,13 +1,16 @@
 package com.bigz.app.gui;
 
 
+import com.bigz.app.game.Snake;
 import com.bigz.app.util.*;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -29,7 +32,7 @@ public class BackgroundPanel {
     private String imgUrl;
     private List<ImageFromWeb> imageFromWebList;
     private GridPane gridPane;
-
+    private TextField textField;
 
 
     public BackgroundPanel(Scene scene) {
@@ -47,6 +50,9 @@ public class BackgroundPanel {
         Requester requester = new Requester();
         try {
             imageFromWebList = requester.sendPost("Космос");
+            if(imageFromWebList.size()==0){
+                new NotificationMessage("Уппсс", "Мы не нашли ничего по вашему запросу").run();
+            }
         } catch (Exception e) {
             new NotificationMessage("Error", "Ошибка доступа к сервису").run();
         }
@@ -76,7 +82,7 @@ public class BackgroundPanel {
         });
 
 
-        TextField textField = new TextField();
+        textField = new TextField();
         Button button = new Button("Найти");
 
         button.setTranslateX(GameConsts.PANEL_HEIGHT/2 + 250);
@@ -88,27 +94,14 @@ public class BackgroundPanel {
         mainPane.getChildren().addAll(textField, button,back);
 
         button.setOnMouseClicked(event -> {
-            if (!textField.getCharacters().toString().isEmpty()){
-                try {
-                    imageFromWebList = new Requester().sendPost(textField.getCharacters().toString());
-                    setComponent();
-                } catch (Exception e) {
-                    new NotificationMessage("Error", "Невозможно сделать запрос");
-                }
+            if (!textField.getCharacters().toString().isEmpty()) {
+                searchEvent();
             }
-            else new NotificationMessage("","Введите текст").run();
         });
 
         mainPane.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                if (!textField.getCharacters().toString().isEmpty()) {
-                    try {
-                        imageFromWebList = new Requester().sendPost(textField.getCharacters().toString());
-                        setComponent();
-                    } catch (Exception e) {
-                        new NotificationMessage("Error", "Невозможно сделать запрос");
-                    }
-                } else new NotificationMessage("", "Введите текст").run();
+                searchEvent();
             }
         });
 
@@ -145,6 +138,7 @@ public class BackgroundPanel {
             gridPane.add(img1, i, j, 1, 1);
 
             int finalSize = size;
+
             img1.setOnMouseClicked(event -> {
                 mainPane.getChildren().remove(img);
                 imgUrl = imageFromWebList.get(finalSize).getOrigin();
@@ -155,6 +149,22 @@ public class BackgroundPanel {
             });
 
         }
+    }
+
+    private void searchEvent() {
+
+        if (!textField.getCharacters().toString().isEmpty()) {
+            try {
+                imageFromWebList = new Requester().sendPost(textField.getCharacters().toString());
+                if(imageFromWebList.size() == 0)
+                    new NotificationMessage("Уппсс", "Мы не нашли ничего по вашему запросу").run();
+                setComponent();
+            } catch (Exception e) {
+                new NotificationMessage("Error", "Невозможно сделать запрос");
+            }
+        } else new NotificationMessage("", "Введите текст").run();
+
+
     }
 
     public BorderPane asRoot(){
