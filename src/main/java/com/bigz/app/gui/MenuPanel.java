@@ -96,7 +96,13 @@ public class MenuPanel {
 
 
         fon.setOnMouseClicked(event -> {
-            scene.setRoot(new BackgroundPanel(scene).asRoot());
+
+            try{
+                scene.setRoot(new BackgroundPanel(scene).asRoot());
+            }
+            catch (Exception e){
+                new NotificationMessage("error", "error");
+            }
         });
 
         opZero.setOnMouseClicked(event -> {
@@ -191,9 +197,14 @@ public class MenuPanel {
 
     private static void setBackgroundImg(){
         try {
-            img = new ImageView(new Image(PropertiesHandler.getInstance().getProperty("img")));
+            Image image = new Image(PropertiesHandler.getInstance().getProperty("img"));
+
+            if (image.isError()){
+                image = new Image("img/menu.jpg");
+            }
+
+            img = new ImageView(image);
         } catch (IOException e) {
-            img = new ImageView(new Image("img/menu.jpg"));
             new NotificationMessage("Error", "Установлено изображение по умолчанию").run();
         }
         img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);

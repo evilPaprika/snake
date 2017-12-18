@@ -39,8 +39,6 @@ public class Requester {
         }
         in.close();
 
-        Gson gson = new Gson();
-        gson.toJson(response.toString());
 
         JsonParser parser = new JsonParser();
 

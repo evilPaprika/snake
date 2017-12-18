@@ -137,11 +137,10 @@ public class BackgroundPanel {
 
             gridPane.add(img1, i, j, 1, 1);
 
-            int finalSize = size;
+            imgUrl = imageFromWebList.get(size).getOrigin();
 
             img1.setOnMouseClicked(event -> {
                 mainPane.getChildren().remove(img);
-                imgUrl = imageFromWebList.get(finalSize).getOrigin();
                 img = new ImageView(new Image(imgUrl));
                 img.setFitHeight(GameConsts.PANEL_HEIGHT + GameConsts.HEIGHT);
                 img.setFitWidth(GameConsts.PANEL_WIDTH);
