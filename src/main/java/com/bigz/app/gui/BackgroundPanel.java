@@ -120,24 +120,15 @@ public class BackgroundPanel {
 
         gridPane.getChildren().clear();
 
-        int size;
-        if (imageFromWebList.size() > 20) size = 20;
-        else size = imageFromWebList.size();
+        int size = Math.max(20,imageFromWebList.size());
 
-        for (int i = 0, j= 0; size > 0; i++){
-            size--;
-            ImageView img1 = new ImageView(new Image(imageFromWebList.get(size).getPreview()));
+        for (int i = 0; i<size; i++){
+            ImageView img1 = new ImageView(new Image(imageFromWebList.get(i).getPreview()));
             img1.setFitHeight(100);
             img1.setFitWidth(100);
 
-            if (i==5) {
-                i = 0;
-                j++;
-            }
-
-            gridPane.add(img1, i, j, 1, 1);
-
-            imgUrl = imageFromWebList.get(size).getOrigin();
+            gridPane.addColumn(i%5,img1);
+            imgUrl = imageFromWebList.get(i).getOrigin();
 
             img1.setOnMouseClicked(event -> {
                 mainPane.getChildren().remove(img);
