@@ -1,6 +1,7 @@
 package com.bigz.app.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
@@ -42,12 +43,13 @@ public class Requester {
 
         JsonParser parser = new JsonParser();
 
-        for (int i=0;i<parser.parse(response.toString()).getAsJsonObject().get("hits").getAsJsonArray().size(); i++) {
-            String pr = parser.parse(response.toString()).getAsJsonObject().get("hits").getAsJsonArray().get(i).getAsJsonObject().get("previewURL").getAsString();
-            String full = parser.parse(response.toString()).getAsJsonObject().get("hits").getAsJsonArray().get(i).getAsJsonObject().get("webformatURL").getAsString();
+        for (JsonElement hit : parser.parse(response.toString()).getAsJsonObject().get("hits").getAsJsonArray()
+                ) {
+            String pr = hit.getAsJsonObject().get("previewURL").getAsString();
+            String full = hit.getAsJsonObject().get("webformatURL").getAsString();
             imageFromWebList.add(new ImageFromWeb(pr,full));
-
         }
+        
         return imageFromWebList;
     }
 }
